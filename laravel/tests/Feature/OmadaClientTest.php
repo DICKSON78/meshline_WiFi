@@ -81,6 +81,7 @@ class OmadaClientTest extends TestCase
 
         $client = new OmadaClient([
             'driver' => 'omada',
+            'omada_mode' => 'onprem',
             'omada_controller_url' => 'https://controller.test',
             'omada_site_id' => 'S',
             'user' => 'admin',
