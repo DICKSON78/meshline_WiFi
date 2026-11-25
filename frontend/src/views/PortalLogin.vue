@@ -88,7 +88,7 @@
       </div>
 
       <p class="mt-4 pt-4 text-center text-xs text-white/30" style="border-top: 1px solid rgba(255,255,255,.06)">
-        Internet vouchers · Resellers · HQ management
+        Fast, affordable internet for everyone
       </p>
     </div>
   </div>

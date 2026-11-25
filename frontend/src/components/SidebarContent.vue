@@ -7,7 +7,7 @@
       </span>
       <div class="min-w-0 flex-1" :class="collapsed ? 'md:!hidden' : ''">
         <h1 class="text-white font-bold text-[15px] leading-tight truncate">MESHLINE</h1>
-        <p class="text-[#A5D6A7]/60 text-[11px] truncate">{{ subtitle || 'Internet · Vouchers · HQ' }}</p>
+        <p class="text-[#A5D6A7]/60 text-[11px] truncate">{{ subtitle || 'Fast, reliable internet' }}</p>
       </div>
 
       <button v-if="collapsible" type="button"
