@@ -19,7 +19,7 @@ use Throwable;
 final class SqlImporter
 {
     /** Driver-level error codes that mean "already applied" rather than a real failure. */
-    private const DUPLICATE_CODES = [1050, 1060, 1061, 1062, 1068, 1304, 1306];
+    private const DUPLICATE_CODES = [1050, 1060, 1061, 1062, 1068, 1071, 1072, 1304, 1306, 2014];
 
     /** True when the active connection can actually run the MySQL dumps. */
     public static function isMysql(): bool
@@ -61,6 +61,12 @@ final class SqlImporter
         foreach (static::split($sql) as $statement) {
             $statement = static::normalize($statement);
             if ($statement === '') {
+                continue;
+            }
+            // Legacy migrations prepare statements for dynamic DDL; the
+            // DEALLOCATE call can hit PDO's unbuffered-query guard on MySQL.
+            // The prepared statement is harmless to leave allocated.
+            if (preg_match('/^DEALLOCATE\s+PREPARE\b/i', $statement)) {
                 continue;
             }
 

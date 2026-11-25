@@ -14,7 +14,19 @@ return new class extends Migration
     {
         if (SqlImporter::isMysql()) {
             $files = glob(base_path('../database/migrations/*.sql')) ?: [];
-            sort($files, SORT_STRING);
+            // 001-business-fixes.sql uses stored procedures + PREPARE/EXECUTE,
+            // which some MySQL builds (XAMPP) cannot run through PDO reliably.
+            // Its changes are applied in 000004 with Schema builder instead.
+            $files = array_values(array_filter($files, fn (string $f) => ! str_ends_with($f, '001-business-fixes.sql')));
+            // router_sales must exist before onboarding_financing tries to ALTER it.
+            usort($files, static function (string $a, string $b): int {
+                $priority = static fn (string $f): int => match (basename($f)) {
+                    '20251029_router_sales.sql' => 0,
+                    '20251029_onboarding_financing.sql' => 1,
+                    default => 2,
+                };
+                return $priority($a) <=> $priority($b) ?: strcmp($a, $b);
+            });
 
             SqlImporter::importMany(array_merge($files, [
                 base_path('../database/migrate-hq-management.sql'),

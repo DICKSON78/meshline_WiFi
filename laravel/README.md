@@ -26,8 +26,16 @@ php artisan key:generate          # replaces the example APP_KEY
 ```
 
 Edit `laravel/.env` and set `DB_HOST`, `DB_PORT`, `DB_DATABASE`,
-`DB_USERNAME`, `DB_PASSWORD` and `REDIS_*` for your machine. The example values
-match the local MySQL on port 3307 and Redis on port 6380.
+`DB_USERNAME`, `DB_PASSWORD` and `REDIS_*` for your machine.
+
+**Local XAMPP:** create a database named `meshline_wifi`, then use
+`DB_HOST=127.0.0.1`, `DB_PORT=3306`, `DB_DATABASE=meshline_wifi`,
+`DB_USERNAME=root`, `DB_PASSWORD=` (empty). Redis is optional; set
+`CACHE_STORE=array` or `database` if it is not running.
+
+Legacy `$2a$` bcrypt hashes from the Node app are accepted via
+`config/hashing.php` (`bcrypt.verify = false`). The seeded admin is
+`admin@meshline.com` / `Admin@123`.
 
 ### Database
 
