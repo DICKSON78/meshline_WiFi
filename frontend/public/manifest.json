@@ -1,7 +1,7 @@
 {
     "name": "HotBando - Intaneti Bure",
     "short_name": "HotBando",
-    "description": "Pata intaneti bure kwa kutazama matangazo au nunua kifurushi cha mtandao wa haraka",
+    "description": "Pata intaneti ya haraka kwa vocha ya mtandao",
     "start_url": "/hotspot",
     "scope": "/",
     "display": "standalone",

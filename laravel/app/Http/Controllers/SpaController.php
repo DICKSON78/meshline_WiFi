@@ -31,7 +31,7 @@ class SpaController extends Controller
 
     public function asset(Request $request, string $path): Response
     {
-        return $this->safeFile($this->dist(), $path);
+        return $this->safeFile($this->dist().'/assets', $path);
     }
 
     public function distAsset(Request $request, string $path): Response

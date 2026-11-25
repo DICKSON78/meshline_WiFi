@@ -53,6 +53,11 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->is('api/*')) {
                 return response()->json(['success' => false, 'error' => 'Not found'], 404);
             }
+            // A missing static file must stay a 404 — returning the SPA shell
+            // with text/html makes the browser reject JS/CSS as bad MIME types.
+            if (preg_match('/\.[a-z0-9]{2,5}$/i', $request->path())) {
+                return response('Not found', 404);
+            }
 
             return app(\App\Http\Controllers\SpaController::class)->index();
         });
