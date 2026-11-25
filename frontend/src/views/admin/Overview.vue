@@ -58,7 +58,7 @@
               <p class="stat-label">Active Branches</p>
               <p class="stat-value text-lg">{{ branches.total || 0 }}</p>
             </div>
-            <div class="stat-icon" style="background: rgba(255,122,48,0.1); color: #FF7A30">
+            <div class="stat-icon" style="background: rgba(18,188,0,0.1); color: #12BC00">
               <i class="fas fa-building"></i>
             </div>
           </div>
@@ -113,11 +113,6 @@
             <p class="text-[11px] mt-2" style="color:#facc15">Pending: TSh {{ formatNum(item.value?.pending) }}</p>
             <p class="text-[11px]" style="color:#f87171">Failed: TSh {{ formatNum(item.value?.failed) }}</p>
           </div>
-          <div class="rounded-xl p-4" style="background:#0a0a12;border:1px solid #1e1e2a">
-            <p class="text-xs font-semibold uppercase tracking-wide" style="color:#9ca3af">Partner payouts</p>
-            <p class="text-lg font-bold mt-2" style="color:#f87171">TSh {{ formatNum(financial.partner_payouts) }}</p>
-            <p class="text-[11px] mt-2" style="color:#6b7280">Already-paid partner shares, shown as outflow</p>
-          </div>
         </div>
       </div>
 
@@ -127,7 +122,7 @@
         <div class="lg:col-span-2 section-card">
           <div class="section-header">
             <h3 class="section-title">
-              <i class="fas fa-building" style="color: #FF7A30"></i> Branch Performance
+              <i class="fas fa-building" style="color: #12BC00"></i> Branch Performance
             </h3>
             <span class="badge badge-gray">{{ branches.branches?.length || 0 }} total</span>
           </div>
@@ -169,7 +164,7 @@
         <div class="section-card">
           <div class="section-header">
             <h3 class="section-title">
-              <i class="fas fa-shield-alt" style="color: #FF7A30"></i> Compliance Alerts
+              <i class="fas fa-shield-alt" style="color: #12BC00"></i> Compliance Alerts
             </h3>
           </div>
           <div class="section-body space-y-3">
@@ -240,7 +235,7 @@
         <div class="section-card">
           <div class="section-header">
             <h3 class="section-title">
-              <i class="fas fa-ticket-alt" style="color: #FF7A30"></i> Ticket Breakdown
+              <i class="fas fa-ticket-alt" style="color: #12BC00"></i> Ticket Breakdown
             </h3>
             <span class="badge badge-gray">{{ ticketStats.total ?? 0 }} total</span>
           </div>
@@ -287,7 +282,7 @@
         <div class="lg:col-span-2 section-card">
           <div class="section-header">
             <h3 class="section-title">
-              <i class="fas fa-clock" style="color: #FF7A30"></i> Recent Activity
+              <i class="fas fa-clock" style="color: #12BC00"></i> Recent Activity
             </h3>
             <template v-if="auditStats.stats">
               <span class="text-xs" style="color: #6b7280">
@@ -417,11 +412,11 @@ function auditIconStyle(action) {
     delete: 'background: rgba(239,68,68,0.1); color: #f87171',
     login: 'background: rgba(139,92,246,0.1); color: #a78bfa',
     view: 'background: rgba(59,130,246,0.1); color: #60a5fa',
-    export: 'background: rgba(255,122,48,0.1); color: #FF7A30',
+    export: 'background: rgba(18,188,0,0.1); color: #12BC00',
     approve: 'background: rgba(16,185,129,0.1); color: #34d399',
     reject: 'background: rgba(239,68,68,0.1); color: #f87171'
   }
-  return map[action] || 'background: rgba(255,122,48,0.1); color: #FF7A30'
+  return map[action] || 'background: rgba(18,188,0,0.1); color: #12BC00'
 }
 
 function showToast(message, type = 'success') {

@@ -31,7 +31,7 @@
             @click="activeFilter = f.value"
             class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
             :style="activeFilter === f.value
-              ? 'background: linear-gradient(135deg, #FF7A30, #ea6a24); color: #fff'
+              ? 'background: linear-gradient(135deg, #12BC00, #66BB6A); color: #fff'
               : 'background: #0d0d14; color: #6b7280; border: 1px solid #1e1e2a'"
           >
             {{ f.label }}
@@ -87,7 +87,7 @@
           </div>
 
           <!-- Unread dot -->
-          <div v-if="!n.is_read" class="w-2.5 h-2.5 rounded-full flex-shrink-0 mt-1.5" style="background: #FF7A30"></div>
+          <div v-if="!n.is_read" class="w-2.5 h-2.5 rounded-full flex-shrink-0 mt-1.5" style="background: #12BC00"></div>
         </div>
 
         <!-- Empty State -->
@@ -140,7 +140,7 @@ function showToast(message, type = 'success') {
 function iconClass(type) {
   const t = (type || '').toLowerCase()
   if (t.includes('user') || t.includes('signup') || t.includes('register')) return 'fas fa-user'
-  if (t.includes('ad') || t.includes('campaign') || t.includes('sponsor')) return 'fas fa-ad'
+  if (t.includes('voucher') || t.includes('package')) return 'fas fa-ticket-alt'
   if (t.includes('money') || t.includes('payment') || t.includes('wallet') || t.includes('payout') || t.includes('withdrawal')) return 'fas fa-money-bill-wave'
   if (t.includes('router') || t.includes('location')) return 'fas fa-wifi'
   return 'fas fa-bell'
@@ -149,7 +149,7 @@ function iconClass(type) {
 function iconStyle(type) {
   const t = (type || '').toLowerCase()
   if (t.includes('user') || t.includes('signup') || t.includes('register')) return 'background: rgba(59,130,246,0.1); color: #60a5fa'
-  if (t.includes('ad') || t.includes('campaign') || t.includes('sponsor')) return 'background: rgba(255,122,48,0.1); color: #FF7A30'
+  if (t.includes('voucher') || t.includes('package')) return 'background: rgba(18,188,0,0.1); color: #12BC00'
   if (t.includes('money') || t.includes('payment') || t.includes('wallet') || t.includes('payout') || t.includes('withdrawal')) return 'background: rgba(16,185,129,0.1); color: #34d399'
   if (t.includes('router') || t.includes('location')) return 'background: rgba(139,92,246,0.1); color: #a78bfa'
   return 'background: rgba(234,179,8,0.1); color: #facc15'

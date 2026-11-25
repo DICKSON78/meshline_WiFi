@@ -77,7 +77,7 @@
         <!-- Chart (takes 2 cols) -->
         <div class="lg:col-span-2 section-card">
           <div class="section-header">
-            <h3 class="section-title"><i class="fas fa-chart-line" style="color: #FF7A30"></i> Sales Trend (7 Days)</h3>
+            <h3 class="section-title"><i class="fas fa-chart-line" style="color: #12BC00"></i> Sales Trend (7 Days)</h3>
           </div>
           <div class="section-body">
             <div class="h-64">
@@ -89,15 +89,15 @@
         <!-- Quick Actions (1 col) -->
         <div class="section-card">
           <div class="section-header">
-            <h3 class="section-title"><i class="fas fa-bolt" style="color: #FF7A30"></i> Quick Actions</h3>
+            <h3 class="section-title"><i class="fas fa-bolt" style="color: #12BC00"></i> Quick Actions</h3>
           </div>
           <div class="section-body space-y-3">
-            <router-link to="/reseller/topup" class="flex items-center gap-3 p-3 rounded-xl transition-colors" style="background: rgba(255,122,48,0.08)">
-              <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(255,122,48,0.15); color: #FF7A30">
+            <router-link to="/reseller/topup" class="flex items-center gap-3 p-3 rounded-xl transition-colors" style="background: rgba(18,188,0,0.08)">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(18,188,0,0.15); color: #12BC00">
                 <i class="fas fa-plus-circle"></i>
               </div>
               <div class="flex-1">
-                <p class="text-sm font-medium" style="color: #FF7A30">Top Up Wallet</p>
+                <p class="text-sm font-medium" style="color: #12BC00">Top Up Wallet</p>
                 <p class="text-xs" style="color: #6b7280">Add funds to generate vouchers</p>
               </div>
             </router-link>
@@ -126,7 +126,7 @@
       <!-- Recent Sales -->
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-clock" style="color: #FF7A30"></i> Recent Sales</h3>
+          <h3 class="section-title"><i class="fas fa-clock" style="color: #12BC00"></i> Recent Sales</h3>
         </div>
         <div class="section-body">
           <div class="space-y-3">
@@ -141,7 +141,7 @@
               <span class="text-sm font-semibold whitespace-nowrap" style="color: #34d399">TSH {{ parseFloat(s.price).toLocaleString() }}</span>
             </div>
             <p v-if="!recentSales?.length" class="text-center py-6 text-sm" style="color: #6b7280">
-              <i class="fas fa-receipt mb-2 block text-lg" style="color: #FF7A30"></i>
+              <i class="fas fa-receipt mb-2 block text-lg" style="color: #12BC00"></i>
               No sales yet. Generate vouchers to start selling!
             </p>
           </div>
@@ -223,13 +223,13 @@ function renderChart(chartData) {
       datasets: [{
         label: 'Sales',
         data,
-        borderColor: '#FF7A30',
-        backgroundColor: 'rgba(255, 122, 48, 0.08)',
+        borderColor: '#12BC00',
+        backgroundColor: 'rgba(18,188,0, 0.08)',
         fill: true,
         tension: 0.4,
         borderWidth: 2,
-        pointBackgroundColor: '#FF7A30',
-        pointBorderColor: '#FF7A30',
+        pointBackgroundColor: '#12BC00',
+        pointBorderColor: '#12BC00',
         pointRadius: 4,
         pointHoverRadius: 6
       }]

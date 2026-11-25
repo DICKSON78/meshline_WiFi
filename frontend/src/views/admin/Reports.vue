@@ -31,7 +31,7 @@
       </div>
       <div class="stat-card">
         <p class="stat-label">Top Package</p>
-        <p class="stat-value text-sm" style="color: #FF7A30">{{ overview.topPackages?.[0]?.name || '—' }}</p>
+        <p class="stat-value text-sm" style="color: #12BC00">{{ overview.topPackages?.[0]?.name || '—' }}</p>
       </div>
       <div class="stat-card">
         <p class="stat-label">Routers Online</p>
@@ -66,7 +66,7 @@
       <div class="flex gap-1">
         <button v-for="t in ['top','vouchers','resellers','routers']" :key="t" @click="activeTab = t"
           class="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
-          :style="activeTab === t ? 'background: linear-gradient(135deg, #FF7A30, #ea6a24); color: #fff' : 'background: transparent; color: #6b7280'">
+          :style="activeTab === t ? 'background: linear-gradient(135deg, #12BC00, #66BB6A); color: #fff' : 'background: transparent; color: #6b7280'">
           {{ { top: 'Top Packages', vouchers: 'Voucher Sales', resellers: 'Resellers', routers: 'Router Health' }[t] }}
         </button>
       </div>
@@ -103,7 +103,7 @@
         <div v-if="overview.vouchers?.length" class="mt-4 grid grid-cols-3 gap-4">
           <div class="text-center"><p class="text-xl font-bold text-white">{{ overview.vouchers.reduce((a,b) => a + b.count, 0) }}</p><p class="text-xs" style="color: #6b7280">Total Sold</p></div>
           <div class="text-center"><p class="text-xl font-bold text-white" style="color: #34d399">TSh {{ fmtNum(overview.vouchers.reduce((a,b) => a + b.revenue, 0)) }}</p><p class="text-xs" style="color: #6b7280">Total Revenue</p></div>
-          <div class="text-center"><p class="text-xl font-bold text-white" style="color: #FF7A30">{{ overview.vouchers.length }}</p><p class="text-xs" style="color: #6b7280">Active Days</p></div>
+          <div class="text-center"><p class="text-xl font-bold text-white" style="color: #12BC00">{{ overview.vouchers.length }}</p><p class="text-xs" style="color: #6b7280">Active Days</p></div>
         </div>
         <p v-else class="text-center py-12" style="color: #6b7280">No voucher sales data</p>
       </div>

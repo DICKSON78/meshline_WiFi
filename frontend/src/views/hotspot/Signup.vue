@@ -13,8 +13,8 @@
     <!-- NOT on WiFi — captive portal instruction -->
     <div v-if="store.initialized && !store.onWifi" class="bg-[#111118] rounded-2xl shadow-2xl p-8 w-full max-w-md relative text-center">
       <img src="/logo.png" class="h-16 mx-auto mb-4" alt="HotBando">
-      <div class="w-16 h-16 rounded-full bg-[#FF7A30]/10 flex items-center justify-center mx-auto mb-4">
-        <i class="fas fa-wifi text-2xl text-[#FF7A30]"></i>
+      <div class="w-16 h-16 rounded-full bg-[#12BC00]/10 flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-wifi text-2xl text-[#12BC00]"></i>
       </div>
       <h2 class="text-lg font-bold text-white mb-2">Connect to HotBando WiFi</h2>
       <p class="text-sm text-white/60 mb-6">
@@ -22,15 +22,15 @@
       </p>
       <div class="bg-[#0a0a0f] rounded-xl p-4 text-left space-y-3">
         <div class="flex items-start gap-3">
-          <span class="text-[#FF7A30] font-bold text-sm">1.</span>
+          <span class="text-[#12BC00] font-bold text-sm">1.</span>
           <p class="text-sm text-white/70">Go to WiFi settings and connect to <b class="text-white">HotBando WiFi</b></p>
         </div>
         <div class="flex items-start gap-3">
-          <span class="text-[#FF7A30] font-bold text-sm">2.</span>
+          <span class="text-[#12BC00] font-bold text-sm">2.</span>
           <p class="text-sm text-white/70">Open your browser — you'll be redirected here automatically</p>
         </div>
         <div class="flex items-start gap-3">
-          <span class="text-[#FF7A30] font-bold text-sm">3.</span>
+          <span class="text-[#12BC00] font-bold text-sm">3.</span>
           <p class="text-sm text-white/70">Register and buy a package to get internet access</p>
         </div>
       </div>
@@ -51,7 +51,7 @@
         <p v-if="error" class="text-red-400 text-sm bg-red-500/10 p-3 rounded-lg">{{ error }}</p>
         <button type="submit" :disabled="loading" class="btn btn-primary w-full justify-center py-2.5">{{ loading ? '...' : 'Register' }}</button>
       </form>
-      <p class="text-center text-sm text-white/50 mt-4">Already have account? <router-link to="/hotspot/login" class="text-[#FF7A30] hover:underline">Login</router-link></p>
+      <p class="text-center text-sm text-white/50 mt-4">Already have account? <router-link to="/hotspot/login" class="text-[#12BC00] hover:underline">Login</router-link></p>
     </div>
   </div>
 </template>

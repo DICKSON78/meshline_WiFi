@@ -47,7 +47,7 @@
       <div class="flex gap-1">
         <button v-for="t in tabs" :key="t.key" @click="activeTab = t.key"
           class="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
-          :style="activeTab === t.key ? 'background: linear-gradient(135deg, #FF7A30, #ea6a24); color: #fff' : 'background: transparent; color: #6b7280'">
+          :style="activeTab === t.key ? 'background: linear-gradient(135deg, #12BC00, #66BB6A); color: #fff' : 'background: transparent; color: #6b7280'">
           <i :class="t.icon" class="mr-1.5"></i>{{ t.label }}
         </button>
       </div>
@@ -58,7 +58,7 @@
       <!-- Auto detect (primary) -->
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-bolt" style="color: #FF7A30"></i> Auto Detect & Configure</h3>
+          <h3 class="section-title"><i class="fas fa-bolt" style="color: #12BC00"></i> Auto Detect & Configure</h3>
         </div>
         <div class="section-body space-y-3">
           <p class="text-xs" style="color: #6b7280">LAN Detect runs <b>on this cloud server</b>. It cannot see a router you plugged in at 192.168.88.1. For a new site router, use <b>Site Setup</b> and paste the script in WebFig.</p>
@@ -83,7 +83,7 @@
               <div class="text-xs"><span style="color: #6b7280">Firmware:</span> <span class="text-white font-medium">{{ detectResult.firmware }}</span></div>
               <div class="text-xs"><span style="color: #6b7280">In DB:</span> <span :class="detectResult.inDatabase ? 'text-yellow-400' : 'text-green-400'">{{ detectResult.inDatabase ? 'Yes' : 'No' }}</span></div>
             </div>
-            <p v-if="detectResult.credentialsAuto" class="text-xs mt-2" style="color: #FF7A30">
+            <p v-if="detectResult.credentialsAuto" class="text-xs mt-2" style="color: #12BC00">
               <i class="fas fa-key mr-1"></i> Default credentials detected automatically — no password needed
             </p>
             <button v-if="detectResult.useSiteSetup || (!detectResult.isMikrotik && detectResult.message)" @click="activeTab = 'sitesetup'" class="btn btn-primary btn-sm w-full mt-2">
@@ -136,7 +136,7 @@
                   <span v-if="d.model" class="text-xs px-2 py-0.5 rounded-full" style="background: rgba(59,130,246,0.1); color: #60a5fa">{{ d.model }}</span>
                   <span v-if="d.source === 'tunnel'" class="text-xs px-2 py-0.5 rounded-full" style="background: rgba(139,92,246,0.15); color: #a78bfa" title="Remote router reachable over WireGuard tunnel — as if local">TUNNEL</span>
                   <span v-if="d.inDatabase" class="text-xs px-2 py-0.5 rounded-full" style="background: rgba(245,158,11,0.1); color: #f59e0b">In DB</span>
-                  <button v-if="d.isMikrotik && !d.inDatabase" @click="useDetected(d)" class="text-xs px-2 py-1 rounded-lg" style="background: rgba(255,122,48,0.1); color: #FF7A30">
+                  <button v-if="d.isMikrotik && !d.inDatabase" @click="useDetected(d)" class="text-xs px-2 py-1 rounded-lg" style="background: rgba(18,188,0,0.1); color: #12BC00">
                     <i class="fas fa-arrow-right mr-1"></i>Use
                   </button>
                   <button v-if="d.source === 'tunnel'" @click="checkDetected(d)" class="text-xs px-2 py-1 rounded-lg" style="background: rgba(139,92,246,0.1); color: #a78bfa" title="Run Detect on this tunnel IP">
@@ -159,7 +159,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div class="section-card">
           <div class="section-header">
-            <h3 class="section-title"><i class="fas fa-cog" style="color: #FF7A30"></i> Router Configuration</h3>
+            <h3 class="section-title"><i class="fas fa-cog" style="color: #12BC00"></i> Router Configuration</h3>
           </div>
           <div class="section-body space-y-3">
             <p class="text-xs" style="color: #6b7280">Configure the router's basic settings. These will be applied during the WireGuard setup.</p>
@@ -178,8 +178,8 @@
               <div><label class="input-label">Latitude</label><input v-model.number="configForm.latitude" type="number" step="any" class="form-input" placeholder="-6.7924"></div>
               <div><label class="input-label">Longitude</label><input v-model.number="configForm.longitude" type="number" step="any" class="form-input" placeholder="39.2083"></div>
             </div>
-            <div class="p-3 rounded-xl" style="background: rgba(255,122,48,0.05); border: 1px solid rgba(255,122,48,0.15)">
-              <p class="text-xs font-medium mb-1" style="color: #FF7A30"><i class="fas fa-info-circle mr-1"></i> Connection Details</p>
+            <div class="p-3 rounded-xl" style="background: rgba(18,188,0,0.05); border: 1px solid rgba(18,188,0,0.15)">
+              <p class="text-xs font-medium mb-1" style="color: #12BC00"><i class="fas fa-info-circle mr-1"></i> Connection Details</p>
               <div class="grid grid-cols-2 gap-2 mt-2">
                 <div class="text-xs"><span style="color: #6b7280">IP:</span> <span class="text-white font-mono">{{ detectForm.ip || 'Not set' }}</span></div>
                 <div class="text-xs"><span style="color: #6b7280">Port:</span> <span class="text-white font-mono">{{ detectForm.port }}</span></div>
@@ -201,7 +201,7 @@
             <div class="space-y-3">
               <div v-for="(step, i) in configSteps" :key="i" class="flex items-start gap-3 p-3 rounded-xl" style="background: #0a0a0f; border: 1px solid var(--border)">
                 <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold"
-                  :style="configProgress && configProgress.step > i ? 'background: rgba(16,185,129,0.2); color: #34d399' : 'background: rgba(255,122,48,0.1); color: #FF7A30'">
+                  :style="configProgress && configProgress.step > i ? 'background: rgba(16,185,129,0.2); color: #34d399' : 'background: rgba(18,188,0,0.1); color: #12BC00'">
                   <i v-if="configProgress && configProgress.step > i" class="fas fa-check"></i>
                   <span v-else>{{ i + 1 }}</span>
                 </div>
@@ -220,7 +220,7 @@
     <template v-if="activeTab === 'sitesetup'">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div class="section-card lg:col-span-2">
-          <div class="section-header"><h3 class="section-title"><i class="fas fa-satellite-dish" style="color: #FF7A30"></i> Plug in a new router</h3></div>
+          <div class="section-header"><h3 class="section-title"><i class="fas fa-satellite-dish" style="color: #12BC00"></i> Plug in a new router</h3></div>
           <div class="section-body space-y-2">
             <ol class="text-xs space-y-1.5 list-decimal pl-4" style="color: #9ca3af">
               <li>Connect WAN (internet) + power. Join the router WiFi or LAN, then open <span class="font-mono text-white">http://192.168.88.1</span>.</li>
@@ -273,7 +273,7 @@
     <template v-if="activeTab === 'fleet'">
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-network-wired" style="color: #FF7A30"></i> Router Fleet</h3>
+          <h3 class="section-title"><i class="fas fa-network-wired" style="color: #12BC00"></i> Router Fleet</h3>
           <div class="flex gap-2 flex-wrap">
             <div class="relative">
               <input v-model="search" placeholder="Search routers..." class="form-input" style="max-width: 220px; padding-left: 32px">
@@ -297,7 +297,7 @@
                   <div class="w-3 h-3 rounded-full" :class="r.status === 'online' ? 'bg-green-500' : 'bg-red-500'"></div>
                   <div v-if="r.status === 'online'" class="pulse-online absolute inset-0"></div>
                 </div>
-                <span class="font-semibold text-white group-hover:text-[#FF7A30] transition-colors">{{ r.router_name || r.router_id }}</span>
+                <span class="font-semibold text-white group-hover:text-[#12BC00] transition-colors">{{ r.router_name || r.router_id }}</span>
               </div>
               <div class="flex items-center gap-1">
                 <span v-if="r.wireguard_configured || r.wireguard_ip" class="text-xs px-1.5 py-0.5 rounded-full" style="background: rgba(139,92,246,0.15); color: #a78bfa" title="WireGuard configured">
@@ -347,19 +347,19 @@
                 <span v-if="r.wireguard_ip" class="text-xs font-mono" style="color: #6b7280">{{ r.wireguard_ip }}</span>
               </div>
               <div class="flex gap-1.5">
-                <button v-if="r.setup_status === 'pending'" @click.stop="connectRouter(r)" class="px-2 py-1 rounded-lg text-xs font-medium" style="background: rgba(255,122,48,0.15); color: #FF7A30" title="Connect & provision this router">
+                <button v-if="r.setup_status === 'pending'" @click.stop="connectRouter(r)" class="px-2 py-1 rounded-lg text-xs font-medium" style="background: rgba(18,188,0,0.15); color: #12BC00" title="Connect & provision this router">
                   <i class="fas fa-plug mr-1"></i>Connect
                 </button>
-                <button @click.stop="viewRouter(r)" class="p-1.5 rounded-lg transition-colors" style="color: #6b7280" title="View"><i class="fas fa-eye hover:text-[#FF7A30] text-xs"></i></button>
-                <button @click.stop="editRouter(r)" class="p-1.5 rounded-lg transition-colors" style="color: #6b7280" title="Edit"><i class="fas fa-edit hover:text-[#FF7A30] text-xs"></i></button>
+                <button @click.stop="viewRouter(r)" class="p-1.5 rounded-lg transition-colors" style="color: #6b7280" title="View"><i class="fas fa-eye hover:text-[#12BC00] text-xs"></i></button>
+                <button @click.stop="editRouter(r)" class="p-1.5 rounded-lg transition-colors" style="color: #6b7280" title="Edit"><i class="fas fa-edit hover:text-[#12BC00] text-xs"></i></button>
                 <button @click.stop="deleteRouter(r)" class="p-1.5 rounded-lg transition-colors" style="color: #6b7280" title="Delete"><i class="fas fa-trash hover:text-red-400 text-xs"></i></button>
               </div>
             </div>
           </div>
         </div>
         <div v-else-if="!loading" class="text-center py-16">
-          <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-4" style="background: rgba(255,122,48,0.08)">
-            <i class="fas fa-router text-4xl" style="color: #FF7A30; opacity: 0.6"></i>
+          <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-4" style="background: rgba(18,188,0,0.08)">
+            <i class="fas fa-router text-4xl" style="color: #12BC00; opacity: 0.6"></i>
           </div>
           <p class="text-white font-medium mb-1">No routers found</p>
           <p class="text-sm mb-4" style="color: #6b7280">{{ search || statusFilter ? 'No routers match filters' : 'Start by detecting your first MikroTik router' }}</p>
@@ -375,7 +375,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div class="section-card">
           <div class="section-header">
-            <h3 class="section-title"><i class="fas fa-shield-halved" style="color: #FF7A30"></i> WireGuard Server</h3>
+            <h3 class="section-title"><i class="fas fa-shield-halved" style="color: #12BC00"></i> WireGuard Server</h3>
             <span v-if="wgServer.running" class="text-xs px-2 py-0.5 rounded-full bg-green-500/10 text-green-400">
               <i class="fas fa-check-circle mr-1"></i> Running
             </span>

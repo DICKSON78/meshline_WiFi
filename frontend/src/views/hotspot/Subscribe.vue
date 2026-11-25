@@ -14,7 +14,7 @@
           <p class="text-xs text-white/60 mt-1">{{ returnMessage }}</p>
           <div v-if="returnVoucher" class="mt-3 rounded-xl bg-black/30 border border-white/10 p-3 text-center">
             <p class="text-[10px] tracking-widest text-white/50">VOUCHER CODE</p>
-            <p class="text-base font-bold tracking-wider text-[#FF7A30] mt-1">{{ returnVoucher }}</p>
+            <p class="text-base font-bold tracking-wider text-[#12BC00] mt-1">{{ returnVoucher }}</p>
             <button class="pay-copy mt-2" @click="copyReturnVoucher"><i class="fa-solid fa-copy"></i> {{ returnCopied ? 'Copied!' : 'Copy Voucher' }}</button>
           </div>
           <div v-if="returnStatus === 'completed'" class="mt-3 space-y-2">
@@ -46,7 +46,7 @@
             <p class="text-white/70 text-xs">Price</p>
             <p class="text-xl font-bold">{{ formatPrice(featured.price) }} <span class="text-xs font-medium">TZS</span></p>
           </div>
-          <button class="bg-[#FF7A30] text-white font-semibold text-sm px-5 py-2.5 rounded-full" @click="openModal(featured)">Buy Now</button>
+          <button class="bg-[#12BC00] text-white font-semibold text-sm px-5 py-2.5 rounded-full" @click="openModal(featured)">Buy Now</button>
         </div>
       </div>
 
@@ -74,7 +74,7 @@
             <p class="text-xs text-white/50">{{ p.duration_hours }}h · {{ p.data_limit_mb > 0 ? p.data_limit_mb + ' MB' : 'Unlimited' }}</p>
           </div>
           <div class="text-right">
-            <p class="text-sm font-bold text-[#FF7A30]">{{ formatPrice(p.price) }}</p>
+            <p class="text-sm font-bold text-[#12BC00]">{{ formatPrice(p.price) }}</p>
             <button class="ig-btn ig-btn-outline text-xs mt-1 px-3 py-1" @click="openModal(p)">Buy</button>
           </div>
         </div>
@@ -93,12 +93,12 @@
         </div>
 
         <div class="flex items-center gap-3 mt-3">
-          <div class="tile-icon" style="background:rgba(255,122,48,0.1);color:#FF7A30"><i class="fa-solid fa-wifi"></i></div>
+          <div class="tile-icon" style="background:rgba(18,188,0,0.1);color:#12BC00"><i class="fa-solid fa-wifi"></i></div>
           <div class="flex-1 min-w-0">
             <p class="text-sm font-semibold text-white">{{ selectedPackage?.name }}</p>
             <p class="text-xs text-white/50">{{ selectedPackage?.duration_hours }}h duration</p>
           </div>
-          <p class="text-lg font-bold text-[#FF7A30]">{{ Number(selectedPackage?.price || 0).toLocaleString() }} <span class="text-xs font-semibold">TZS</span></p>
+          <p class="text-lg font-bold text-[#12BC00]">{{ Number(selectedPackage?.price || 0).toLocaleString() }} <span class="text-xs font-semibold">TZS</span></p>
         </div>
 
         <div class="pay-options">
@@ -310,7 +310,7 @@ function iconStyle(p) {
   const h = Number(p?.duration_hours || 0)
   if (h >= 168) return 'background:rgba(139,92,246,0.1);color:#8b5cf6'
   if (h >= 24) return 'background:rgba(34,197,94,0.1);color:#22c55e'
-  return 'background:rgba(255,122,48,0.1);color:#FF7A30'
+  return 'background:rgba(18,188,0,0.1);color:#12BC00'
 }
 
 function openModal(pkg) {

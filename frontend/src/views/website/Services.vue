@@ -2,9 +2,9 @@
   <SiteLayout>
     <!-- Hero -->
     <section class="relative overflow-hidden bg-gradient-to-b from-[#111118] to-[#0a0a0f]">
-      <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#FF7A30]/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#12BC00]/10 rounded-full blur-3xl pointer-events-none"></div>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center py-16 lg:py-24">
-        <span class="text-[#FF7A30] font-semibold tracking-wider uppercase text-sm">Our Services</span>
+        <span class="text-[#12BC00] font-semibold tracking-wider uppercase text-sm">Our Services</span>
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-3 mb-5">Our Services</h1>
         <p class="text-lg lg:text-xl text-white/60 max-w-2xl mx-auto">
           Internet solutions designed specifically for students, communities, and businesses — all at affordable prices with top quality.
@@ -24,18 +24,18 @@
             <img :src="service.img" :alt="service.title" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <div>
-            <span class="inline-flex items-center gap-2 bg-[#FF7A30]/10 border border-[#FF7A30]/30 text-[#FF7A30] text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
+            <span class="inline-flex items-center gap-2 bg-[#12BC00]/10 border border-[#12BC00]/30 text-[#12BC00] text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
               <i :class="['fas', service.icon]"></i> {{ service.badge }}
             </span>
             <h2 class="text-2xl lg:text-3xl font-bold text-white mb-4">{{ service.title }}</h2>
             <p class="text-white/60 mb-6 leading-relaxed">{{ service.desc }}</p>
             <ul class="space-y-3 mb-6">
               <li v-for="point in service.points" :key="point" class="flex items-start gap-3 text-white/70 text-sm">
-                <i class="fas fa-check-circle text-[#FF7A30] mt-0.5"></i> {{ point }}
+                <i class="fas fa-check-circle text-[#12BC00] mt-0.5"></i> {{ point }}
               </li>
             </ul>
-            <p class="text-[#FF7A30] text-lg font-bold mb-6">{{ service.price }}</p>
-            <router-link :to="service.to" class="inline-flex items-center gap-2 bg-[#FF7A30] hover:bg-[#ea6a24] text-white px-8 py-3 rounded-full font-semibold transition-all shadow-lg shadow-[#FF7A30]/25">
+            <p class="text-[#12BC00] text-lg font-bold mb-6">{{ service.price }}</p>
+            <router-link :to="service.to" class="inline-flex items-center gap-2 bg-[#12BC00] hover:bg-[#66BB6A] text-white px-8 py-3 rounded-full font-semibold transition-all shadow-lg shadow-[#12BC00]/25">
               {{ service.cta }} <i class="fas fa-arrow-right"></i>
             </router-link>
           </div>
@@ -47,17 +47,17 @@
     <section class="py-16 lg:py-20 bg-[#0d0d14] border-y border-[#1e1e2a]">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12 lg:mb-16">
-          <span class="text-[#FF7A30] font-semibold tracking-wider uppercase text-sm">Easy to Get Started</span>
+          <span class="text-[#12BC00] font-semibold tracking-wider uppercase text-sm">Easy to Get Started</span>
           <h2 class="text-3xl lg:text-4xl font-bold text-white mt-2 mb-4">How It Works</h2>
-          <div class="w-20 h-1 bg-[#FF7A30] mx-auto mt-4 rounded-full"></div>
+          <div class="w-20 h-1 bg-[#12BC00] mx-auto mt-4 rounded-full"></div>
         </div>
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
           <div v-for="(step, i) in steps" :key="step.title" class="card text-center relative">
-            <div class="w-14 h-14 rounded-full bg-[#FF7A30] text-white flex items-center justify-center text-xl font-bold mx-auto mb-5">{{ i + 1 }}</div>
+            <div class="w-14 h-14 rounded-full bg-[#12BC00] text-white flex items-center justify-center text-xl font-bold mx-auto mb-5">{{ i + 1 }}</div>
             <h4 class="font-semibold text-white mb-2">{{ step.title }}</h4>
             <p class="text-white/60 text-sm leading-relaxed">{{ step.desc }}</p>
-            <i v-if="i < steps.length - 1" class="fas fa-chevron-right hidden lg:block absolute top-1/2 -right-5 text-[#FF7A30]/50"></i>
+            <i v-if="i < steps.length - 1" class="fas fa-chevron-right hidden lg:block absolute top-1/2 -right-5 text-[#12BC00]/50"></i>
           </div>
         </div>
       </div>
@@ -67,16 +67,16 @@
     <section class="py-16 lg:py-20">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <span class="text-[#FF7A30] font-semibold tracking-wider uppercase text-sm">Questions</span>
+          <span class="text-[#12BC00] font-semibold tracking-wider uppercase text-sm">Questions</span>
           <h2 class="text-3xl lg:text-4xl font-bold text-white mt-2 mb-4">Frequently Asked Questions</h2>
-          <div class="w-20 h-1 bg-[#FF7A30] mx-auto mt-4 rounded-full"></div>
+          <div class="w-20 h-1 bg-[#12BC00] mx-auto mt-4 rounded-full"></div>
         </div>
 
         <div class="space-y-4">
           <div v-for="(faq, i) in faqs" :key="i" class="card !p-0 overflow-hidden">
             <button @click="toggleFaq(i)" class="w-full flex justify-between items-center gap-4 p-5 text-left">
               <span class="font-semibold text-white">{{ faq.q }}</span>
-              <i :class="['fas fa-chevron-down text-[#FF7A30] transition-transform flex-shrink-0', openFaq === i ? 'rotate-180' : '']"></i>
+              <i :class="['fas fa-chevron-down text-[#12BC00] transition-transform flex-shrink-0', openFaq === i ? 'rotate-180' : '']"></i>
             </button>
             <div v-show="openFaq === i" class="px-5 pb-5">
               <p class="text-white/60 text-sm leading-relaxed">{{ faq.a }}</p>
@@ -89,11 +89,11 @@
     <!-- CTA -->
     <section class="pb-16 lg:pb-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#FF7A30] to-[#c25a1e] text-center py-16 px-6">
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#12BC00] to-[#0B8A00] text-center py-16 px-6">
           <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">Ready to Get Connected?</h2>
           <p class="text-lg text-white/90 mb-8 max-w-2xl mx-auto">Join thousands of happy users today. Get fast, affordable internet with HotBando.</p>
           <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <router-link to="/hotspot" class="bg-white text-[#c25a1e] hover:bg-white/90 px-8 py-3.5 rounded-full text-lg font-semibold transition-all inline-flex items-center justify-center gap-2">
+            <router-link to="/hotspot" class="bg-white text-[#0B8A00] hover:bg-white/90 px-8 py-3.5 rounded-full text-lg font-semibold transition-all inline-flex items-center justify-center gap-2">
               <i class="fas fa-wifi"></i> Get Started
             </router-link>
             <router-link to="/pricing" class="border-2 border-white text-white hover:bg-white/10 px-8 py-3.5 rounded-full text-lg font-semibold transition-all inline-flex items-center justify-center gap-2">
@@ -122,7 +122,7 @@ const services = [
     icon: 'fa-graduation-cap',
     title: 'Internet for Students',
     desc: 'We have created special plans for school, college, and university students. Do in-depth research, attend online classes without interruptions, and watch educational videos at the lowest possible cost.',
-    points: ['Academic research and school assignments', 'Online classes (Zoom, Google Meet)', 'Educational videos and e-learning platforms', 'Free data for watching ads'],
+    points: ['Academic research and school assignments', 'Online classes (Zoom, Google Meet)', 'Educational videos and e-learning platforms', 'Affordable hourly vouchers'],
     price: 'Starting TZS 500 / 6 Hours',
     img: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80',
     cta: 'Get Started',
@@ -147,8 +147,8 @@ const services = [
     points: ['High speed up to 100 Mbps', 'Dedicated technical support', 'Capacity for up to 100 devices', '99% uptime with backup'],
     price: 'Custom Business Plans',
     img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
-    cta: 'Become a Partner',
-    to: '/partners'
+    cta: 'Become a Reseller',
+    to: '/reseller/signup'
   }
 ]
 
@@ -156,7 +156,7 @@ const steps = [
   { title: 'Connect', desc: 'Connect your phone or computer to the nearest HotBando WiFi network.' },
   { title: 'Sign Up', desc: 'Register with your phone number in seconds — no complicated steps.' },
   { title: 'Buy a Plan', desc: 'Choose the plan that suits you and pay via ClickPesa, voucher, or an agent.' },
-  { title: 'Enjoy the Internet', desc: 'Start using fast internet right away. Watch ads to earn free data!' }
+  { title: 'Enjoy the Internet', desc: 'Start using fast internet right away with your voucher.' }
 ]
 
 const faqs = [
@@ -166,7 +166,7 @@ const faqs = [
   },
   {
     q: 'Can I get free data?',
-    a: 'Yes! In the customer portal, watch short sponsored video ads and earn extra free data. Every ad you watch gives you free data.'
+    a: 'New users receive a small free data allowance on registration. For more data, buy a voucher from the portal or a reseller.'
   },
   {
     q: 'What devices do I need?',

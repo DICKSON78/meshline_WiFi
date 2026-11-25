@@ -3,17 +3,17 @@
     <div class="absolute inset-0 pointer-events-none">
       <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" class="opacity-[0.07]">
         <defs><pattern id="honeycomb-r" x="0" y="0" width="56" height="97" patternUnits="userSpaceOnUse">
-          <path d="M28 0L56 16.2V48.5L28 64.7L0 48.5V16.2Z" fill="none" stroke="#FF7A30" stroke-width="1.5"/>
-          <path d="M28 32.4L56 48.6V80.9L28 97L0 80.9V48.6Z" fill="none" stroke="#FF7A30" stroke-width="1"/>
+          <path d="M28 0L56 16.2V48.5L28 64.7L0 48.5V16.2Z" fill="none" stroke="#12BC00" stroke-width="1.5"/>
+          <path d="M28 32.4L56 48.6V80.9L28 97L0 80.9V48.6Z" fill="none" stroke="#12BC00" stroke-width="1"/>
         </pattern></defs>
         <rect width="100%" height="100%" fill="url(#honeycomb-r)"/>
       </svg>
       <svg width="100%" height="100%" viewBox="0 0 400 400" class="absolute inset-0" preserveAspectRatio="none">
-        <path d="M0 300 Q 50 280 100 320 T 200 300 T 300 340 T 400 310 L 400 400 L 0 400Z" fill="rgba(255,122,48,0.04)"/>
-        <circle cx="50" cy="50" r="8" fill="rgba(255,122,48,0.06)"/>
-        <circle cx="350" cy="80" r="12" fill="rgba(255,122,48,0.05)"/>
-        <circle cx="180" cy="120" r="6" fill="rgba(255,122,48,0.07)"/>
-        <circle cx="80" cy="240" r="10" fill="rgba(255,122,48,0.05)"/>
+        <path d="M0 300 Q 50 280 100 320 T 200 300 T 300 340 T 400 310 L 400 400 L 0 400Z" fill="rgba(18,188,0,0.04)"/>
+        <circle cx="50" cy="50" r="8" fill="rgba(18,188,0,0.06)"/>
+        <circle cx="350" cy="80" r="12" fill="rgba(18,188,0,0.05)"/>
+        <circle cx="180" cy="120" r="6" fill="rgba(18,188,0,0.07)"/>
+        <circle cx="80" cy="240" r="10" fill="rgba(18,188,0,0.05)"/>
       </svg>
     </div>
     <div class="w-full max-w-md bg-[#111118] rounded-2xl shadow-2xl p-8 relative">
@@ -47,7 +47,7 @@
       </form>
 
       <p class="text-center text-sm text-white/50 mt-6">
-        Already have an account? <router-link to="/reseller/dashboard" class="text-[#FF7A30] hover:underline">Login</router-link>
+        Already have an account? <router-link to="/reseller/dashboard" class="text-[#12BC00] hover:underline">Login</router-link>
       </p>
     </div>
   </div>

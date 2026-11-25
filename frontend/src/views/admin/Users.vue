@@ -48,7 +48,7 @@
     <!-- Growth mini-chart -->
     <div v-if="stats.growth && stats.growth.length" class="section-card p-4">
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-sm font-medium text-white"><i class="fas fa-chart-area mr-2" style="color: #FF7A30"></i>User Growth (14 days)</h3>
+        <h3 class="text-sm font-medium text-white"><i class="fas fa-chart-area mr-2" style="color: #12BC00"></i>User Growth (14 days)</h3>
         <div class="flex gap-3 text-xs" style="color: #6b7280">
           <span>Today: <b class="text-white">{{ stats.todayNew }}</b></span>
           <span>This Week: <b class="text-white">{{ stats.weekNew }}</b></span>
@@ -57,7 +57,7 @@
       </div>
       <div class="flex items-end gap-1" style="height: 60px">
         <div v-for="(g, i) in stats.growth" :key="i" class="flex-1 rounded-t transition-all" :title="g.day + ': ' + g.new_users + ' users'"
-          :style="{ height: growthHeight(g.new_users) + '%', background: 'linear-gradient(to top, #FF7A30, #ea6a24)' }"></div>
+          :style="{ height: growthHeight(g.new_users) + '%', background: 'linear-gradient(to top, #12BC00, #66BB6A)' }"></div>
       </div>
     </div>
 
@@ -66,7 +66,7 @@
       <div class="flex gap-1">
         <button v-for="t in ['list','segments']" :key="t" @click="activeTab = t"
           class="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
-          :style="activeTab === t ? 'background: linear-gradient(135deg, #FF7A30, #ea6a24); color: #fff' : 'background: transparent; color: #6b7280'">
+          :style="activeTab === t ? 'background: linear-gradient(135deg, #12BC00, #66BB6A); color: #fff' : 'background: transparent; color: #6b7280'">
           {{ t === 'list' ? 'All Customers' : 'Segments & Packages' }}
         </button>
       </div>
@@ -76,7 +76,7 @@
     <template v-if="activeTab === 'list'">
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-users" style="color: #FF7A30"></i> All Customers</h3>
+          <h3 class="section-title"><i class="fas fa-users" style="color: #12BC00"></i> All Customers</h3>
           <div class="flex gap-2 flex-wrap">
             <div class="relative">
               <input v-model="search" @input="debouncedLoad" placeholder="Search name, phone..." class="form-input" style="max-width: 220px; padding-left: 32px">
@@ -125,7 +125,7 @@
                   </td>
                   <td class="py-3 px-4 text-right">
                     <button @click="viewCustomer(c)" class="p-1.5 rounded-lg transition-colors" style="color: #6b7280" title="View Details"><i class="fas fa-eye hover:text-blue-400 text-xs"></i></button>
-                    <button @click="adjustCustomer(c)" class="p-1.5 rounded-lg transition-colors" style="color: #6b7280" title="Adjust Subscription"><i class="fas fa-sliders-h hover:text-[#FF7A30] text-xs"></i></button>
+                    <button @click="adjustCustomer(c)" class="p-1.5 rounded-lg transition-colors" style="color: #6b7280" title="Adjust Subscription"><i class="fas fa-sliders-h hover:text-[#12BC00] text-xs"></i></button>
                   </td>
                 </tr>
                 <tr v-if="!customers.length">
@@ -152,7 +152,7 @@
         <!-- Package Distribution -->
         <div class="section-card">
           <div class="section-header">
-            <h3 class="section-title"><i class="fas fa-chart-pie" style="color: #FF7A30"></i> Package Distribution</h3>
+            <h3 class="section-title"><i class="fas fa-chart-pie" style="color: #12BC00"></i> Package Distribution</h3>
           </div>
           <div class="section-body space-y-3">
             <div v-for="pkg in stats.byPackage" :key="pkg.package_name" class="p-3 rounded-xl" style="background: #0a0a0f; border: 1px solid var(--border)">
@@ -161,7 +161,7 @@
                 <span class="text-xs" style="color: #6b7280">{{ pkg.count }} customers</span>
               </div>
               <div class="h-2 rounded-full" style="background: #1e1e2a">
-                <div class="h-full rounded-full" :style="{ width: pkgWidth(pkg.count) + '%', background: 'linear-gradient(90deg, #FF7A30, #ea6a24)' }"></div>
+                <div class="h-full rounded-full" :style="{ width: pkgWidth(pkg.count) + '%', background: 'linear-gradient(90deg, #12BC00, #66BB6A)' }"></div>
               </div>
               <div class="flex justify-between mt-1.5 text-xs" style="color: #6b7280">
                 <span>{{ pkgWidth(pkg.count).toFixed(1) }}% of total</span>
@@ -210,7 +210,7 @@
             </div>
             <div class="p-3 rounded-xl" style="background: #0a0a0f; border: 1px solid var(--border)">
               <p class="text-xs font-medium text-white mb-1">ARPU (Avg Revenue Per User)</p>
-              <p class="text-xl font-bold" style="color: #FF7A30">TSh {{ fmtNum(stats.arpu) }}</p>
+              <p class="text-xl font-bold" style="color: #12BC00">TSh {{ fmtNum(stats.arpu) }}</p>
               <p class="text-xs mt-1" style="color: #6b7280">Across all paying customers</p>
             </div>
           </div>
@@ -254,7 +254,7 @@
 
         <!-- Payment History -->
         <div class="mb-6">
-          <h4 class="text-sm font-medium text-white mb-3"><i class="fas fa-credit-card mr-1" style="color: #FF7A30"></i> Payment History</h4>
+          <h4 class="text-sm font-medium text-white mb-3"><i class="fas fa-credit-card mr-1" style="color: #12BC00"></i> Payment History</h4>
           <div v-if="detailPayments.length" class="space-y-2">
             <div v-for="p in detailPayments" :key="p.id" class="flex items-center justify-between p-2.5 rounded-lg" style="background: #0a0a0f; border: 1px solid var(--border)">
               <div class="flex items-center gap-2">
@@ -313,7 +313,7 @@
           <div class="flex gap-2">
             <button v-for="a in adjustActions" :key="a.key" @click="adjustAction = a.key"
               class="flex-1 p-3 rounded-xl text-center text-sm font-medium transition-all"
-              :style="adjustAction === a.key ? 'background: rgba(255,122,48,0.15); border: 1px solid rgba(255,122,48,0.3); color: #FF7A30' : 'background: #0a0a0f; border: 1px solid var(--border); color: #6b7280'">
+              :style="adjustAction === a.key ? 'background: rgba(18,188,0,0.15); border: 1px solid rgba(18,188,0,0.3); color: #12BC00' : 'background: #0a0a0f; border: 1px solid var(--border); color: #6b7280'">
               <i :class="a.icon" class="block mb-1"></i>{{ a.label }}
             </button>
           </div>
@@ -378,7 +378,7 @@ function fmtNum(n) { return Number(n || 0).toLocaleString() }
 function fmtDate(d) { if (!d) return '—'; return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) }
 function isExpired(d) { return d && new Date(d) < new Date() }
 function initials(name) { return (name || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) }
-function avatarColor(name) { const colors = ['#FF7A30','#3b82f6','#a78bfa','#34d399','#f59e0b','#ef4444','#ec4899','#06b6d4']; let h = 0; for (const c of (name || '')) h = c.charCodeAt(0) + ((h << 5) - h); return colors[Math.abs(h) % colors.length] }
+function avatarColor(name) { const colors = ['#12BC00','#3b82f6','#a78bfa','#34d399','#f59e0b','#ef4444','#ec4899','#06b6d4']; let h = 0; for (const c of (name || '')) h = c.charCodeAt(0) + ((h << 5) - h); return colors[Math.abs(h) % colors.length] }
 function growthHeight(n) { const max = Math.max(...(stats.value.growth || []).map(g => g.new_users), 1); return (n / max) * 100 }
 const pkgWidth = (count) => stats.value.total > 0 ? (count / stats.value.total * 100) : 0
 const healthScore = computed(() => {

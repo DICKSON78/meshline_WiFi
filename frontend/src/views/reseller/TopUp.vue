@@ -49,14 +49,14 @@
       <!-- Top Up Form -->
       <div class="lg:col-span-1 section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-plus-circle" style="color: #FF7A30"></i> New Top Up</h3>
+          <h3 class="section-title"><i class="fas fa-plus-circle" style="color: #12BC00"></i> New Top Up</h3>
         </div>
         <div class="section-body">
           <div class="space-y-4">
             <div>
               <label class="input-label">Amount (TSH)</label>
               <div class="grid grid-cols-3 gap-2 mb-3">
-                <button v-for="a in quickAmounts" :key="a" @click="amount = a" class="py-2 rounded-lg text-sm font-medium border transition-colors" :class="amount === a ? 'bg-[#FF7A30] text-white border-[#FF7A30]' : 'border-[#1e1e2a] text-white/60 hover:border-[#FF7A30]/30'">{{ Number(a).toLocaleString() }}</button>
+                <button v-for="a in quickAmounts" :key="a" @click="amount = a" class="py-2 rounded-lg text-sm font-medium border transition-colors" :class="amount === a ? 'bg-[#12BC00] text-white border-[#12BC00]' : 'border-[#1e1e2a] text-white/60 hover:border-[#12BC00]/30'">{{ Number(a).toLocaleString() }}</button>
               </div>
               <input v-model="amount" type="number" min="1000" step="500" placeholder="Enter amount..." class="input w-full">
             </div>
@@ -81,7 +81,7 @@
       <!-- History -->
       <div class="lg:col-span-2 section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-history" style="color: #FF7A30"></i> Top Up History</h3>
+          <h3 class="section-title"><i class="fas fa-history" style="color: #12BC00"></i> Top Up History</h3>
         </div>
         <div class="section-body">
           <div v-if="loading" class="space-y-3">

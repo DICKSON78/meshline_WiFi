@@ -3,7 +3,7 @@
     <!-- System Settings -->
     <div class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-cog" style="color: #FF7A30"></i> System Settings</h3>
+        <h3 class="section-title"><i class="fas fa-cog" style="color: #12BC00"></i> System Settings</h3>
       </div>
       <div class="section-body">
         <div class="space-y-1">
@@ -12,7 +12,7 @@
               <p class="text-sm font-medium text-white">{{ s.setting_key }}</p>
               <p class="text-xs" style="color: #6b7280">{{ s.setting_value }}</p>
             </div>
-            <button @click="editSetting(s)" class="text-sm transition-colors" style="color: #FF7A30"><i class="fas fa-pen text-xs mr-1"></i>Edit</button>
+            <button @click="editSetting(s)" class="text-sm transition-colors" style="color: #12BC00"><i class="fas fa-pen text-xs mr-1"></i>Edit</button>
           </div>
           <p v-if="!settings.length" class="text-center py-6 text-sm" style="color: #6b7280">No settings configured.</p>
         </div>
@@ -22,7 +22,7 @@
     <!-- Packages -->
     <div class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-box" style="color: #FF7A30"></i> Packages</h3>
+        <h3 class="section-title"><i class="fas fa-box" style="color: #12BC00"></i> Packages</h3>
       </div>
       <div class="section-body">
         <table class="re-table">

@@ -18,7 +18,7 @@
       <div class="flex gap-1">
         <button v-for="tab in tabs" :key="tab.key" @click="activeTab = tab.key; onTabChange()"
           class="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
-          :style="activeTab === tab.key ? 'background: linear-gradient(135deg, #FF7A30, #ea6a24); color: #fff' : 'background: transparent; color: #6b7280'">
+          :style="activeTab === tab.key ? 'background: linear-gradient(135deg, #12BC00, #66BB6A); color: #fff' : 'background: transparent; color: #6b7280'">
           <i :class="tab.icon" class="mr-1.5"></i>{{ tab.label }}
         </button>
       </div>
@@ -69,7 +69,7 @@
       <!-- Filters -->
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-boxes-stacked" style="color: #FF7A30"></i> Asset Inventory</h3>
+          <h3 class="section-title"><i class="fas fa-boxes-stacked" style="color: #12BC00"></i> Asset Inventory</h3>
           <div class="flex gap-2 flex-wrap">
             <input v-model="assetSearch" @input="debouncedLoadAssets" placeholder="Search assets..." class="form-input" style="max-width: 180px">
             <select v-model="assetCategoryFilter" @change="loadAssets()" class="form-input" style="max-width: 150px">
@@ -139,7 +139,7 @@
     <template v-if="activeTab === 'categories'">
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-tags" style="color: #FF7A30"></i> Asset Categories</h3>
+          <h3 class="section-title"><i class="fas fa-tags" style="color: #12BC00"></i> Asset Categories</h3>
           <button @click="showAddCategoryModal = true" class="btn btn-primary btn-sm"><i class="fas fa-plus mr-1"></i> Add Category</button>
         </div>
         <div class="section-body">
@@ -180,7 +180,7 @@
         <div class="absolute inset-0 bg-black/60"></div>
         <div class="relative w-full max-w-md rounded-2xl p-6" style="background: #111118; border: 1px solid #1e1e2a">
           <div class="flex items-center justify-between mb-6">
-            <h3 class="text-lg font-bold text-white"><i class="fas fa-tag mr-2" style="color: #FF7A30"></i>Add Category</h3>
+            <h3 class="text-lg font-bold text-white"><i class="fas fa-tag mr-2" style="color: #12BC00"></i>Add Category</h3>
             <button @click="showAddCategoryModal = false" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #1a1a24; color: #6b7280"><i class="fas fa-times"></i></button>
           </div>
           <div class="space-y-4">
@@ -237,7 +237,7 @@
       <!-- Table -->
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-file-invoice" style="color: #FF7A30"></i> Purchase Orders</h3>
+          <h3 class="section-title"><i class="fas fa-file-invoice" style="color: #12BC00"></i> Purchase Orders</h3>
           <div class="flex gap-2">
             <select v-model="poStatusFilter" @change="loadPOs()" class="form-input" style="max-width: 140px">
               <option value="">All Statuses</option>
@@ -303,7 +303,7 @@
       <div class="absolute inset-0 bg-black/60"></div>
       <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6" style="background: #111118; border: 1px solid #1e1e2a">
         <div class="flex items-center justify-between mb-6">
-          <h3 class="text-lg font-bold text-white"><i class="fas fa-plus-circle mr-2" style="color: #FF7A30"></i>Add Asset</h3>
+          <h3 class="text-lg font-bold text-white"><i class="fas fa-plus-circle mr-2" style="color: #12BC00"></i>Add Asset</h3>
           <button @click="showAddAssetModal = false" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #1a1a24; color: #6b7280"><i class="fas fa-times"></i></button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -362,7 +362,7 @@
       <div class="absolute inset-0 bg-black/60"></div>
       <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6" style="background: #111118; border: 1px solid #1e1e2a">
         <div class="flex items-center justify-between mb-6">
-          <h3 class="text-lg font-bold text-white"><i class="fas fa-pen-to-square mr-2" style="color: #FF7A30"></i>Edit Asset</h3>
+          <h3 class="text-lg font-bold text-white"><i class="fas fa-pen-to-square mr-2" style="color: #12BC00"></i>Edit Asset</h3>
           <button @click="showEditAssetModal = false" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #1a1a24; color: #6b7280"><i class="fas fa-times"></i></button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -436,7 +436,7 @@
       <div class="absolute inset-0 bg-black/60"></div>
       <div class="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl p-6" style="background: #111118; border: 1px solid #1e1e2a">
         <div class="flex items-center justify-between mb-6">
-          <h3 class="text-lg font-bold text-white"><i class="fas fa-file-circle-plus mr-2" style="color: #FF7A30"></i>Create Purchase Order</h3>
+          <h3 class="text-lg font-bold text-white"><i class="fas fa-file-circle-plus mr-2" style="color: #12BC00"></i>Create Purchase Order</h3>
           <button @click="showCreatePOModal = false" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #1a1a24; color: #6b7280"><i class="fas fa-times"></i></button>
         </div>
         <div class="space-y-4">

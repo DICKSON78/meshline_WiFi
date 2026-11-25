@@ -8,7 +8,7 @@
     >
       <div
         class="w-full h-full sm:h-auto sm:max-h-[92vh] sm:max-w-4xl bg-[#0a0a0f] sm:rounded-2xl overflow-hidden flex flex-col shadow-2xl"
-        style="border: 1px solid rgba(255, 122, 48, 0.28)"
+        style="border: 1px solid rgba(18,188,0, 0.28)"
       >
         <!-- Title bar -->
         <div class="flex items-center justify-between gap-3 px-4 py-3 shrink-0" style="background: #111118; border-bottom: 1px solid #1e1e2a">
@@ -54,11 +54,11 @@
 
             <div v-if="voucher" class="mt-5 rounded-xl p-4 text-center" style="background: rgba(0,0,0,0.35); border: 1px solid #1e1e2a">
               <p class="text-[10px] tracking-widest" style="color: #6b7280">VOUCHER CODE</p>
-              <p class="text-xl font-bold tracking-wider mt-1" style="color: #FF7A30">{{ voucher }}</p>
+              <p class="text-xl font-bold tracking-wider mt-1" style="color: #12BC00">{{ voucher }}</p>
               <button
                 type="button"
                 class="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
-                style="background: rgba(255,122,48,0.12); color: #FF7A30; border: 1px solid rgba(255,122,48,0.3)"
+                style="background: rgba(18,188,0,0.12); color: #12BC00; border: 1px solid rgba(18,188,0,0.3)"
                 @click="copyVoucher"
               >
                 <i class="fa-solid fa-copy"></i> {{ copied ? 'Copied!' : 'Copy voucher' }}
@@ -68,7 +68,7 @@
             <button
               type="button"
               class="mt-6 w-full py-3 rounded-xl text-sm font-semibold text-white"
-              style="background: linear-gradient(135deg, #FF7A30, #ea6a24)"
+              style="background: linear-gradient(135deg, #12BC00, #66BB6A)"
               @click="close"
             >
               Done
@@ -101,7 +101,7 @@
                 target="_blank"
                 rel="noopener"
                 class="flex-1 py-3 rounded-xl text-sm font-semibold text-white text-center"
-                style="background: linear-gradient(135deg, #FF7A30, #ea6a24)"
+                style="background: linear-gradient(135deg, #12BC00, #66BB6A)"
               >
                 Try in new tab
               </a>
@@ -113,12 +113,12 @@
         <template v-else>
           <div class="relative flex-1 min-h-[420px] sm:min-h-[540px] bg-white">
             <div v-if="iframeLoading && checkoutUrl" class="absolute inset-0 flex flex-col items-center justify-center gap-3" style="background: #0a0a0f; color: #9ca3af">
-              <i class="fas fa-circle-notch fa-spin text-2xl" style="color: #FF7A30"></i>
+              <i class="fas fa-circle-notch fa-spin text-2xl" style="color: #12BC00"></i>
               <p class="text-sm">Loading secure checkout...</p>
             </div>
             <div v-if="!checkoutUrl" class="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center" style="background: #0a0a0f; color: #9ca3af">
-              <div class="w-16 h-16 rounded-full flex items-center justify-center" style="background: rgba(255,122,48,0.12)">
-                <i class="fas fa-mobile-screen-button text-2xl" style="color: #FF7A30"></i>
+              <div class="w-16 h-16 rounded-full flex items-center justify-center" style="background: rgba(18,188,0,0.12)">
+                <i class="fas fa-mobile-screen-button text-2xl" style="color: #12BC00"></i>
               </div>
               <div>
                 <p class="text-white font-semibold">Check your phone</p>

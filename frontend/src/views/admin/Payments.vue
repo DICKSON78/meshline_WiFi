@@ -38,7 +38,6 @@
               <option value="mobile_money">Mobile money</option>
               <option value="wallet">Wallet ledger</option>
               <option value="withdrawal">Withdrawals</option>
-              <option value="revenue_share">Revenue shares</option>
               <option value="invoice">Invoices</option>
             </select>
           </div>
@@ -57,9 +56,6 @@
               <option value="all">All roles</option>
               <option value="customer">Customers</option>
               <option value="reseller">Resellers</option>
-              <option value="sponsor">Sponsors</option>
-              <option value="bank_partner">Bank partners</option>
-              <option value="franchise_owner">Franchise owners</option>
               <option value="admin">Admins</option>
               <option value="super_admin">Super admins</option>
             </select>
@@ -133,7 +129,7 @@
     <!-- Source breakdown -->
     <div class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-layer-group" style="color: #FF7A30"></i> By Source</h3>
+        <h3 class="section-title"><i class="fas fa-layer-group" style="color: #12BC00"></i> By Source</h3>
       </div>
       <div class="section-body">
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -157,7 +153,7 @@
     <!-- Ledger -->
     <div class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-receipt" style="color: #FF7A30"></i> Unified Ledger</h3>
+        <h3 class="section-title"><i class="fas fa-receipt" style="color: #12BC00"></i> Unified Ledger</h3>
         <span class="badge badge-green">{{ pagination.total }} entries</span>
       </div>
       <div v-if="loading" class="section-body space-y-3">
@@ -188,7 +184,7 @@
                   {{ roleLabel(row.user_role) }}<span v-if="row.phone"> · {{ row.phone }}</span>
                 </p>
               </td>
-              <td><span class="text-xs font-mono" style="color: #FF7A30">{{ row.reference || '—' }}</span></td>
+              <td><span class="text-xs font-mono" style="color: #12BC00">{{ row.reference || '—' }}</span></td>
               <td class="text-sm" style="color: #d1d5db">{{ row.purpose || '—' }}</td>
               <td class="text-sm font-semibold whitespace-nowrap" :style="{ color: row.direction === 'inflow' ? '#34d399' : '#f87171' }">
                 {{ row.direction === 'inflow' ? '+' : '−' }} TSh {{ formatNum(row.amount) }}
@@ -234,7 +230,7 @@
             <tr v-for="event in webhookEvents" :key="event.id">
               <td class="text-sm whitespace-nowrap" style="color:#d1d5db">{{ formatDate(event.received_at) }}</td>
               <td class="text-sm text-white">{{ event.event_type }}</td>
-              <td class="text-xs font-mono" style="color:#FF7A30">{{ event.order_reference || event.provider_ref || '—' }}</td>
+              <td class="text-xs font-mono" style="color:#12BC00">{{ event.order_reference || event.provider_ref || '—' }}</td>
               <td class="text-sm text-white">{{ event.reported_amount ? `TSh ${formatNum(event.reported_amount)}` : '—' }}</td>
               <td><span class="badge" :class="event.status === 'processed' ? 'badge-green' : event.status === 'failed' ? 'badge-red' : 'badge-yellow'">{{ event.status }}</span></td>
               <td class="text-xs" style="color:#f87171">{{ event.error_message || (event.processed_at ? `Processed ${formatDate(event.processed_at)}` : 'Awaiting processing') }}</td>
@@ -248,7 +244,7 @@
     <!-- Business accounts -->
     <div class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-building" style="color: #FF7A30"></i> Business Accounts</h3>
+        <h3 class="section-title"><i class="fas fa-building" style="color: #12BC00"></i> Business Accounts</h3>
         <span class="badge badge-blue">{{ accounts.length }} accounts</span>
       </div>
       <div class="overflow-x-auto">
@@ -318,21 +314,14 @@ const SOURCE_LABELS = {
   mobile_money: 'Mobile money',
   wallet: 'Wallet',
   withdrawal: 'Withdrawal',
-  revenue_share: 'Revenue share',
   invoice: 'Invoice'
 }
 
 const ROLE_LABELS = {
   customer: 'Customer',
   reseller: 'Reseller',
-  sponsor: 'Sponsor',
-  bank_partner: 'Bank partner',
-  franchise_owner: 'Franchise owner',
   admin: 'Admin',
   super_admin: 'Super admin',
-  landlord: 'Landlord',
-  broker: 'Broker',
-  telecom: 'Telecom',
   referrer: 'Referrer'
 }
 
@@ -341,7 +330,6 @@ const SOURCE_STYLES = {
   mobile_money: 'background: rgba(139,92,246,0.12); color: #a78bfa',
   wallet: 'background: rgba(20,184,166,0.12); color: #2dd4bf',
   withdrawal: 'background: rgba(239,68,68,0.12); color: #f87171',
-  revenue_share: 'background: rgba(250,204,21,0.12); color: #facc15',
   invoice: 'background: rgba(16,185,129,0.12); color: #34d399'
 }
 

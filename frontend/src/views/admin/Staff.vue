@@ -18,7 +18,7 @@
       <div class="flex gap-1">
         <button v-for="tab in tabs" :key="tab.key" @click="activeTab = tab.key"
           class="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
-          :style="activeTab === tab.key ? 'background: linear-gradient(135deg, #FF7A30, #ea6a24); color: #fff' : 'background: transparent; color: #6b7280'">
+          :style="activeTab === tab.key ? 'background: linear-gradient(135deg, #12BC00, #66BB6A); color: #fff' : 'background: transparent; color: #6b7280'">
           <i :class="tab.icon" class="mr-1.5"></i>{{ tab.label }}
         </button>
       </div>
@@ -69,7 +69,7 @@
       <!-- Filters + Add -->
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-users" style="color: #FF7A30"></i> Staff Directory</h3>
+          <h3 class="section-title"><i class="fas fa-users" style="color: #12BC00"></i> Staff Directory</h3>
           <div class="flex gap-2">
             <input v-model="staffSearch" @input="debouncedLoadStaff" placeholder="Search staff..." class="form-input" style="max-width: 200px">
             <select v-model="staffDeptFilter" @change="loadStaff()" class="form-input" style="max-width: 160px">
@@ -141,7 +141,7 @@
     <template v-if="activeTab === 'attendance'">
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-fingerprint" style="color: #FF7A30"></i> Attendance Log</h3>
+          <h3 class="section-title"><i class="fas fa-fingerprint" style="color: #12BC00"></i> Attendance Log</h3>
           <div class="flex gap-2">
             <input v-model="attDateFrom" type="date" class="form-input" style="max-width: 170px" placeholder="From">
             <input v-model="attDateTo" type="date" class="form-input" style="max-width: 170px" placeholder="To">
@@ -225,7 +225,7 @@
 
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-calendar-minus" style="color: #FF7A30"></i> Leave Requests</h3>
+          <h3 class="section-title"><i class="fas fa-calendar-minus" style="color: #12BC00"></i> Leave Requests</h3>
           <select v-model="leaveStatusFilter" @change="loadLeaveRequests()" class="form-input" style="max-width: 150px">
             <option value="">All</option>
             <option value="pending">Pending</option>
@@ -288,7 +288,7 @@
       <div class="absolute inset-0 bg-black/60"></div>
       <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6" style="background: #111118; border: 1px solid #1e1e2a">
         <div class="flex items-center justify-between mb-6">
-          <h3 class="text-lg font-bold text-white"><i class="fas fa-user-plus mr-2" style="color: #FF7A30"></i>Add Staff Member</h3>
+          <h3 class="text-lg font-bold text-white"><i class="fas fa-user-plus mr-2" style="color: #12BC00"></i>Add Staff Member</h3>
           <button @click="showAddStaffModal = false" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #1a1a24; color: #6b7280"><i class="fas fa-times"></i></button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -344,7 +344,7 @@
       <div class="absolute inset-0 bg-black/60"></div>
       <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6" style="background: #111118; border: 1px solid #1e1e2a">
         <div class="flex items-center justify-between mb-6">
-          <h3 class="text-lg font-bold text-white"><i class="fas fa-user-edit mr-2" style="color: #FF7A30"></i>Edit Staff Member</h3>
+          <h3 class="text-lg font-bold text-white"><i class="fas fa-user-edit mr-2" style="color: #12BC00"></i>Edit Staff Member</h3>
           <button @click="showEditStaffModal = false" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #1a1a24; color: #6b7280"><i class="fas fa-times"></i></button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -477,7 +477,7 @@
       <div class="absolute inset-0 bg-black/60"></div>
       <div class="relative w-full max-w-md rounded-2xl p-6" style="background: #111118; border: 1px solid #1e1e2a">
         <div class="flex items-center justify-between mb-6">
-          <h3 class="text-lg font-bold text-white"><i class="fas fa-fingerprint mr-2" style="color: #FF7A30"></i>Mark Attendance</h3>
+          <h3 class="text-lg font-bold text-white"><i class="fas fa-fingerprint mr-2" style="color: #12BC00"></i>Mark Attendance</h3>
           <button @click="showMarkAttendanceModal = false" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #1a1a24; color: #6b7280"><i class="fas fa-times"></i></button>
         </div>
         <div class="space-y-4">

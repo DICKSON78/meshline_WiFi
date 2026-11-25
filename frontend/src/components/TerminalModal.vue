@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <div v-if="show" class="fixed inset-0 flex items-center justify-center z-[9999] p-4" style="background: rgba(0,0,0,0.8)" @click.self="$emit('close')">
-      <div class="w-full max-w-2xl section-card overflow-hidden" style="border: 1px solid rgba(255,122,48,0.3)">
+      <div class="w-full max-w-2xl section-card overflow-hidden" style="border: 1px solid rgba(18,188,0,0.3)">
         <!-- Title bar -->
         <div class="flex items-center justify-between px-4 py-3" style="background: #111118; border-bottom: 1px solid var(--border)">
           <div class="flex items-center gap-3">
@@ -13,8 +13,8 @@
             <span class="text-sm font-semibold text-white">{{ title }}</span>
           </div>
           <div class="flex items-center gap-3">
-            <span v-if="running" class="flex items-center gap-1.5 text-xs" style="color: #FF7A30">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#FF7A30] animate-pulse"></span>
+            <span v-if="running" class="flex items-center gap-1.5 text-xs" style="color: #12BC00">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#12BC00] animate-pulse"></span>
               Running...
             </span>
             <span v-else-if="success" class="flex items-center gap-1.5 text-xs" style="color: #34d399">
@@ -37,14 +37,14 @@
           </div>
           <div class="h-1.5 rounded-full overflow-hidden" style="background: #1e1e2a">
             <div class="h-full rounded-full transition-all duration-500 ease-out"
-              :style="{ width: ((progress.step / progress.total) * 100) + '%', background: 'linear-gradient(90deg, #FF7A30, #ea6a24)' }"></div>
+              :style="{ width: ((progress.step / progress.total) * 100) + '%', background: 'linear-gradient(90deg, #12BC00, #66BB6A)' }"></div>
           </div>
         </div>
 
         <!-- Terminal output -->
         <div ref="terminalBody" class="p-4 overflow-y-auto font-mono text-xs leading-relaxed" style="background: #0a0a0f; height: 360px; max-height: 50vh">
           <div v-if="lines.length === 0 && running" class="flex items-center gap-2" style="color: #6b7280">
-            <i class="fas fa-circle-notch fa-spin" style="color: #FF7A30"></i>
+            <i class="fas fa-circle-notch fa-spin" style="color: #12BC00"></i>
             <span>Initializing...</span>
           </div>
           <p v-for="(line, i) in lines" :key="i" class="py-0.5 whitespace-pre-wrap" :style="lineStyle(line.type)">
@@ -56,8 +56,8 @@
             <span v-if="line.time" class="ml-2" style="color: #374151">{{ formatTime(line.time) }}</span>
           </p>
           <div v-if="running" class="flex items-center gap-1 mt-1">
-            <span style="color: #FF7A30">$</span>
-            <span class="animate-pulse" style="color: #FF7A30">_</span>
+            <span style="color: #12BC00">$</span>
+            <span class="animate-pulse" style="color: #12BC00">_</span>
           </div>
         </div>
 

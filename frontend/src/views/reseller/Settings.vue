@@ -8,7 +8,7 @@
     <!-- Profile -->
     <div class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-user" style="color: #FF7A30"></i> Profile</h3>
+        <h3 class="section-title"><i class="fas fa-user" style="color: #12BC00"></i> Profile</h3>
       </div>
       <div class="section-body space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -32,7 +32,7 @@
         <div class="flex items-center gap-3">
           <div class="stat-card !p-3">
             <p class="stat-label">Commission Rate</p>
-            <p class="stat-value" style="color: #FF7A30; font-size: 1.1rem">{{ resellerInfo?.commission_rate || 0 }}%</p>
+            <p class="stat-value" style="color: #12BC00; font-size: 1.1rem">{{ resellerInfo?.commission_rate || 0 }}%</p>
           </div>
           <div class="stat-card !p-3">
             <p class="stat-label">Tier</p>
@@ -55,7 +55,7 @@
     <!-- Change Password -->
     <div class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-key" style="color: #FF7A30"></i> Change Password</h3>
+        <h3 class="section-title"><i class="fas fa-key" style="color: #12BC00"></i> Change Password</h3>
       </div>
       <div class="section-body space-y-4">
         <div>
@@ -81,7 +81,7 @@
     <!-- PWA Install -->
     <div class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-mobile-alt" style="color: #FF7A30"></i> Install App</h3>
+        <h3 class="section-title"><i class="fas fa-mobile-alt" style="color: #12BC00"></i> Install App</h3>
       </div>
       <div class="section-body">
         <p class="text-sm" style="color: #6b7280; margin-bottom: 12px">Install the HotBando Reseller app on your phone for quick access.</p>

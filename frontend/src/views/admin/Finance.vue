@@ -16,7 +16,7 @@
       <div class="flex gap-1">
         <button v-for="tab in tabs" :key="tab.key" @click="activeTab = tab.key; onTabChange()"
           class="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
-          :style="activeTab === tab.key ? 'background: linear-gradient(135deg, #FF7A30, #ea6a24); color: #fff' : 'background: transparent; color: #6b7280'">
+          :style="activeTab === tab.key ? 'background: linear-gradient(135deg, #12BC00, #66BB6A); color: #fff' : 'background: transparent; color: #6b7280'">
           <i :class="tab.icon" class="mr-1.5"></i>{{ tab.label }}
         </button>
       </div>
@@ -90,14 +90,10 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="section-card">
           <div class="section-header">
-            <h3 class="section-title"><i class="fas fa-wallet" style="color: #FF7A30"></i> Budget Summary</h3>
+            <h3 class="section-title"><i class="fas fa-wallet" style="color: #12BC00"></i> Budget Summary</h3>
           </div>
           <div class="section-body">
             <div class="space-y-4">
-              <div class="flex items-center justify-between p-4 rounded-xl" style="background:#0d0d14">
-                <span class="text-sm" style="color:#9ca3af">Partner payouts (paid)</span>
-                <span class="text-sm font-semibold" style="color:#f87171">TSh {{ Number(overview.partner_payouts || 0).toLocaleString() }}</span>
-              </div>
               <div class="flex items-center justify-between p-4 rounded-xl" style="background: #0d0d14">
                 <span class="text-sm" style="color: #9ca3af">Budget Allocated</span>
                 <span class="text-sm font-semibold text-white">TSh {{ (overview.budget_allocated || 0).toLocaleString() }}</span>
@@ -118,7 +114,7 @@
 
         <div class="section-card">
           <div class="section-header">
-            <h3 class="section-title"><i class="fas fa-scale-balanced" style="color: #FF7A30"></i> Profitability</h3>
+            <h3 class="section-title"><i class="fas fa-scale-balanced" style="color: #12BC00"></i> Profitability</h3>
           </div>
           <div class="section-body">
             <div class="text-center py-6">
@@ -141,7 +137,7 @@
     <template v-if="activeTab === 'expenses'">
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-money-bill-wave" style="color: #FF7A30"></i> Expenses</h3>
+          <h3 class="section-title"><i class="fas fa-money-bill-wave" style="color: #12BC00"></i> Expenses</h3>
           <div class="flex gap-2 flex-wrap">
             <input v-model="expDateFrom" type="date" class="form-input" style="max-width: 155px">
             <input v-model="expDateTo" type="date" class="form-input" style="max-width: 155px">
@@ -205,7 +201,7 @@
     <template v-if="activeTab === 'budgets'">
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-coins" style="color: #FF7A30"></i> Budgets</h3>
+          <h3 class="section-title"><i class="fas fa-coins" style="color: #12BC00"></i> Budgets</h3>
           <div class="flex gap-2">
             <select v-model="budgetStatusFilter" @change="loadBudgets()" class="form-input" style="max-width: 140px">
               <option value="">All Status</option>
@@ -271,7 +267,7 @@
     <template v-if="activeTab === 'pnl'">
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-scale-balanced" style="color: #FF7A30"></i> Profit & Loss Statement</h3>
+          <h3 class="section-title"><i class="fas fa-scale-balanced" style="color: #12BC00"></i> Profit & Loss Statement</h3>
           <div class="flex gap-2">
             <select v-model="pnlYear" @change="loadPnL()" class="form-input" style="max-width: 120px">
               <option v-for="y in yearOptions" :key="y" :value="y">{{ y }}</option>
@@ -328,7 +324,7 @@
       <div class="absolute inset-0 bg-black/60"></div>
       <div class="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl p-6" style="background: #111118; border: 1px solid #1e1e2a">
         <div class="flex items-center justify-between mb-6">
-          <h3 class="text-lg font-bold text-white"><i class="fas fa-plus-circle mr-2" style="color: #FF7A30"></i>Create Expense</h3>
+          <h3 class="text-lg font-bold text-white"><i class="fas fa-plus-circle mr-2" style="color: #12BC00"></i>Create Expense</h3>
           <button @click="showCreateExpenseModal = false" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #1a1a24; color: #6b7280"><i class="fas fa-times"></i></button>
         </div>
         <div class="space-y-4">
@@ -399,7 +395,7 @@
       <div class="absolute inset-0 bg-black/60"></div>
       <div class="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl p-6" style="background: #111118; border: 1px solid #1e1e2a">
         <div class="flex items-center justify-between mb-6">
-          <h3 class="text-lg font-bold text-white"><i class="fas fa-coins mr-2" style="color: #FF7A30"></i>Create Budget</h3>
+          <h3 class="text-lg font-bold text-white"><i class="fas fa-coins mr-2" style="color: #12BC00"></i>Create Budget</h3>
           <button @click="showCreateBudgetModal = false" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #1a1a24; color: #6b7280"><i class="fas fa-times"></i></button>
         </div>
         <div class="space-y-4">

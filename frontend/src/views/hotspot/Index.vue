@@ -11,11 +11,11 @@
         <rect width="100%" height="100%" fill="url(#honeycomb-spot)"/>
       </svg>
       <svg width="100%" height="100%" viewBox="0 0 400 400" class="absolute inset-0" preserveAspectRatio="none">
-        <path d="M0 300 Q 50 280 100 320 T 200 300 T 300 340 T 400 310 L 400 400 L 0 400Z" fill="rgba(255,122,48,0.04)"/>
-        <circle cx="50" cy="50" r="8" fill="rgba(255,122,48,0.06)"/>
-        <circle cx="350" cy="80" r="12" fill="rgba(255,122,48,0.05)"/>
-        <circle cx="180" cy="120" r="6" fill="rgba(255,122,48,0.07)"/>
-        <circle cx="80" cy="240" r="10" fill="rgba(255,122,48,0.05)"/>
+        <path d="M0 300 Q 50 280 100 320 T 200 300 T 300 340 T 400 310 L 400 400 L 0 400Z" fill="rgba(18,188,0,0.04)"/>
+        <circle cx="50" cy="50" r="8" fill="rgba(18,188,0,0.06)"/>
+        <circle cx="350" cy="80" r="12" fill="rgba(18,188,0,0.05)"/>
+        <circle cx="180" cy="120" r="6" fill="rgba(18,188,0,0.07)"/>
+        <circle cx="80" cy="240" r="10" fill="rgba(18,188,0,0.05)"/>
       </svg>
     </div>
     <div class="w-full max-w-[380px] text-center relative z-10">
@@ -26,8 +26,8 @@
       <!-- NOT on WiFi — show connection instruction -->
       <div v-if="store.initialized && !store.onWifi" class="space-y-4">
         <div class="rounded-2xl shadow-2xl p-6 text-center" style="background: #111118; border: 1px solid #1e1e2a">
-          <div class="w-16 h-16 rounded-full bg-[#FF7A30]/10 flex items-center justify-center mx-auto mb-4">
-            <i class="fas fa-wifi text-2xl text-[#FF7A30]"></i>
+          <div class="w-16 h-16 rounded-full bg-[#12BC00]/10 flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-wifi text-2xl text-[#12BC00]"></i>
           </div>
           <h2 class="text-lg font-bold text-white mb-2">Connect to HotBando WiFi</h2>
           <p class="text-sm text-white/60 mb-4">
@@ -35,16 +35,16 @@
           </p>
           <div class="bg-[#0a0a0f] rounded-xl p-4 text-left space-y-3 border border-[#1e1e2a]">
             <div class="flex items-start gap-3">
-              <span class="text-[#FF7A30] font-bold text-sm">1.</span>
+              <span class="text-[#12BC00] font-bold text-sm">1.</span>
               <p class="text-sm text-white/70">Open your WiFi settings and connect to <b class="text-white">HotBando WiFi</b></p>
             </div>
             <div class="flex items-start gap-3">
-              <span class="text-[#FF7A30] font-bold text-sm">2.</span>
+              <span class="text-[#12BC00] font-bold text-sm">2.</span>
               <p class="text-sm text-white/70">Open your browser — you'll be redirected here automatically</p>
             </div>
             <div class="flex items-start gap-3">
-              <span class="text-[#FF7A30] font-bold text-sm">3.</span>
-              <p class="text-sm text-white/70">Log in or register, then buy a package or watch ads for free data</p>
+              <span class="text-[#12BC00] font-bold text-sm">3.</span>
+              <p class="text-sm text-white/70">Log in or register, then buy a voucher package to get online</p>
             </div>
           </div>
         </div>
@@ -58,13 +58,13 @@
           Connected to <b>{{ store.ssidshow }}</b>
         </p>
         <div v-if="store.isLoggedIn" class="space-y-3">
-          <router-link to="/hotspot/dashboard" class="w-full bg-[#FF7A30] hover:bg-[#ea6a24] text-white font-semibold py-2.5 rounded-xl transition-all shadow-lg shadow-[#FF7A30]/20 flex items-center justify-center">Continue to Dashboard</router-link>
+          <router-link to="/hotspot/dashboard" class="w-full bg-[#12BC00] hover:bg-[#66BB6A] text-white font-semibold py-2.5 rounded-xl transition-all shadow-lg shadow-[#12BC00]/20 flex items-center justify-center">Continue to Dashboard</router-link>
         </div>
         <div v-else class="space-y-3">
-          <router-link to="/hotspot/login" class="w-full bg-[#FF7A30] hover:bg-[#ea6a24] text-white font-semibold py-2.5 rounded-xl transition-all shadow-lg shadow-[#FF7A30]/20 flex items-center justify-center">Log in</router-link>
+          <router-link to="/hotspot/login" class="w-full bg-[#12BC00] hover:bg-[#66BB6A] text-white font-semibold py-2.5 rounded-xl transition-all shadow-lg shadow-[#12BC00]/20 flex items-center justify-center">Log in</router-link>
           <div class="rounded-xl p-4 text-sm" style="background: #111118; border: 1px solid #1e1e2a">
             <span class="text-white/50">Don't have an account?</span>
-            <router-link to="/hotspot/signup" class="text-[#FF7A30] font-semibold hover:underline"> Register</router-link>
+            <router-link to="/hotspot/signup" class="text-[#12BC00] font-semibold hover:underline"> Register</router-link>
           </div>
           <InstallApp />
         </div>
@@ -72,7 +72,7 @@
 
       <!-- Loading -->
       <div v-else class="text-center py-8">
-        <i class="fas fa-spinner fa-spin text-2xl text-[#FF7A30]"></i>
+        <i class="fas fa-spinner fa-spin text-2xl text-[#12BC00]"></i>
         <p class="text-sm text-white/40 mt-3">Connecting...</p>
       </div>
     </div>

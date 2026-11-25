@@ -2,7 +2,7 @@
   <div class="max-w-lg">
     <div class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-key" style="color: #FF7A30"></i> Change Password</h3>
+        <h3 class="section-title"><i class="fas fa-key" style="color: #12BC00"></i> Change Password</h3>
       </div>
       <div class="section-body space-y-4">
         <div>

@@ -17,7 +17,7 @@
     <!-- Collectors (virtual computers) -->
     <div class="section-card rounded-2xl border border-[#1e1e2a] overflow-hidden">
       <div class="p-4 border-b border-[#1e1e2a]">
-        <h3 class="font-medium text-white"><i class="fas fa-desktop mr-2 text-[#FF7A30]"></i>Collectors (Virtual Computers)</h3>
+        <h3 class="font-medium text-white"><i class="fas fa-desktop mr-2 text-[#12BC00]"></i>Collectors (Virtual Computers)</h3>
         <p class="text-xs text-white/50 mt-1">
           Containers inayopatikana kwenye mtandao wa client. Inayopatikana = tunnel ipo na cloud.
         </p>
@@ -62,7 +62,7 @@
                 <span v-else class="text-xs text-white/40">Hakuna</span>
               </td>
               <td class="py-3 px-4 text-center">
-                <button v-if="c.connected" @click="detect(c.key)" class="text-xs px-3 py-1.5 rounded bg-[#FF7A30]/10 text-[#FF7A30] hover:bg-[#FF7A30]/20" title="Auto-detect">
+                <button v-if="c.connected" @click="detect(c.key)" class="text-xs px-3 py-1.5 rounded bg-[#12BC00]/10 text-[#12BC00] hover:bg-[#12BC00]/20" title="Auto-detect">
                   <i class="fas fa-search mr-1"></i>Detect
                 </button>
               </td>
@@ -75,7 +75,7 @@
     <!-- Registered + detected routers -->
     <div class="section-card rounded-2xl border border-[#1e1e2a] overflow-hidden">
       <div class="p-4 border-b border-[#1e1e2a]">
-        <h3 class="font-medium text-white"><i class="fas fa-router mr-2 text-[#FF7A30]"></i>Routers (zilijadilishwa + zilizogunduliwa)</h3>
+        <h3 class="font-medium text-white"><i class="fas fa-router mr-2 text-[#12BC00]"></i>Routers (zilijadilishwa + zilizogunduliwa)</h3>
       </div>
       <div class="p-4">
         <div v-if="routers.length === 0" class="text-center py-10" style="color: #6b7280">
@@ -95,7 +95,7 @@
             <tr v-for="r in routers" :key="r.router_id || r.id" class="border-b border-[#1e1e2a]/50">
               <td class="py-3 px-4">
                 <div class="text-white">{{ r.router_name || r.name }}</div>
-                <div v-if="r.detected_by" class="text-[10px] text-[#FF7A30]">Gunduliwa na: {{ r.detected_by }}</div>
+                <div v-if="r.detected_by" class="text-[10px] text-[#12BC00]">Gunduliwa na: {{ r.detected_by }}</div>
               </td>
               <td class="py-3 px-4 text-xs text-white/40">{{ r.host }}:{{ r.port || 8728 }}</td>
               <td class="py-3 px-4">
@@ -109,7 +109,7 @@
                 <button v-if="r.detected_by" @click="registerRouter(r)" class="text-xs px-2 py-1 rounded bg-green-500/10 text-green-400 mr-1" title="Jadilisha kwenye system">
                   <i class="fas fa-plus mr-1"></i>Jadilisha
                 </button>
-                <button @click="pingRouter(r)" class="text-xs px-2 py-1 rounded bg-[#FF7A30]/10 text-[#FF7A30]" title="Ping via collector">
+                <button @click="pingRouter(r)" class="text-xs px-2 py-1 rounded bg-[#12BC00]/10 text-[#12BC00]" title="Ping via collector">
                   <i class="fas fa-ping mr-1"></i>Ping
                 </button>
               </td>
@@ -122,7 +122,7 @@
     <!-- Web Terminal (inside system) -->
     <div class="section-card rounded-2xl border border-[#1e1e2a] overflow-hidden">
       <div class="p-4 border-b border-[#1e1e2a]">
-        <h3 class="font-medium text-white"><i class="fas fa-terminal mr-2 text-[#FF7A30]"></i>Terminal ya Router (ndani ya system)</h3>
+        <h3 class="font-medium text-white"><i class="fas fa-terminal mr-2 text-[#12BC00]"></i>Terminal ya Router (ndani ya system)</h3>
         <p class="text-xs text-white/50 mt-1">
           Tuma commands ya MikroTik kupitia collector tunnel. Hakuna WinBox/Terminal ya nje inayohitaji.
         </p>

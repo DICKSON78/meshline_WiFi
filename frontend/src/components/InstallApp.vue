@@ -3,7 +3,7 @@
     <!-- Inline banner (always show for non-standalone) -->
     <div v-if="!isStandalone" class="mx-4 mt-3 bg-[#111118] border border-[#1e1e2a] rounded-2xl p-4">
       <div class="flex items-center gap-3">
-        <div class="tile-icon" style="background:rgba(255,122,48,0.1);color:#FF7A30"><i class="fa-solid fa-mobile-screen"></i></div>
+        <div class="tile-icon" style="background:rgba(18,188,0,0.1);color:#12BC00"><i class="fa-solid fa-mobile-screen"></i></div>
         <div class="flex-1 min-w-0">
           <p class="text-sm font-semibold text-white">Install HotBando App</p>
           <p class="text-xs text-white/50">Fungua kama app kila unapo-join WiFi</p>

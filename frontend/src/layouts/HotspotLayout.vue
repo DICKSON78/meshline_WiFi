@@ -23,9 +23,6 @@
         <router-link to="/hotspot/subscribe" class="ig-nav-item" :class="{ active: route.name === 'hotspot-subscribe' }">
           <i class="fa-solid fa-store"></i><span>Package</span>
         </router-link>
-        <router-link to="/hotspot/ads" class="ig-nav-item" :class="{ active: route.name === 'hotspot-ads' }">
-          <i class="fa-solid fa-circle-play"></i><span>Ads</span>
-        </router-link>
         <button class="ig-nav-item" @click="logout">
           <i class="fa-solid fa-power-off"></i><span>Logout</span>
         </button>
@@ -44,7 +41,7 @@ const router = useRouter()
 const store = useHotspotStore()
 
 const publicRoutes = ['hotspot-index', 'hotspot-login', 'hotspot-signup']
-const authRoutes = ['hotspot-dashboard', 'hotspot-subscribe', 'hotspot-ads']
+const authRoutes = ['hotspot-dashboard', 'hotspot-subscribe']
 const isPublic = computed(() => publicRoutes.includes(route.name))
 
 let visibilityTimer = null

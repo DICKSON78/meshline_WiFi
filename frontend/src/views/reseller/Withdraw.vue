@@ -59,7 +59,7 @@
       <!-- Withdraw Form -->
       <div class="lg:col-span-1 section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-plus-circle" style="color: #FF7A30"></i> New Withdrawal</h3>
+          <h3 class="section-title"><i class="fas fa-plus-circle" style="color: #12BC00"></i> New Withdrawal</h3>
         </div>
         <div class="section-body">
           <form @submit.prevent="submitWithdraw" class="space-y-4">
@@ -94,7 +94,7 @@
       <!-- History -->
       <div class="lg:col-span-2 section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-history" style="color: #FF7A30"></i> Withdrawal History</h3>
+          <h3 class="section-title"><i class="fas fa-history" style="color: #12BC00"></i> Withdrawal History</h3>
           <select v-model="statusFilter" @change="loadWithdrawals" class="form-input" style="max-width: 160px">
             <option value="all">All</option>
             <option value="processed">Processed</option>

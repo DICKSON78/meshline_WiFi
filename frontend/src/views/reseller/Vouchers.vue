@@ -60,7 +60,7 @@
     <!-- Generate New Vouchers -->
     <div class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-plus-circle" style="color: #FF7A30"></i> Generate New Vouchers</h3>
+        <h3 class="section-title"><i class="fas fa-plus-circle" style="color: #12BC00"></i> Generate New Vouchers</h3>
       </div>
       <div class="section-body">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
@@ -73,12 +73,12 @@
               <div class="text-right">
                 <p class="text-xs" style="color: #6b7280">Sell at (TSh, min 500)</p>
                 <input type="number" min="500" v-model.number="salePrices[pkg.name]"
-                  class="w-24 px-3 py-2 border border-[#1e1e2a] bg-[#0a0a0f] rounded-lg text-center text-white focus:border-[#FF7A30] focus:outline-none">
+                  class="w-24 px-3 py-2 border border-[#1e1e2a] bg-[#0a0a0f] rounded-lg text-center text-white focus:border-[#12BC00] focus:outline-none">
               </div>
               <div class="text-right">
                 <p class="text-xs" style="color: #6b7280">Quantity</p>
                 <input type="number" min="0" max="10000" v-model.number="quantities[pkg.name]"
-                  class="w-24 px-3 py-2 border border-[#1e1e2a] bg-[#0a0a0f] rounded-lg text-center text-white focus:border-[#FF7A30] focus:outline-none" placeholder="0">
+                  class="w-24 px-3 py-2 border border-[#1e1e2a] bg-[#0a0a0f] rounded-lg text-center text-white focus:border-[#12BC00] focus:outline-none" placeholder="0">
               </div>
             </div>
           </div>
@@ -112,7 +112,7 @@
     <!-- Vouchers Table -->
     <div v-else class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-list" style="color: #FF7A30"></i> Your Vouchers</h3>
+        <h3 class="section-title"><i class="fas fa-list" style="color: #12BC00"></i> Your Vouchers</h3>
         <div class="flex gap-2">
           <select v-model="statusFilter" @change="loadVouchers" class="form-input" style="max-width: 160px">
             <option value="">All</option>
@@ -182,7 +182,7 @@
     <!-- Batches -->
     <div class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-layer-group" style="color: #FF7A30"></i> Your Batches</h3>
+        <h3 class="section-title"><i class="fas fa-layer-group" style="color: #12BC00"></i> Your Batches</h3>
       </div>
       <div class="section-body">
         <div class="overflow-x-auto">

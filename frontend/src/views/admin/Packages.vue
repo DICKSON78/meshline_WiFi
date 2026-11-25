@@ -46,9 +46,9 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="stat-label">Total Revenue</p>
-            <p class="stat-value text-sm" style="color: #FF7A30; line-height: 1.6">TSh {{ formatMoney(statsData.totalRevenue || 0) }}</p>
+            <p class="stat-value text-sm" style="color: #12BC00; line-height: 1.6">TSh {{ formatMoney(statsData.totalRevenue || 0) }}</p>
           </div>
-          <div class="stat-icon" style="background: rgba(255,122,48,0.1); color: #FF7A30"><i class="fas fa-coins"></i></div>
+          <div class="stat-icon" style="background: rgba(18,188,0,0.1); color: #12BC00"><i class="fas fa-coins"></i></div>
         </div>
       </div>
     </div>
@@ -58,7 +58,7 @@
       <div class="flex gap-1">
         <button v-for="t in tabs" :key="t.key" @click="activeTab = t.key; onTabChange()"
           class="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
-          :style="activeTab === t.key ? 'background: linear-gradient(135deg, #FF7A30, #ea6a24); color: #fff' : 'background: transparent; color: #6b7280'">
+          :style="activeTab === t.key ? 'background: linear-gradient(135deg, #12BC00, #66BB6A); color: #fff' : 'background: transparent; color: #6b7280'">
           <i :class="t.icon" class="mr-1.5"></i>{{ t.label }}
         </button>
       </div>
@@ -83,7 +83,7 @@
               </div>
             </div>
             <h3 class="text-lg font-bold text-white mb-0.5">{{ pkg.name }}</h3>
-            <p class="text-2xl font-bold mb-3" style="color: #FF7A30">TSh {{ formatMoney(pkg.price) }}</p>
+            <p class="text-2xl font-bold mb-3" style="color: #12BC00">TSh {{ formatMoney(pkg.price) }}</p>
             <p class="text-xs mb-4" style="color: #6b7280">{{ pkg.description || 'No description' }}</p>
             <div class="space-y-2 mb-4">
               <div class="flex items-center justify-between text-xs"><span style="color: #6b7280"><i class="fas fa-clock w-4 mr-1"></i>Duration</span><span class="text-white font-medium">{{ formatDuration(pkg.duration_hours) }}</span></div>
@@ -109,7 +109,7 @@
     <template v-if="activeTab === 'generate'">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div class="section-card">
-          <div class="section-header"><h3 class="section-title"><i class="fas fa-plus-circle" style="color: #FF7A30"></i> Generate Vouchers</h3></div>
+          <div class="section-header"><h3 class="section-title"><i class="fas fa-plus-circle" style="color: #12BC00"></i> Generate Vouchers</h3></div>
           <div class="section-body space-y-4">
             <div><label class="input-label">Issued To (Reseller / Distributor)</label><input v-model="genForm.issuedTo" class="form-input" placeholder="Enter name of reseller or distributor"></div>
             <div>
@@ -125,9 +125,9 @@
                 </div>
               </div>
             </div>
-            <div class="p-4 rounded-xl" style="background: rgba(255,122,48,0.05); border: 1px solid rgba(255,122,48,0.15)">
+            <div class="p-4 rounded-xl" style="background: rgba(18,188,0,0.05); border: 1px solid rgba(18,188,0,0.15)">
               <div class="flex items-center justify-between text-sm mb-1"><span style="color: #9ca3af">Total Vouchers</span><span class="font-bold text-white">{{ totalGenCount }}</span></div>
-              <div class="flex items-center justify-between text-sm"><span style="color: #9ca3af">Total Value</span><span class="font-bold" style="color: #FF7A30">TSh {{ formatMoney(totalGenValue) }}</span></div>
+              <div class="flex items-center justify-between text-sm"><span style="color: #9ca3af">Total Value</span><span class="font-bold" style="color: #12BC00">TSh {{ formatMoney(totalGenValue) }}</span></div>
             </div>
             <button @click="generateVouchers()" :disabled="!canGenerate || generating" class="btn btn-primary w-full"><i class="fas mr-1" :class="generating ? 'fa-spinner fa-spin' : 'fa-cog'"></i>{{ generating ? 'Generating...' : 'Generate Vouchers' }}</button>
           </div>
@@ -142,7 +142,7 @@
                 <div class="flex items-center gap-4 mt-2">
                   <span class="text-xs"><span class="text-white font-medium">{{ b.voucher_count || b.total_vouchers }}</span> <span style="color: #6b7280">vouchers</span></span>
                   <span class="text-xs"><span class="font-medium" style="color: #34d399">{{ b.redeemed_count || 0 }}</span> <span style="color: #6b7280">redeemed</span></span>
-                  <span class="text-xs"><span class="font-medium" style="color: #FF7A30">TSh {{ formatMoney(b.total_value) }}</span></span>
+                  <span class="text-xs"><span class="font-medium" style="color: #12BC00">TSh {{ formatMoney(b.total_value) }}</span></span>
                 </div>
                 <div class="mt-2 h-1.5 rounded-full" style="background: #1e1e2a"><div class="h-full rounded-full" style="background: #34d399" :style="{ width: batchRedeemPercent(b) + '%' }"></div></div>
               </div>
@@ -157,7 +157,7 @@
     <template v-if="activeTab === 'inventory'">
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-ticket" style="color: #FF7A30"></i> Voucher Inventory</h3>
+          <h3 class="section-title"><i class="fas fa-ticket" style="color: #12BC00"></i> Voucher Inventory</h3>
           <div class="flex gap-2 flex-wrap">
             <div class="relative"><input v-model="invSearch" @input="debouncedLoadInventory" placeholder="Search code or package..." class="form-input" style="max-width: 220px; padding-left: 32px"><i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-xs" style="color: #6b7280"></i></div>
             <select v-model="invStatus" @change="loadInventory()" class="form-input" style="max-width: 130px"><option value="">All Status</option><option value="available">Available</option><option value="used">Redeemed</option></select>
@@ -170,7 +170,7 @@
               <thead><tr style="border-bottom: 1px solid var(--border)"><th class="text-left py-3 px-3 text-xs font-medium" style="color: #6b7280">Code</th><th class="text-left py-3 px-3 text-xs font-medium" style="color: #6b7280">Package</th><th class="text-left py-3 px-3 text-xs font-medium" style="color: #6b7280">Price</th><th class="text-left py-3 px-3 text-xs font-medium" style="color: #6b7280">Batch</th><th class="text-left py-3 px-3 text-xs font-medium" style="color: #6b7280">Status</th><th class="text-left py-3 px-3 text-xs font-medium" style="color: #6b7280">Used By</th><th class="text-left py-3 px-3 text-xs font-medium" style="color: #6b7280">Date</th></tr></thead>
               <tbody>
                 <tr v-for="v in inventory" :key="v.id" style="border-bottom: 1px solid rgba(30,30,42,0.5)" class="hover:bg-white/[0.02]">
-                  <td class="py-2.5 px-3 font-mono text-xs font-bold tracking-wider" style="color: #FF7A30">{{ v.voucher_code }}</td>
+                  <td class="py-2.5 px-3 font-mono text-xs font-bold tracking-wider" style="color: #12BC00">{{ v.voucher_code }}</td>
                   <td class="py-2.5 px-3 text-white">{{ v.package_name || '—' }}</td>
                   <td class="py-2.5 px-3" style="color: #9ca3af">TSh {{ formatMoney(v.price) }}</td>
                   <td class="py-2.5 px-3 text-xs" style="color: #6b7280">{{ v.batch_name || '—' }}</td>
@@ -211,7 +211,7 @@
             <div class="flex items-center justify-between text-xs mb-1"><span style="color: #6b7280">Redemption Rate</span><span class="text-white font-medium">{{ bp.total ? Math.round((bp.used / bp.total) * 100) : 0 }}%</span></div>
             <div class="h-2 rounded-full" style="background: #1e1e2a"><div class="h-full rounded-full" :style="{ width: (bp.total ? (bp.used / bp.total) * 100 : 0) + '%', background: pkgColor(bp.id) }"></div></div>
           </div>
-          <div class="mt-3 pt-3 flex items-center justify-between" style="border-top: 1px solid var(--border)"><span class="text-xs" style="color: #6b7280">Revenue</span><span class="text-sm font-bold" style="color: #FF7A30">TSh {{ formatMoney((bp.used || 0) * bp.price) }}</span></div>
+          <div class="mt-3 pt-3 flex items-center justify-between" style="border-top: 1px solid var(--border)"><span class="text-xs" style="color: #6b7280">Revenue</span><span class="text-sm font-bold" style="color: #12BC00">TSh {{ formatMoney((bp.used || 0) * bp.price) }}</span></div>
         </div>
       </div>
       <div v-if="!(statsData.byPackage || []).length" class="text-center py-16" style="color: #6b7280"><i class="fas fa-chart-pie text-3xl mb-3 block" style="color: #1e1e2a"></i><p>No data yet</p></div>
@@ -230,7 +230,7 @@
               <thead><tr style="border-bottom: 1px solid var(--border)"><th class="text-left py-2 px-3 text-xs font-medium" style="color: #6b7280">Code</th><th class="text-left py-2 px-3 text-xs font-medium" style="color: #6b7280">Package</th><th class="text-left py-2 px-3 text-xs font-medium" style="color: #6b7280">Price</th><th class="text-left py-2 px-3 text-xs font-medium" style="color: #6b7280">Status</th><th class="text-left py-2 px-3 text-xs font-medium" style="color: #6b7280">Used By</th></tr></thead>
               <tbody>
                 <tr v-for="v in batchVouchers" :key="v.id || v.voucher_code" style="border-bottom: 1px solid rgba(30,30,42,0.5)" class="hover:bg-white/[0.02]">
-                  <td class="py-2 px-3 font-mono text-xs font-bold tracking-wider" style="color: #FF7A30">{{ v.voucher_code }}</td>
+                  <td class="py-2 px-3 font-mono text-xs font-bold tracking-wider" style="color: #12BC00">{{ v.voucher_code }}</td>
                   <td class="py-2 px-3 text-white text-xs">{{ v.package_name || '—' }}</td>
                   <td class="py-2 px-3 text-xs" style="color: #9ca3af">TSh {{ formatMoney(v.price) }}</td>
                   <td class="py-2 px-3"><span class="text-xs px-2 py-0.5 rounded-full" :class="v.is_used ? 'bg-green-500/10 text-green-400' : 'bg-blue-500/10 text-blue-400'">{{ v.is_used ? 'Redeemed' : 'Available' }}</span></td>
@@ -266,7 +266,7 @@
               <div><label class="input-label">Speed Limit (Mbps, 0=Unlimited)</label><input v-model.number="pkgForm.speed_limit_mbps" type="number" class="form-input" placeholder="0"></div>
               <div><label class="input-label">Sort Order</label><input v-model.number="pkgForm.sort_order" type="number" class="form-input" placeholder="0"></div>
             </div>
-            <div class="flex items-center gap-2"><input type="checkbox" v-model="pkgForm.is_active" class="accent-[#FF7A30]" id="pkgActive"><label for="pkgActive" class="text-sm" style="color: #9ca3af">Active (available for purchase)</label></div>
+            <div class="flex items-center gap-2"><input type="checkbox" v-model="pkgForm.is_active" class="accent-[#12BC00]" id="pkgActive"><label for="pkgActive" class="text-sm" style="color: #9ca3af">Active (available for purchase)</label></div>
             <div class="flex justify-end gap-3 pt-3" style="border-top: 1px solid var(--border)">
               <button type="button" @click="showPkgForm = false" class="btn btn-ghost">Cancel</button>
               <button type="submit" class="btn btn-primary" :disabled="saving"><i v-if="saving" class="fas fa-spinner fa-spin mr-1"></i>{{ editingPkg ? 'Save Changes' : 'Add Package' }}</button>
@@ -317,7 +317,7 @@ const pkgForm = ref({ name: '', description: '', price: 0, data_limit_mb: 0, spe
 const durationVal = ref(6)
 const durationUnit = ref('hours')
 
-const pkgColors = ['#FF7A30', '#60a5fa', '#34d399', '#a78bfa', '#f59e0b', '#f87171', '#ec4899', '#06b6d4']
+const pkgColors = ['#12BC00', '#60a5fa', '#34d399', '#a78bfa', '#f59e0b', '#f87171', '#ec4899', '#06b6d4']
 function pkgColor(id) { return pkgColors[((id || 0) - 1) % pkgColors.length] || pkgColors[0] }
 
 const activePackages = computed(() => packages.value.filter(p => p.is_active))

@@ -37,10 +37,10 @@
 
     <!-- Tabs -->
     <div class="flex gap-1 p-1 rounded-xl" style="background: #111118; border: 1px solid #1e1e2a; width: fit-content">
-      <button @click="tab = 'contracts'" class="px-4 py-2 rounded-lg text-sm font-medium transition-all" :style="tab === 'contracts' ? 'background: linear-gradient(135deg, #FF7A30, #ea6a24); color: #fff' : 'color: #6b7280'">
+      <button @click="tab = 'contracts'" class="px-4 py-2 rounded-lg text-sm font-medium transition-all" :style="tab === 'contracts' ? 'background: linear-gradient(135deg, #12BC00, #66BB6A); color: #fff' : 'color: #6b7280'">
         <i class="fas fa-file-contract mr-1"></i> Contracts ({{ contracts.length }})
       </button>
-      <button @click="tab = 'licenses'" class="px-4 py-2 rounded-lg text-sm font-medium transition-all" :style="tab === 'licenses' ? 'background: linear-gradient(135deg, #FF7A30, #ea6a24); color: #fff' : 'color: #6b7280'">
+      <button @click="tab = 'licenses'" class="px-4 py-2 rounded-lg text-sm font-medium transition-all" :style="tab === 'licenses' ? 'background: linear-gradient(135deg, #12BC00, #66BB6A); color: #fff' : 'color: #6b7280'">
         <i class="fas fa-id-card mr-1"></i> Licenses ({{ licenses.length }})
       </button>
     </div>
@@ -69,7 +69,7 @@
         <div class="stat-card">
           <div class="flex items-center justify-between">
             <div><p class="stat-label">Total Value</p><p class="stat-value text-sm">TSh {{ (contractStats.total_value || 0).toLocaleString() }}</p></div>
-            <div class="stat-icon" style="background: rgba(255,122,48,0.1); color: #FF7A30"><i class="fas fa-coins"></i></div>
+            <div class="stat-icon" style="background: rgba(18,188,0,0.1); color: #12BC00"><i class="fas fa-coins"></i></div>
           </div>
         </div>
       </div>
@@ -308,7 +308,7 @@
           </div>
           <div v-if="detailContract.document_url" class="pt-2 border-t" style="border-color: #1e1e2a">
             <p class="text-xs mb-1" style="color: #6b7280">Document</p>
-            <a :href="detailContract.document_url" target="_blank" class="text-sm" style="color: #FF7A30">View Document <i class="fas fa-external-link-alt text-xs ml-1"></i></a>
+            <a :href="detailContract.document_url" target="_blank" class="text-sm" style="color: #12BC00">View Document <i class="fas fa-external-link-alt text-xs ml-1"></i></a>
           </div>
         </div>
         <div class="flex gap-3 mt-6">
@@ -419,7 +419,7 @@
           </div>
           <div v-if="detailLicense.document_url" class="pt-2 border-t" style="border-color: #1e1e2a">
             <p class="text-xs mb-1" style="color: #6b7280">Document</p>
-            <a :href="detailLicense.document_url" target="_blank" class="text-sm" style="color: #FF7A30">View Document <i class="fas fa-external-link-alt text-xs ml-1"></i></a>
+            <a :href="detailLicense.document_url" target="_blank" class="text-sm" style="color: #12BC00">View Document <i class="fas fa-external-link-alt text-xs ml-1"></i></a>
           </div>
         </div>
         <div class="flex gap-3 mt-6">

@@ -15,7 +15,7 @@
     >
       <!-- Logo -->
       <div class="flex items-center gap-3 px-5 py-5 border-b border-white/5">
-        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-base font-bold" style="background: linear-gradient(135deg, #FF7A30, #ea6a24)">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-base font-bold" style="background: linear-gradient(135deg, #12BC00, #66BB6A)">
           <i class="fas fa-wifi text-sm"></i>
         </div>
         <div>
@@ -39,7 +39,7 @@
             :class="isActive(item.path)
               ? 'text-white'
               : 'text-white/50 hover:text-white hover:bg-white/5'"
-            :style="isActive(item.path) ? 'background: linear-gradient(135deg, #FF7A30, #ea6a24); box-shadow: 0 2px 12px rgba(255,122,48,0.3)' : ''"
+            :style="isActive(item.path) ? 'background: linear-gradient(135deg, #12BC00, #66BB6A); box-shadow: 0 2px 12px rgba(18,188,0,0.3)' : ''"
             @click="sidebarOpen = false"
           >
             <i :class="item.icon" class="w-5 text-center text-sm"></i>
@@ -51,7 +51,7 @@
       <!-- User bottom -->
       <div class="border-t border-white/5 p-4">
         <div class="flex items-center gap-3 mb-3">
-          <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0" style="background: linear-gradient(135deg, #FF7A30, #ea6a24)">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0" style="background: linear-gradient(135deg, #12BC00, #66BB6A)">
             {{ userInitials }}
           </div>
           <div class="min-w-0">
@@ -103,7 +103,7 @@
             <div v-if="showNotifications" class="absolute right-0 mt-2 w-80 rounded-xl shadow-2xl z-50" style="background: #16161f; border: 1px solid #1e1e2a" @click.self="showNotifications = false">
               <div class="p-3 border-b font-semibold text-sm text-white" style="border-color: #1e1e2a">Notifications</div>
               <div class="max-h-80 overflow-y-auto">
-                <div v-for="n in notifications" :key="n.id" class="px-3 py-2.5 border-b cursor-pointer transition-colors" :style="{ borderColor: '#1e1e2a', background: !n.is_read ? 'rgba(255,122,48,0.05)' : 'transparent' }" @mouseover="$event.currentTarget.style.background='rgba(255,255,255,0.03)'" @mouseleave="$event.currentTarget.style.background=!n.is_read ? 'rgba(255,122,48,0.05)' : 'transparent'">
+                <div v-for="n in notifications" :key="n.id" class="px-3 py-2.5 border-b cursor-pointer transition-colors" :style="{ borderColor: '#1e1e2a', background: !n.is_read ? 'rgba(18,188,0,0.05)' : 'transparent' }" @mouseover="$event.currentTarget.style.background='rgba(255,255,255,0.03)'" @mouseleave="$event.currentTarget.style.background=!n.is_read ? 'rgba(18,188,0,0.05)' : 'transparent'">
                   <div class="flex items-start gap-2">
                     <i class="fas fa-circle mt-1.5 text-[8px]" :class="n.notification_type === 'success' ? 'text-green-500' : n.notification_type === 'error' ? 'text-red-500' : 'text-blue-500'"></i>
                     <div class="flex-1 min-w-0">
@@ -123,7 +123,7 @@
               @click="showUserMenu = !showUserMenu"
               class="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-white/5 transition-colors"
             >
-              <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background: linear-gradient(135deg, #FF7A30, #ea6a24)">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background: linear-gradient(135deg, #12BC00, #66BB6A)">
                 {{ userInitials }}
               </div>
               <span class="hidden sm:block text-sm font-medium text-white/70">{{ user?.name || 'User' }}</span>

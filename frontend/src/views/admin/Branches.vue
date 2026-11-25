@@ -3,13 +3,13 @@
     <!-- Tabs -->
     <div class="flex items-center justify-between flex-wrap gap-3">
       <div class="flex gap-2">
-        <button @click="tab = 'regions'" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors" :class="tab === 'regions' ? 'bg-[#FF7A30] text-white' : 'text-[#9ca3af] hover:text-white'" style="background: var(--bg-card); border: 1px solid var(--border)">
+        <button @click="tab = 'regions'" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors" :class="tab === 'regions' ? 'bg-[#12BC00] text-white' : 'text-[#9ca3af] hover:text-white'" style="background: var(--bg-card); border: 1px solid var(--border)">
           <i class="fas fa-globe mr-1"></i> Regions
         </button>
-        <button @click="tab = 'districts'" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors" :class="tab === 'districts' ? 'bg-[#FF7A30] text-white' : 'text-[#9ca3af] hover:text-white'" style="background: var(--bg-card); border: 1px solid var(--border)">
+        <button @click="tab = 'districts'" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors" :class="tab === 'districts' ? 'bg-[#12BC00] text-white' : 'text-[#9ca3af] hover:text-white'" style="background: var(--bg-card); border: 1px solid var(--border)">
           <i class="fas fa-map-marked-alt mr-1"></i> Districts
         </button>
-        <button @click="tab = 'branches'" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors" :class="tab === 'branches' ? 'bg-[#FF7A30] text-white' : 'text-[#9ca3af] hover:text-white'" style="background: var(--bg-card); border: 1px solid var(--border)">
+        <button @click="tab = 'branches'" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors" :class="tab === 'branches' ? 'bg-[#12BC00] text-white' : 'text-[#9ca3af] hover:text-white'" style="background: var(--bg-card); border: 1px solid var(--border)">
           <i class="fas fa-building mr-1"></i> Branches
         </button>
       </div>

@@ -38,9 +38,9 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="stat-label">Unique Users</p>
-            <p class="stat-value" style="color: #FF7A30">{{ auditStats.unique_users || 0 }}</p>
+            <p class="stat-value" style="color: #12BC00">{{ auditStats.unique_users || 0 }}</p>
           </div>
-          <div class="stat-icon" style="background: rgba(255,122,48,0.1); color: #FF7A30"><i class="fas fa-users"></i></div>
+          <div class="stat-icon" style="background: rgba(18,188,0,0.1); color: #12BC00"><i class="fas fa-users"></i></div>
         </div>
       </div>
       <div class="stat-card">
@@ -88,7 +88,7 @@
     <!-- Table -->
     <div v-else class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-history" style="color: #FF7A30"></i> Activity Log</h3>
+        <h3 class="section-title"><i class="fas fa-history" style="color: #12BC00"></i> Activity Log</h3>
         <span class="text-xs" style="color: #6b7280">{{ totalRecords }} records</span>
       </div>
       <div class="space-y-1">
@@ -110,7 +110,7 @@
                 <span class="badge" :class="actionBadge(log.action)" style="font-size: 10px; padding: 2px 8px">{{ log.action }}</span>
               </div>
             </div>
-            <i class="fas fa-chevron-down text-xs transition-transform" :style="expandedId === log.id ? 'transform: rotate(180deg); color: #FF7A30' : 'color: #6b7280'"></i>
+            <i class="fas fa-chevron-down text-xs transition-transform" :style="expandedId === log.id ? 'transform: rotate(180deg); color: #12BC00' : 'color: #6b7280'"></i>
           </div>
 
           <!-- Expanded diff view -->
@@ -214,7 +214,7 @@ function entityIcon(m) {
 function entityStyle(m) {
   const map = {
     user: 'background: rgba(59,130,246,0.1); color: #60a5fa',
-    ticket: 'background: rgba(255,122,48,0.1); color: #FF7A30',
+    ticket: 'background: rgba(18,188,0,0.1); color: #12BC00',
     campaign: 'background: rgba(236,72,153,0.1); color: #f472b6',
     branch: 'background: rgba(20,184,166,0.1); color: #2dd4bf',
     product: 'background: rgba(139,92,246,0.1); color: #a78bfa',

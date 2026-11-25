@@ -73,7 +73,7 @@
     <!-- Table -->
     <div v-else class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-money-bill-wave" style="color: #FF7A30"></i> Withdrawal Requests</h3>
+        <h3 class="section-title"><i class="fas fa-money-bill-wave" style="color: #12BC00"></i> Withdrawal Requests</h3>
         <select v-model="statusFilter" @change="page = 1; loadWithdrawals()" class="form-input" style="max-width: 160px">
           <option value="pending">Pending</option>
           <option value="completed">Completed</option>

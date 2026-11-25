@@ -29,9 +29,9 @@
         <div class="flex items-center justify-between">
           <div>
             <p class="stat-label">In Progress</p>
-            <p class="stat-value" style="color: #FF7A30">{{ statsInProgress }}</p>
+            <p class="stat-value" style="color: #12BC00">{{ statsInProgress }}</p>
           </div>
-          <div class="stat-icon" style="background: rgba(255,122,48,0.1); color: #FF7A30"><i class="fas fa-spinner"></i></div>
+          <div class="stat-icon" style="background: rgba(18,188,0,0.1); color: #12BC00"><i class="fas fa-spinner"></i></div>
         </div>
       </div>
       <div class="stat-card">
@@ -98,7 +98,7 @@
     <!-- Ticket table -->
     <div v-else class="section-card">
       <div class="section-header">
-        <h3 class="section-title"><i class="fas fa-headset" style="color: #FF7A30"></i> Tickets ({{ totalTickets }})</h3>
+        <h3 class="section-title"><i class="fas fa-headset" style="color: #12BC00"></i> Tickets ({{ totalTickets }})</h3>
       </div>
       <div class="overflow-x-auto">
         <table class="re-table">
@@ -201,12 +201,12 @@
 
         <!-- Conversation Thread -->
         <div class="mb-4">
-          <p class="text-sm font-bold text-white mb-3"><i class="fas fa-comments mr-1" style="color: #FF7A30"></i> Conversation</p>
+          <p class="text-sm font-bold text-white mb-3"><i class="fas fa-comments mr-1" style="color: #12BC00"></i> Conversation</p>
           <div class="space-y-3" style="max-height: 300px; overflow-y: auto">
-            <div v-for="r in (detailTicket.replies || [])" :key="r.id" class="p-3 rounded-xl" :style="r.is_internal ? 'background: rgba(255,122,48,0.08); border-left: 3px solid #FF7A30' : 'background: #0d0d14; border-left: 3px solid #1e1e2a'">
+            <div v-for="r in (detailTicket.replies || [])" :key="r.id" class="p-3 rounded-xl" :style="r.is_internal ? 'background: rgba(18,188,0,0.08); border-left: 3px solid #12BC00' : 'background: #0d0d14; border-left: 3px solid #1e1e2a'">
               <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs font-medium" :style="r.is_internal ? 'color: #FF7A30' : 'color: #60a5fa'">{{ r.author_name || (r.is_internal ? 'Staff' : 'Customer') }}</span>
-                <span v-if="r.is_internal" class="text-xs px-1.5 py-0.5 rounded" style="background: rgba(255,122,48,0.15); color: #FF7A30">Internal</span>
+                <span class="text-xs font-medium" :style="r.is_internal ? 'color: #12BC00' : 'color: #60a5fa'">{{ r.author_name || (r.is_internal ? 'Staff' : 'Customer') }}</span>
+                <span v-if="r.is_internal" class="text-xs px-1.5 py-0.5 rounded" style="background: rgba(18,188,0,0.15); color: #12BC00">Internal</span>
                 <span class="text-xs" style="color: #6b7280">{{ formatDate(r.created_at) }}</span>
               </div>
               <p class="text-sm" style="color: #d1d5db; white-space: pre-wrap">{{ r.message }}</p>

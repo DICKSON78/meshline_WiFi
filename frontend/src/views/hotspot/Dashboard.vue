@@ -2,7 +2,7 @@
   <div class="pb-4">
     <!-- Loading state -->
     <div v-if="loading" class="mx-4 mt-8 text-center">
-      <i class="fas fa-spinner fa-spin text-2xl text-[#FF7A30]"></i>
+      <i class="fas fa-spinner fa-spin text-2xl text-[#12BC00]"></i>
       <p class="text-sm text-white/50 mt-2">Inapakia taarifa...</p>
     </div>
     <!-- Error state -->
@@ -24,7 +24,7 @@
           <span v-if="unreadCount" class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#ef4444] text-white text-[10px] font-bold leading-[18px]">{{ unreadCount > 99 ? '99+' : unreadCount }}</span>
         </button>
         <span class="flex items-center gap-1.5 text-xs font-medium text-white/60 bg-[#111118] border border-[#1e1e2a] rounded-full px-3 py-2">
-          <i class="fas fa-wifi text-[#FF7A30]"></i>{{ store.ssidshow || 'WiFi' }}
+          <i class="fas fa-wifi text-[#12BC00]"></i>{{ store.ssidshow || 'WiFi' }}
         </span>
         <button class="h-10 w-10 rounded-full bg-red-500/20 border border-red-500/30 text-red-400 hover:bg-red-500/30 transition" title="Logout" @click="logout">
           <i class="fas fa-sign-out-alt"></i>
@@ -36,13 +36,13 @@
     <div v-if="showNotifications" class="mx-4 mt-3 rounded-2xl border border-[#262633] bg-[#111118] p-4">
       <div class="flex items-center justify-between mb-3">
         <h2 class="text-sm font-semibold text-white">Notifications</h2>
-        <button v-if="unreadCount" class="text-xs text-[#FF7A30]" @click="markNotificationsRead">Mark all read</button>
+        <button v-if="unreadCount" class="text-xs text-[#12BC00]" @click="markNotificationsRead">Mark all read</button>
       </div>
       <div v-if="notifications.length" class="space-y-2 max-h-64 overflow-y-auto">
       <div v-for="item in notifications" :key="item.id" class="rounded-xl border border-[#262633] bg-[#0a0a0f] px-4 py-3">
         <p class="text-sm font-semibold text-white">{{ item.title }}</p>
         <p class="mt-1 text-xs text-white/60">{{ item.message }}</p>
-        <router-link v-if="item.action_url" :to="item.action_url" class="mt-2 inline-block text-xs font-semibold text-[#FF7A30]">{{ item.action_text || 'Fungua' }}</router-link>
+        <router-link v-if="item.action_url" :to="item.action_url" class="mt-2 inline-block text-xs font-semibold text-[#12BC00]">{{ item.action_text || 'Fungua' }}</router-link>
       </div>
       </div>
       <p v-else class="text-xs text-white/50">Hakuna notifications mpya.</p>
@@ -57,16 +57,12 @@
       <p class="text-3xl font-bold mt-1">{{ remainingTime }}</p>
       <div class="flex items-center justify-between mt-4 pt-4 border-t border-white/20 text-sm">
         <div>
-          <p class="text-white/70 text-xs">Free Data (Ads)</p>
+          <p class="text-white/70 text-xs">Free Data</p>
           <p class="font-bold">{{ freeMB }} MB</p>
         </div>
-        <div class="text-center">
-          <p class="text-white/70 text-xs">Paid Data</p>
-          <p class="font-bold">{{ paidMB }} MB</p>
-        </div>
         <div class="text-right">
-          <p class="text-white/70 text-xs">Ads Left</p>
-          <p class="font-bold">{{ adsRemaining }}</p>
+          <p class="text-white/70 text-xs">Voucher Data</p>
+          <p class="font-bold">{{ paidMB }} MB</p>
         </div>
       </div>
     </div>
@@ -74,12 +70,8 @@
     <!-- Quick actions -->
     <div class="grid grid-cols-3 gap-3 px-4 py-4">
       <router-link to="/hotspot/subscribe" class="tile">
-        <div class="tile-icon" style="background:rgba(255,122,48,0.1);color:#FF7A30"><i class="fa-solid fa-store"></i></div>
+        <div class="tile-icon" style="background:rgba(18,188,0,0.1);color:#12BC00"><i class="fa-solid fa-store"></i></div>
         <span>Buy Package</span>
-      </router-link>
-      <router-link to="/hotspot/ads" class="tile">
-        <div class="tile-icon" style="background:rgba(139,92,246,0.1);color:#8b5cf6"><i class="fa-solid fa-circle-play"></i></div>
-        <span>Watch Ads</span>
       </router-link>
       <button class="tile" @click="toggleConnection">
         <div class="tile-icon" :style="connected ? 'background:rgba(34,197,94,0.1);color:#22c55e' : 'background:rgba(156,163,175,0.1);color:#9ca3af'"><i class="fa-solid fa-wifi"></i></div>
@@ -104,15 +96,6 @@
       <p v-if="connMsg" class="text-xs mt-2" :class="connError ? 'text-red-400' : 'text-green-400'">{{ connMsg }}</p>
     </div>
 
-    <!-- Watched today -->
-    <div class="mx-4 mt-3 bg-[#111118] border border-[#1e1e2a] rounded-2xl p-4 flex items-center justify-between">
-      <div>
-        <p class="text-sm font-semibold text-white">Ads Watched Today</p>
-        <p class="text-xs text-white/50">Tazama matangazo kupata data bure</p>
-      </div>
-      <p class="text-2xl font-bold text-purple-500">{{ adsWatchedToday }}</p>
-    </div>
-
     <InstallApp />
   </template>
   </div>
@@ -134,8 +117,6 @@ const remainingTime = ref('—')
 const remainingSeconds = ref(0)
 const freeMB = ref(0)
 const paidMB = ref('0.00')
-const adsRemaining = ref(0)
-const adsWatchedToday = ref(0)
 const connected = ref(false)
 const routerReady = ref(false)
 const connMsg = ref('')
@@ -156,14 +137,14 @@ function checkAlert() {
   const hasBundle = remainingSeconds.value > 0
   const hasFree = parseFloat(freeMB.value) > 0
   if (hasBundle && remainingSeconds.value <= 300) {
-    alertMsg.value = 'Bundle yako inaisha hivi karibuni! Nunua vocha au tazama matangazo kupata free internet.'
+    alertMsg.value = 'Bundle yako inaisha hivi karibuni! Nunua vocha ili kuendelea na internet.'
     alertType.value = 'warn'
     if (!lowBundleNotified) {
       lowBundleNotified = true
-      sendNotification('HotBando', 'Bundle yako inaisha hivi karibuni. Nunua vocha au tazama matangazo.')
+      sendNotification('HotBando', 'Bundle yako inaisha hivi karibuni. Nunua vocha ili kuendelea na internet.')
     }
   } else if (!hasBundle && !hasFree) {
-    alertMsg.value = 'Huna data. Nunua kifurushi au tazama matangazo kupata internet bure.'
+    alertMsg.value = 'Huna data. Nunua vocha ili upate internet.'
     alertType.value = 'danger'
     lowBundleNotified = false
     connectedNotified = false
@@ -176,7 +157,7 @@ function checkAlert() {
       ? routerReady.value
         ? `Umeunganishwa kwenye HotBando. Una ${remainingTime.value} iliyobaki kwenye kifurushi chako.`
         : `Vocha yako bado inatumika. Tunathibitisha muunganisho wa router…`
-      : `Kifurushi kimeisha. Bado una ${freeMB.value} MB za bure; tazama matangazo kupata data zaidi.`
+      : `Kifurushi kimeisha. Bado una ${freeMB.value} MB za bure; nunua vocha kwa data zaidi.`
     alertType.value = 'info'
     lowBundleNotified = false
     outOfBundleNotified = false
@@ -229,8 +210,6 @@ async function loadData() {
     remainingTime.value = r.remainingTime || '—'
     freeMB.value = r.freeMB ?? 0
     paidMB.value = r.paidMB ?? '0.00'
-    adsRemaining.value = r.adsRemaining || 0
-    adsWatchedToday.value = r.adsWatchedToday || 0
     const currentMac = normalizeMac(store.mac || r.mac || r.mac_address)
     const apiMac = normalizeMac(r.mac_address || r.user?.mac_address)
     const apiRouter = r.last_router_id || r.user?.last_router_id

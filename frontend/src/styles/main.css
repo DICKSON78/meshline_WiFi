@@ -7,15 +7,19 @@ body {
 
 /* ===== Dark Theme Design System ===== */
 :root {
-  --primary: #FF7A30;
-  --primary-light: #fff7f0;
-  --primary-dark: #ea6a24;
+  /* HotBando green palette on the existing black background */
+  --primary: #12BC00;
+  --primary-soft: #66BB6A;
+  --primary-pale: #A5D6A7;
+  --primary-tint: #E8F5E9;
+  --primary-light: #E8F5E9;
+  --primary-dark: #0B8A00;
   --bg-page: #0a0a0f;
   --bg-card: #111118;
   --bg-card-hover: #16161f;
   --bg-input: #1a1a24;
   --border: #1e1e2a;
-  --border-focus: #FF7A30;
+  --border-focus: #A5D6A7;
   --text-primary: #f0f0f5;
   --text-secondary: #9ca3af;
   --text-muted: #6b7280;
@@ -115,7 +119,7 @@ body {
 }
 .re-table tbody tr:last-child td { border-bottom: none; }
 .re-table tbody tr { transition: background 0.1s; }
-.re-table tbody tr:hover { background: rgba(255, 122, 48, 0.04); }
+.re-table tbody tr:hover { background: rgba(18,188,0, 0.04); }
 
 /* Badges */
 .badge {
@@ -152,10 +156,10 @@ body {
   font-family: inherit;
 }
 .btn-primary {
-  background: #FF7A30;
+  background: #12BC00;
   color: white;
 }
-.btn-primary:hover { background: #ea6a24; }
+.btn-primary:hover { background: #66BB6A; }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-secondary {
   background: var(--bg-card);
@@ -191,8 +195,8 @@ body {
   font-family: inherit;
 }
 .form-input:focus {
-  border-color: #FF7A30;
-  box-shadow: 0 0 0 3px rgba(255, 122, 48, 0.1);
+  border-color: #12BC00;
+  box-shadow: 0 0 0 3px rgba(18,188,0, 0.1);
 }
 .form-input::placeholder { color: var(--text-muted); }
 .form-label {
@@ -231,11 +235,11 @@ select.form-input option {
   font-family: inherit;
 }
 .input-field:focus {
-  border-color: #FF7A30;
-  box-shadow: 0 0 0 3px rgba(255, 122, 48, 0.1);
+  border-color: #12BC00;
+  box-shadow: 0 0 0 3px rgba(18,188,0, 0.1);
 }
 .input { border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.5rem 0.75rem; font-size: 0.8125rem; width: 100%; transition: all 0.15s; background: var(--bg-input); color: var(--text-primary); font-family: inherit; }
-.input:focus { outline: none; border-color: #FF7A30; box-shadow: 0 0 0 3px rgba(255, 122, 48, 0.1); }
+.input:focus { outline: none; border-color: #12BC00; box-shadow: 0 0 0 3px rgba(18,188,0, 0.1); }
 .input-label { display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.25rem; }
 
 /* Metric label (kept for backwards compat) */
@@ -305,7 +309,7 @@ select.form-input option {
 }
 .animate-slideIn { animation: slideIn 0.3s ease-out; }
 
-/* ===== Client Portal — Instagram light theme (brand #FF7A30) ===== */
+/* ===== Client Portal — Instagram light theme (brand #12BC00) ===== */
 .ig-app {
   display: flex; flex-direction: column; height: 100dvh; max-width: 470px;
   margin: 0 auto; background: #0a0a0f; border-left: 1px solid #1e1e2a; border-right: 1px solid #1e1e2a; color-scheme: dark;
@@ -314,7 +318,7 @@ select.form-input option {
   display: flex; align-items: center; justify-content: space-between; height: 52px;
   padding: 0 16px; background: #111118; border-bottom: 1px solid #1e1e2a; flex-shrink: 0;
 }
-.ig-wordmark { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: #FF7A30; }
+.ig-wordmark { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: #12BC00; }
 .ig-header-btn { font-size: 21px; color: #262626; background: none; border: none; cursor: pointer; padding: 0; }
 .ig-main { flex: 1; overflow-y: auto; background: #0a0a0f; -webkit-overflow-scrolling: touch; }
 .ig-nav {
@@ -327,12 +331,12 @@ select.form-input option {
   color: #8e8e8e; font-size: 11px; font-weight: 500; cursor: pointer; text-decoration: none; padding: 2px 10px;
 }
 .ig-nav-item i { font-size: 22px; }
-.ig-nav-item.active { color: #FF7A30; }
-.ig-nav-item.active i { color: #FF7A30; }
+.ig-nav-item.active { color: #12BC00; }
+.ig-nav-item.active i { color: #12BC00; }
 
 .ig-story-ring {
   width: 62px; height: 62px; border-radius: 50%; padding: 2px; flex-shrink: 0;
-  background: conic-gradient(from 180deg, #fec44f, #FF7A30, #ea6a24, #d62976, #fec44f);
+  background: conic-gradient(from 180deg, #fec44f, #12BC00, #66BB6A, #d62976, #fec44f);
 }
 .ig-story-inner {
   width: 100%; height: 100%; border-radius: 50%; background: #fff;
@@ -347,7 +351,7 @@ select.form-input option {
 .ig-post-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; }
 .ig-avatar {
   width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  overflow: hidden; background: #f0f0f0; flex-shrink: 0; font-size: 16px; color: #FF7A30;
+  overflow: hidden; background: #f0f0f0; flex-shrink: 0; font-size: 16px; color: #12BC00;
 }
 .ig-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .ig-post-user { font-size: 13px; font-weight: 600; color: #262626; line-height: 1.2; }
@@ -363,7 +367,7 @@ select.form-input option {
   text-decoration: none; font-family: inherit;
 }
 .ig-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.ig-btn-primary { background: #FF7A30; color: #fff; }
+.ig-btn-primary { background: #12BC00; color: #fff; }
 .ig-btn-primary:hover { opacity: 0.85; }
 .ig-btn-outline { background: #fff; color: #262626; border: 1px solid #dbdbdb; }
 .ig-btn-outline:hover { background: #fafafa; }
@@ -375,7 +379,7 @@ select.form-input option {
   background: #fafafa; font-size: 14px; color: #262626; outline: none; transition: border-color 0.15s;
   font-family: inherit;
 }
-.ig-input:focus { border-color: #FF7A30; background: #fff; }
+.ig-input:focus { border-color: #12BC00; background: #fff; }
 .ig-input::placeholder { color: #8e8e8e; }
 .ig-card { background: #fff; border: 1px solid #dbdbdb; }
 .ig-hr { display: flex; align-items: center; gap: 14px; color: #8e8e8e; font-size: 13px; font-weight: 600; margin: 16px 0; }
@@ -387,12 +391,12 @@ select.form-input option {
 }
 .ig-back { background: none; border: none; font-size: 20px; color: #262626; cursor: pointer; padding: 4px; width: 24px; }
 
-.hero-banner { background: linear-gradient(135deg, #fec44f, #FF7A30 55%, #c25a1e); padding: 28px 20px; text-align: center; }
+.hero-banner { background: linear-gradient(135deg, #fec44f, #12BC00 55%, #0B8A00); padding: 28px 20px; text-align: center; }
 
 /* Bank-style home */
 .balance-card {
-  background: linear-gradient(135deg, #FF7A30 0%, #ea6a24 60%, #c25a1e 100%);
-  box-shadow: 0 8px 20px rgba(255, 122, 48, 0.25);
+  background: linear-gradient(135deg, #12BC00 0%, #66BB6A 60%, #0B8A00 100%);
+  box-shadow: 0 8px 20px rgba(18,188,0, 0.25);
 }
 .tile {
   display: flex; flex-direction: column; align-items: center; gap: 8px; background: var(--bg-card);
@@ -433,8 +437,8 @@ select.form-input option {
 .yt-channel-name { font-size: 14px; font-weight: 500; color: #0f0f0f; }
 .yt-sponsored { display: flex; align-items: center; gap: 8px; margin-top: 1px; }
 .yt-sponsored-badge {
-  font-size: 10px; font-weight: 700; letter-spacing: 0.4px; color: #FF7A30;
-  border: 1px solid #FF7A30; border-radius: 3px; padding: 0 4px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.4px; color: #12BC00;
+  border: 1px solid #12BC00; border-radius: 3px; padding: 0 4px;
 }
 .yt-earn { font-size: 12px; color: #606060; }
 .yt-desc {
@@ -474,7 +478,7 @@ select.form-input option {
   overflow: hidden; position: relative;
 }
 .yt-thumb-fallback {
-  width: 100%; height: 100%; background: linear-gradient(135deg, #FF7A30, #c25a1e);
+  width: 100%; height: 100%; background: linear-gradient(135deg, #12BC00, #0B8A00);
   display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px;
 }
 .yt-duration-badge {
@@ -497,18 +501,18 @@ select.form-input option {
 .yt-thumb-sm { width: 108px; height: 72px; border-radius: 8px; }
 
 .yt-reward-chip {
-  display: inline-flex; align-items: center; gap: 6px; background: #FF7A30; color: #fff;
+  display: inline-flex; align-items: center; gap: 6px; background: #12BC00; color: #fff;
   font-size: 13px; font-weight: 600; border-radius: 18px; padding: 8px 14px; white-space: nowrap;
 }
 .yt-wait-card {
   background: linear-gradient(135deg, #fff7f0, #ffe9db); border: 1px solid #ffd8bd;
   border-radius: 16px; padding: 32px 20px; text-align: center; margin-top: 8px;
 }
-.yt-wait-icon { font-size: 34px; color: #FF7A30; margin-bottom: 12px; }
+.yt-wait-icon { font-size: 34px; color: #12BC00; margin-bottom: 12px; }
 .yt-wait-title { font-size: 16px; font-weight: 600; color: #0f0f0f; }
 .yt-wait-sub { font-size: 13px; color: #606060; margin-top: 4px; }
 .yt-wait-timer {
-  font-size: 34px; font-weight: 700; color: #FF7A30; letter-spacing: 2px;
+  font-size: 34px; font-weight: 700; color: #12BC00; letter-spacing: 2px;
   font-variant-numeric: tabular-nums; margin-top: 12px;
 }
 
@@ -532,9 +536,9 @@ select.form-input option {
   display: flex; flex-direction: column; gap: 2px; transition: border-color 0.15s;
 }
 .pay-option:active { background: var(--bg-card-hover); }
-.pay-option-active { border-color: #FF7A30; background: rgba(255, 122, 48, 0.08); }
+.pay-option-active { border-color: #12BC00; background: rgba(18,188,0, 0.08); }
 .pay-option-icon { font-size: 18px; color: var(--text-muted); margin-bottom: 4px; }
-.pay-option-active .pay-option-icon { color: #FF7A30; }
+.pay-option-active .pay-option-icon { color: #12BC00; }
 .pay-option-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
 .pay-option-sub { font-size: 11px; color: var(--text-muted); line-height: 1.35; }
 .pay-gift-note {
@@ -543,7 +547,7 @@ select.form-input option {
   font-size: 12px; color: #4ade80; line-height: 1.45;
 }
 .pay-start {
-  width: 100%; margin-top: 16px; background: #FF7A30; color: #fff; border: none;
+  width: 100%; margin-top: 16px; background: #12BC00; color: #fff; border: none;
   border-radius: 12px; padding: 13px; font-size: 15px; font-weight: 600; cursor: pointer;
   font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px;
 }
@@ -553,17 +557,17 @@ select.form-input option {
 .pay-msg-ok { color: #4ade80; font-weight: 600; }
 .pay-msg-err { color: #f87171; }
 .pay-voucher {
-  margin-top: 16px; text-align: center; background: linear-gradient(135deg, rgba(255,122,48,0.1), rgba(255,122,48,0.05));
-  border: 1px dashed #FF7A30; border-radius: 16px; padding: 18px 14px;
+  margin-top: 16px; text-align: center; background: linear-gradient(135deg, rgba(18,188,0,0.1), rgba(18,188,0,0.05));
+  border: 1px dashed #12BC00; border-radius: 16px; padding: 18px 14px;
 }
-.pay-voucher-icon { font-size: 26px; color: #FF7A30; }
-.pay-voucher-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #FF7A30; margin-top: 6px; }
+.pay-voucher-icon { font-size: 26px; color: #12BC00; }
+.pay-voucher-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #12BC00; margin-top: 6px; }
 .pay-voucher-code {
   font-size: 20px; font-weight: 800; color: var(--text-primary); letter-spacing: 1.5px;
   margin-top: 6px; font-variant-numeric: tabular-nums; word-break: break-all;
 }
 .pay-copy {
-  margin-top: 12px; background: #FF7A30; color: #fff; border: none; border-radius: 10px;
+  margin-top: 12px; background: #12BC00; color: #fff; border: none; border-radius: 10px;
   padding: 9px 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
 }
-.pay-voucher-hint { font-size: 11px; color: #FF7A30; margin-top: 10px; line-height: 1.4; }
+.pay-voucher-hint { font-size: 11px; color: #12BC00; margin-top: 10px; line-height: 1.4; }

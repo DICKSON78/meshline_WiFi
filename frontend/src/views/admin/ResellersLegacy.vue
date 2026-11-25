@@ -36,14 +36,14 @@
       </div>
       <div class="stat-card">
         <div class="flex items-center justify-between">
-          <div><p class="stat-label">Platform Commission (20%)</p><p class="stat-value" style="color: #FF7A30">TSh {{ fmtNum((summary.total_revenue || 0) * 0.2) }}</p></div>
-          <div class="stat-icon" style="background: rgba(255,122,48,0.1); color: #FF7A30"><i class="fas fa-percent"></i></div>
+          <div><p class="stat-label">Platform Commission (20%)</p><p class="stat-value" style="color: #12BC00">TSh {{ fmtNum((summary.total_revenue || 0) * 0.2) }}</p></div>
+          <div class="stat-icon" style="background: rgba(18,188,0,0.1); color: #12BC00"><i class="fas fa-percent"></i></div>
         </div>
       </div>
       <div class="stat-card">
         <div class="flex items-center justify-between">
-          <div><p class="stat-label">Avg Commission</p><p class="stat-value" style="color: #FF7A30">{{ summary.avg_commission || 10 }}%</p></div>
-          <div class="stat-icon" style="background: rgba(255,122,48,0.1); color: #FF7A30"><i class="fas fa-percent"></i></div>
+          <div><p class="stat-label">Avg Commission</p><p class="stat-value" style="color: #12BC00">{{ summary.avg_commission || 10 }}%</p></div>
+          <div class="stat-icon" style="background: rgba(18,188,0,0.1); color: #12BC00"><i class="fas fa-percent"></i></div>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@
     <template v-if="!selectedReseller">
       <div class="section-card">
         <div class="section-header">
-          <h3 class="section-title"><i class="fas fa-store" style="color: #FF7A30"></i> All Resellers</h3>
+          <h3 class="section-title"><i class="fas fa-store" style="color: #12BC00"></i> All Resellers</h3>
           <div class="flex gap-2 flex-wrap">
             <input v-model="search" @input="debouncedLoad" placeholder="Search..." class="form-input" style="max-width: 200px">
             <select v-model="tierFilter" @change="loadResellers()" class="form-input" style="max-width: 130px">
@@ -99,7 +99,7 @@
                   <td class="py-3 px-4 text-right text-xs" style="color: #6b7280">{{ r.total_vouchers_sold || 0 }}</td>
                   <td class="py-3 px-4 text-right text-xs" style="color: #6b7280">{{ r.redeemed_count || 0 }}</td>
                   <td class="py-3 px-4 text-right text-xs font-medium" style="color: #34d399">TSh {{ fmtNum(r.revenue_generated) }}</td>
-                  <td class="py-3 px-4 text-right text-xs font-medium" style="color: #FF7A30">TSh {{ fmtNum((r.revenue_generated || 0) * 0.2) }}</td>
+                  <td class="py-3 px-4 text-right text-xs font-medium" style="color: #12BC00">TSh {{ fmtNum((r.revenue_generated || 0) * 0.2) }}</td>
                   <td class="py-3 px-4 text-center"><span class="text-xs px-2 py-0.5 rounded-full" :class="r.is_active ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'">{{ r.is_active ? 'ACTIVE' : 'OFF' }}</span></td>
                   <td class="py-3 px-4 text-right"><i class="fas fa-chevron-right text-xs" style="color: #6b7280"></i></td>
                 </tr>
@@ -139,7 +139,7 @@
         </div>
         <div class="stat-card">
           <p class="stat-label">Commission Rate</p>
-          <p class="stat-value" style="color: #FF7A30">{{ selectedReseller.commission_rate || 10 }}%</p>
+          <p class="stat-value" style="color: #12BC00">{{ selectedReseller.commission_rate || 10 }}%</p>
         </div>
         <div class="stat-card">
           <p class="stat-label">Vouchers Sold</p>
@@ -193,7 +193,7 @@
 
       <!-- Sales Performance Chart -->
       <div v-if="performance.length" class="section-card mb-6">
-        <div class="section-header"><h3 class="section-title"><i class="fas fa-chart-bar" style="color: #FF7A30"></i> Sales Performance (30 days)</h3></div>
+        <div class="section-header"><h3 class="section-title"><i class="fas fa-chart-bar" style="color: #12BC00"></i> Sales Performance (30 days)</h3></div>
         <div class="section-body">
           <div class="flex items-end gap-1" style="height: 100px">
             <div v-for="(p, i) in performance" :key="i" class="flex-1 rounded-t" :title="p.day + ': ' + p.sales + ' sales, TSh ' + fmtNum(p.revenue)"
