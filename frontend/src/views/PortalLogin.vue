@@ -1,66 +1,94 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden" style="background: #0a0a0f">
-    <div class="absolute inset-0 pointer-events-none">
-      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" class="opacity-[0.07]">
-        <defs><pattern id="honeycomb-p" x="0" y="0" width="56" height="97" patternUnits="userSpaceOnUse">
-          <path d="M28 0L56 16.2V48.5L28 64.7L0 48.5V16.2Z" fill="none" stroke="white" stroke-width="1.5"/>
-          <path d="M28 32.4L56 48.6V80.9L28 97L0 80.9V48.6Z" fill="none" stroke="white" stroke-width="1"/>
-        </pattern></defs>
-        <rect width="100%" height="100%" fill="url(#honeycomb-p)"/>
-      </svg>
-      <svg width="100%" height="100%" viewBox="0 0 400 400" class="absolute inset-0" preserveAspectRatio="none">
-        <path d="M0 300 Q 50 280 100 320 T 200 300 T 300 340 T 400 310 L 400 400 L 0 400Z" fill="rgba(18,188,0,0.04)"/>
-        <circle cx="50" cy="50" r="8" fill="rgba(18,188,0,0.06)"/>
-        <circle cx="350" cy="80" r="12" fill="rgba(18,188,0,0.05)"/>
-        <circle cx="180" cy="120" r="6" fill="rgba(18,188,0,0.07)"/>
-        <circle cx="80" cy="240" r="10" fill="rgba(18,188,0,0.05)"/>
-      </svg>
-    </div>
-    <div class="rounded-2xl shadow-2xl p-8 w-full max-w-md relative" style="background: #111118; border: 1px solid #1e1e2a">
-      <div class="text-center mb-6">
-        <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-16 w-16 mx-auto mb-4 text-3xl"><i class="fas fa-wifi text-[#12BC00]"></i></span>
-        <h1 class="text-xl font-bold text-white mb-2">Login</h1>
-        <p class="text-white/50 text-sm">Sign in to your portal</p>
-      </div>
+  <div class="min-h-screen flex items-center justify-center px-6 py-8 relative overflow-hidden" style="background: #0a0a0f">
+    <!-- Subtle green glow on black -->
+    <div class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[640px] h-[360px] rounded-full opacity-[0.09]" style="background: radial-gradient(ellipse at center, #12BC00 0%, transparent 70%)"></div>
 
-      <!-- Role badge preview -->
-      <div v-if="detectedRole" class="mb-4 p-3 rounded-lg bg-[#12BC00]/10 border border-[#12BC00]/30 flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-[#12BC00]/20 text-[#12BC00] flex items-center justify-center text-sm">
-          <i :class="roleIcon"></i>
+    <div class="w-full max-w-md relative page-enter">
+      <div class="rounded-3xl p-6 sm:p-7" style="background: #111118; border: 1px solid #1e1e2a; box-shadow: 0 24px 60px rgba(0,0,0,.45)">
+        <!-- Brand -->
+        <div class="flex items-center justify-center gap-2.5 mb-4">
+          <span class="inline-flex items-center justify-center h-14 w-14 rounded-2xl text-2xl" style="background: rgba(18,188,0,.12); border: 1px solid rgba(18,188,0,.35); color: #12BC00">
+            <i class="fas fa-wifi"></i>
+          </span>
         </div>
-        <div>
-          <p class="text-[#12BC00] text-xs font-semibold uppercase tracking-wide">{{ roleLabel }}</p>
-          <p class="text-white/60 text-xs">Redirecting to {{ redirectPath }}...</p>
-        </div>
-      </div>
 
-      <form @submit.prevent="handleLogin" class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-white/70 mb-1.5">Email</label>
-          <input v-model="email" type="email" required class="w-full bg-[#0a0a0f] border border-[#1e1e2a] rounded-xl px-4 py-3 text-white focus:border-[#12BC00] focus:outline-none transition-colors" placeholder="you@company.com">
+        <!-- Heading block -->
+        <div class="text-center mb-5">
+          <p class="text-[10px] font-bold uppercase tracking-[3px] mb-1" style="color: #12BC00">Sign in</p>
+          <h1 class="text-xl font-black text-white">Welcome back</h1>
+          <p class="text-sm text-white/50">Enter your details to access your workspace</p>
         </div>
-        <div>
-          <label class="block text-sm font-medium text-white/70 mb-1.5">Password</label>
-          <div class="relative">
-            <input v-model="password" :type="showPassword ? 'text' : 'password'" required class="w-full bg-[#0a0a0f] border border-[#1e1e2a] rounded-xl px-4 py-3 pr-10 text-white focus:border-[#12BC00] focus:outline-none transition-colors" placeholder="••••••••">
-            <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70">
-              <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-            </button>
+
+        <!-- Error -->
+        <div v-if="error" class="rounded-2xl px-4 py-3 mb-5 text-sm" style="background: rgba(127,29,29,.18); border: 1px solid rgba(248,113,113,.3); color: #fca5a5">
+          {{ error }}
+        </div>
+
+        <!-- Role preview -->
+        <div v-if="detectedRole" class="mb-5 p-3 rounded-xl flex items-center gap-3" style="background: rgba(18,188,0,.08); border: 1px solid rgba(18,188,0,.3)">
+          <span class="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style="background: rgba(18,188,0,.18); color: #12BC00">
+            <i :class="roleIcon"></i>
+          </span>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wide" style="color: #12BC00">{{ roleLabel }}</p>
+            <p class="text-xs text-white/60">Redirecting to {{ redirectPath }}...</p>
           </div>
         </div>
-        <p v-if="error" class="text-red-400 text-sm bg-red-500/10 p-3 rounded-lg">{{ error }}</p>
-        <button type="submit" :disabled="loading" class="w-full bg-[#12BC00] hover:bg-[#66BB6A] text-white font-semibold py-2.5 rounded-xl transition-all shadow-lg shadow-[#12BC00]/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-          <i v-if="loading" class="fas fa-spinner fa-spin"></i>
-          {{ loading ? 'Signing in...' : 'Sign In' }}
-        </button>
-      </form>
 
-      <div class="mt-6 text-center">
-        <p class="text-sm text-white/50 mb-2">Don't have an account?</p>
-        <router-link to="/register" class="text-sm text-[#12BC00] hover:underline font-medium">Register as Reseller</router-link>
+        <form @submit.prevent="handleLogin" class="space-y-3">
+          <div>
+            <label for="email" class="block text-sm font-semibold text-white/70 mb-1">Email address</label>
+            <div class="relative">
+              <i class="fas fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-sm pointer-events-none" style="color: #A5D6A7; opacity: .6"></i>
+              <input id="email" v-model="email" type="email" required autofocus autocomplete="username"
+                     placeholder="you@company.com"
+                     class="w-full pl-11 pr-4 py-2.5 rounded-xl text-sm text-white outline-none transition-all duration-200 form-input" />
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-baseline justify-between mb-1">
+              <label for="password" class="block text-sm font-semibold text-white/70">Password</label>
+              <router-link to="/contact" class="text-xs font-medium transition-colors" style="color: #12BC00">Forgot password?</router-link>
+            </div>
+            <div class="relative">
+              <i class="fas fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-sm pointer-events-none" style="color: #A5D6A7; opacity: .6"></i>
+              <input id="password" v-model="password" :type="showPassword ? 'text' : 'password'" required autocomplete="current-password"
+                     placeholder="••••••••"
+                     class="w-full pl-11 pr-11 py-2.5 rounded-xl text-sm text-white outline-none transition-all duration-200 form-input" />
+              <button type="button" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-white/40 hover:text-white transition-colors" :aria-label="showPassword ? 'Hide password' : 'Show password'" @click="showPassword = !showPassword">
+                <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-sm"></i>
+              </button>
+            </div>
+          </div>
+
+          <label class="flex items-center gap-2 pt-1 cursor-pointer">
+            <input v-model="remember" type="checkbox" class="w-4 h-4 rounded" style="accent-color: #12BC00" />
+            <span class="text-sm text-white/60">Remember me</span>
+          </label>
+
+          <button type="submit" :disabled="loading"
+                  class="w-full py-2.5 text-white rounded-xl font-bold text-sm uppercase tracking-wide transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 flex items-center justify-center gap-2"
+                  style="background: #12BC00; box-shadow: 0 6px 18px rgba(18,188,0,.22)"
+                  @mouseover="$event.currentTarget.style.background='#0B8A00'"
+                  @mouseout="$event.currentTarget.style.background='#12BC00'">
+            <i v-if="loading" class="fas fa-spinner fa-spin"></i>
+            {{ loading ? 'Signing in...' : 'Sign in' }}
+          </button>
+        </form>
+
+        <div class="mt-6 text-center space-y-1.5">
+          <p class="text-sm text-white/50">Don't have an account?
+            <router-link to="/reseller/signup" class="font-semibold" style="color: #12BC00">Register as Reseller</router-link>
+          </p>
+          <p class="text-sm text-white/50">WiFi user?
+            <router-link to="/hotspot/login" class="font-semibold" style="color: #12BC00">Login with phone</router-link>
+          </p>
+        </div>
       </div>
-      <p class="text-center text-sm text-white/50 mt-4">
-        WiFi user? <router-link to="/hotspot/login" class="text-[#12BC00] hover:underline">Login with phone</router-link>
+
+      <p class="mt-4 pt-4 text-center text-xs text-white/30" style="border-top: 1px solid rgba(255,255,255,.06)">
+        Internet vouchers · Resellers · HQ management
       </p>
     </div>
   </div>
@@ -75,33 +103,35 @@ const router = useRouter()
 const auth = useAuthStore()
 const email = ref('')
 const password = ref('')
+const remember = ref(false)
 const error = ref('')
 const loading = ref(false)
 const detectedRole = ref(null)
 const showPassword = ref(false)
 
 const ROLE_META = {
-  admin:          { label: 'HQ Panel',            icon: 'fas fa-shield-alt',  redirect: '/admin/dashboard' },
-  super_admin:    { label: 'HQ Panel',            icon: 'fas fa-crown',       redirect: '/admin/dashboard' },
-  reseller:       { label: 'Reseller Portal',     icon: 'fas fa-ticket-alt',  redirect: '/reseller/dashboard' },
-  customer:       { label: 'Customer Portal',    icon: 'fas fa-wifi',        redirect: '/hotspot/dashboard' }
+  admin:        { label: 'HQ Panel',        icon: 'fas fa-shield-alt', redirect: '/admin/dashboard' },
+  super_admin:  { label: 'HQ Panel',        icon: 'fas fa-crown',      redirect: '/admin/dashboard' },
+  reseller:     { label: 'Reseller Portal', icon: 'fas fa-ticket-alt', redirect: '/reseller/dashboard' },
+  customer:     { label: 'Customer Portal', icon: 'fas fa-wifi',       redirect: '/hotspot/dashboard' },
 }
 
 const roleLabel = computed(() => ROLE_META[detectedRole.value]?.label || '')
 const roleIcon = computed(() => ROLE_META[detectedRole.value]?.icon || 'fas fa-user')
 const redirectPath = computed(() => ROLE_META[detectedRole.value]?.redirect || '/login')
 
-// Preview role after successful login attempt
 async function handleLogin() {
-  loading.value = true; error.value = ''
+  loading.value = true
+  error.value = ''
   try {
     const r = await auth.login(email.value, password.value)
     detectedRole.value = r.user.role
-    // Small delay so user sees the role badge
     await new Promise(resolve => setTimeout(resolve, 600))
     router.push(r.redirect)
   } catch (e) {
-    error.value = e.response?.data?.error || 'Invalid email or password'
-  } finally { loading.value = false }
+    error.value = e.response?.data?.error || e.response?.data?.message || 'Invalid email or password'
+  } finally {
+    loading.value = false
+  }
 }
 </script>

@@ -287,7 +287,7 @@ const tiers = [
 
 function tierColor(tier) { return tiers.find(t => t.key === tier)?.color || '#cd7f32' }
 function tierBadgeClass(tier) {
-  const m = { bronze: 'bg-orange-500/10 text-orange-400', silver: 'bg-gray-400/10 text-gray-300', gold: 'bg-yellow-500/10 text-yellow-400', platinum: 'bg-purple-500/10 text-purple-400' }
+  const m = { bronze: 'bg-[#12BC00]/10 text-[#66BB6A]', silver: 'bg-gray-400/10 text-gray-300', gold: 'bg-yellow-500/10 text-yellow-400', platinum: 'bg-purple-500/10 text-purple-400' }
   return m[tier] || m.bronze
 }
 
