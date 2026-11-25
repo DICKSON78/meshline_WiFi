@@ -17,7 +17,24 @@ class OmadaTestCommand extends Command
         $id = $this->argument('router');
         $row = $id ? $manager->row((string) $id) : null;
 
-        if (! $row) {
+        if (! $id) {
+            // Allow testing the global OMADA_* config before a router is added.
+            $row = [
+                'router_id' => 'env',
+                'router_name' => 'Omada (env)',
+                'driver' => 'omada',
+                'omada_mode' => env('OMADA_MODE', 'onprem'),
+                'omada_controller_url' => env('OMADA_CONTROLLER_URL'),
+                'omada_site_id' => env('OMADA_SITE_ID'),
+                'omada_username' => env('OMADA_USERNAME', 'admin'),
+                'password' => env('OMADA_PASSWORD'),
+                'omada_client_id' => env('OMADA_CLIENT_ID'),
+                'omada_client_secret' => env('OMADA_CLIENT_SECRET'),
+                'host' => env('OMADA_HOST', ''),
+                'omada_port' => env('OMADA_PORT', 8043),
+            ];
+            $this->line('Testing global OMADA_* configuration (no router id given).');
+        } elseif (! $row) {
             $this->error('Router not found. Pass a router id: php artisan omada:test <router-id>');
 
             return self::FAILURE;

@@ -88,7 +88,12 @@ class OmadaClient
             return str_ends_with($url, '/api/v2') ? $url : $url.'/api/v2';
         }
 
-        return 'https://'.$this->host().':'.(int) ($this->router['omada_port'] ?? env('OMADA_PORT', 8043)).'/api/v2';
+        $host = $this->host();
+        if ($host === '') {
+            throw new \RuntimeException('Omada controller is not configured: set OMADA_CONTROLLER_URL or the router host.');
+        }
+
+        return 'https://'.$host.':'.(int) ($this->router['omada_port'] ?? env('OMADA_PORT', 8043)).'/api/v2';
     }
 
     private function verifyTls(): bool
@@ -122,16 +127,51 @@ class OmadaClient
         if ($response->failed()) {
             throw new \RuntimeException('Omada login failed ('.$response->status().'): '.$response->body());
         }
-        $json = $response->json();
-        $this->token = (string) ($json['result']['token'] ?? $json['token'] ?? $response->header('X-CSRFToken') ?? '');
-        $setCookie = $response->header('Set-Cookie');
-        if (is_array($setCookie)) {
-            $setCookie = implode('; ', $setCookie);
+        $json = is_array($response->json()) ? $response->json() : [];
+        if ($this->mode === 'cloud' && ($this->router['omada_client_id'] ?? env('OMADA_CLIENT_ID', '')) === '') {
+            throw new \RuntimeException('Omada cloud requires OMADA_CLIENT_ID / OMADA_CLIENT_SECRET.');
         }
-        if ($setCookie) {
-            $this->cookie = (string) preg_replace('/,.*/s', '', (string) $setCookie);
-        }
+        $this->token = (string) (
+            $json['result']['token']
+            ?? $json['result']['accessToken']
+            ?? $json['token']
+            ?? $json['accessToken']
+            ?? $response->header('X-CSRFToken')
+            ?? ''
+        );
+        $this->cookie = $this->cookiesFromHeader($response->header('Set-Cookie'));
         $this->authenticated = true;
+    }
+
+    /** Extract real cookies from a Set-Cookie header, dropping attributes. */
+    private function cookiesFromHeader(mixed $header): ?string
+    {
+        if (! $header) {
+            return null;
+        }
+        $raw = is_array($header) ? implode("\n", $header) : (string) $header;
+        $parts = preg_split('/;\s*|,\s*(?=[A-Za-z_][A-Za-z0-9_-]*=)/', $raw) ?: [];
+        $skip = ['expires', 'max-age', 'path', 'domain', 'secure', 'httponly', 'samesite', 'priority'];
+        $cookies = [];
+        foreach ($parts as $part) {
+            $part = trim($part);
+            if (! preg_match('/^([^=;\s]+)=(.*)$/', $part, $m)) {
+                continue;
+            }
+            if (in_array(strtolower($m[1]), $skip, true)) {
+                continue;
+            }
+            $cookies[$m[1]] = $m[2];
+        }
+        if (! $cookies) {
+            return null;
+        }
+        $pairs = [];
+        foreach ($cookies as $name => $value) {
+            $pairs[] = $name.'='.$value;
+        }
+
+        return implode('; ', $pairs);
     }
 
     private function request(string $method, string $path, array $data = [], array $query = []): array
