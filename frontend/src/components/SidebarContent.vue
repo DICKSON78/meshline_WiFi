@@ -46,7 +46,7 @@
                          :class="isActive(item.path)
                            ? 'text-white shadow-lg'
                            : 'text-white/60 hover:text-white hover:bg-white/10'"
-                         :style="isActive(item.path) ? 'background: linear-gradient(135deg, #12BC00, #0B8A00); box-shadow: 0 4px 14px rgba(18,188,0,0.28)' : ''"
+                         :style="isActive(item.path) ? 'background: #12BC00; box-shadow: 0 4px 14px rgba(18,188,0,0.28)' : ''"
                          :title="collapsed ? item.label : null"
                          @click="$emit('navigate')">
               <i :class="item.icon" class="shrink-0 w-5 text-center text-sm"></i>

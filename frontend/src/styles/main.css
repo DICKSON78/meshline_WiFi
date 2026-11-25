@@ -665,18 +665,15 @@ select.form-input option {
 
 /* ===== Green-tinted content background (black base preserved) ===== */
 .content-area {
-  background:
-    radial-gradient(900px 380px at 12% -8%, rgba(18, 188, 0, .10) 0%, transparent 70%),
-    radial-gradient(700px 320px at 92% 4%, rgba(102, 187, 106, .06) 0%, transparent 70%),
-    linear-gradient(180deg, #0b140d 0%, #0a0a0f 55%, #09120b 100%);
+  background: #0b120c;
 }
 .topbar {
-  background: linear-gradient(90deg, #0e160f 0%, #111118 60%, #0d160f 100%);
+  background: #0e160f;
 }
 .card,
 .section-card,
 .stat-card {
-  background: linear-gradient(160deg, rgba(18, 188, 0, .045), transparent 42%), #101710;
+  background: #101710;
   border-color: rgba(165, 214, 167, .14);
 }
 .card:hover,
@@ -685,7 +682,7 @@ select.form-input option {
   border-color: rgba(18, 188, 0, .32);
 }
 .section-card .section-header {
-  background: rgba(18, 188, 0, .035);
+  background: #0d150e;
   border-bottom-color: rgba(165, 214, 167, .1);
 }
 .re-table thead th {
@@ -701,6 +698,6 @@ select.form-input option {
   border-color: rgba(165, 214, 167, .16);
 }
 .dropdown-panel {
-  background: linear-gradient(160deg, rgba(18, 188, 0, .05), transparent 45%), #121a13;
+  background: #121a13;
   border-color: rgba(165, 214, 167, .16);
 }

@@ -6,7 +6,7 @@
     <!-- Mobile drawer -->
     <div class="fixed inset-y-0 left-0 z-50 w-[272px] max-w-[85vw] md:hidden"
          :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-         style="transition: transform .3s ease; background: linear-gradient(180deg, #0a0a0f 0%, #0e180f 55%, #070b08 100%)">
+         style="transition: transform .3s ease; background: #0b120c">
       <SidebarContent
         :nav-items="navItems"
         :subtitle="title"
@@ -21,7 +21,7 @@
     <!-- Desktop sidebar: full rail or collapsed icon rail -->
     <aside class="hidden md:flex shrink-0 flex-col transition-[width] duration-300 ease-in-out"
            :class="collapsed ? 'w-[76px]' : 'w-[272px]'"
-           style="background: linear-gradient(180deg, #0a0a0f 0%, #0e180f 55%, #070b08 100%); border-right: 1px solid rgba(165,214,167,.08)">
+           style="background: #0b120c; border-right: 1px solid rgba(165,214,167,.08)">
       <SidebarContent
         :nav-items="navItems"
         :subtitle="title"
@@ -114,7 +114,7 @@
         <div class="p-4 md:p-6 page-enter">
           <div v-if="subtitle" class="mb-5">
             <h1 class="page-title">{{ subtitle }}</h1>
-            <div class="mt-2 h-0.5 w-14 rounded-full" style="background: linear-gradient(90deg, #12BC00, #66BB6A)"></div>
+            <div class="mt-2 h-0.5 w-14 rounded-full" style="background: #12BC00"></div>
           </div>
           <slot />
         </div>

@@ -1,10 +1,9 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center px-6 py-8 relative overflow-hidden" style="background: radial-gradient(900px 480px at 50% -5%, rgba(18,188,0,.14) 0%, transparent 65%), linear-gradient(180deg, #0b150d 0%, #0a0a0f 62%)">
+  <div class="min-h-screen flex items-center justify-center px-6 py-8 relative overflow-hidden" style="background: #0b120c">
     <!-- Subtle green glow on black -->
-    <div class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[640px] h-[360px] rounded-full opacity-[0.09]" style="background: radial-gradient(ellipse at center, #12BC00 0%, transparent 70%)"></div>
 
     <div class="w-full max-w-md relative page-enter">
-      <div class="rounded-3xl p-6 sm:p-7" style="background: linear-gradient(160deg, rgba(18,188,0,.05), transparent 42%), #111a12; border: 1px solid rgba(165,214,167,.16); box-shadow: 0 24px 60px rgba(0,0,0,.45)">
+      <div class="rounded-3xl p-6 sm:p-7" style="background: #111a12; border: 1px solid rgba(165,214,167,.16); box-shadow: 0 24px 60px rgba(0,0,0,.45)">
         <!-- Brand -->
         <div class="flex items-center justify-center gap-2.5 mb-4">
           <span class="inline-flex items-center justify-center h-14 w-14 rounded-2xl text-2xl" style="background: rgba(18,188,0,.12); border: 1px solid rgba(18,188,0,.35); color: #12BC00">
