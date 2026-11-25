@@ -18,7 +18,7 @@
     </div>
     <div class="rounded-2xl shadow-2xl p-8 w-full max-w-md relative" style="background: #111118; border: 1px solid #1e1e2a">
       <div class="text-center mb-6">
-        <img src="/logo.png" class="h-16 mx-auto mb-4" alt="Meshline WiFi">
+        <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-16 w-16 mx-auto mb-4 text-3xl"><i class="fas fa-wifi text-[#12BC00]"></i></span>
         <h1 class="text-xl font-bold text-white mb-2">Login</h1>
         <p class="text-white/50 text-sm">Sign in to your portal</p>
       </div>

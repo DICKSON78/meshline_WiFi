@@ -19,7 +19,7 @@
       </svg>
     </div>
     <div class="w-full max-w-[380px] text-center relative z-10">
-      <img src="/logo.png" class="h-20 mx-auto mb-3" alt="Meshline WiFi">
+      <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-20 w-20 mx-auto mb-3 text-4xl"><i class="fas fa-wifi text-[#12BC00]"></i></span>
       <h1 class="ig-wordmark text-4xl mb-1">Meshline WiFi</h1>
       <p class="text-white/50 mb-6">Free WiFi for Everyone</p>
 

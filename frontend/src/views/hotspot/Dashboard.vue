@@ -181,8 +181,8 @@ function sendNotification(title, body) {
   if (Notification.permission === 'granted') {
     const notification = new Notification(title, {
       body: body,
-      icon: '/logo.png',
-      badge: '/logo.png',
+      icon: '/favicon.svg',
+      badge: '/favicon.svg',
       tag: 'meshline-' + Date.now()
     })
     notification.onclick = () => {

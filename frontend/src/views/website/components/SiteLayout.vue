@@ -5,7 +5,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 lg:h-20 items-center">
           <router-link to="/" class="flex items-center space-x-2">
-            <img src="/logo.png" alt="Meshline WiFi" class="h-8 lg:h-10 rounded-full object-cover" />
+            <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-8 lg:h-10 w-8 lg:w-10 "><i class="fas fa-wifi text-[#12BC00]"></i></span>
             <span class="text-xl lg:text-2xl font-bold text-white">Meshline<span class="text-[#12BC00]"> WiFi</span></span>
           </router-link>
 
@@ -58,7 +58,7 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           <div>
             <div class="flex items-center space-x-2 mb-4">
-              <img src="/logo.png" alt="Meshline WiFi" class="h-9 rounded-full object-cover" />
+              <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-9 w-9 "><i class="fas fa-wifi text-[#12BC00]"></i></span>
               <span class="text-xl font-bold text-white">Meshline<span class="text-[#12BC00]"> WiFi</span></span>
             </div>
             <p class="text-white/60 text-sm leading-relaxed mb-5">

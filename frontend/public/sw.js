@@ -24,8 +24,8 @@ self.addEventListener('push', (event) => {
   try { data = { ...data, ...(event.data?.json() || {}) }; } catch (_) { /* use the default notification */ }
   event.waitUntil(self.registration.showNotification(data.title, {
     body: data.body,
-    icon: '/logo.png',
-    badge: '/logo.png',
+    icon: '/favicon.svg',
+    badge: '/favicon.svg',
     vibrate: [200, 100, 200],
     data: { url: data.url || '/hotspot/' },
   }));

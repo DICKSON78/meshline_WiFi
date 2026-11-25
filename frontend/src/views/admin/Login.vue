@@ -18,7 +18,7 @@
     </div>
     <div class="section-card w-full max-w-md relative p-8">
       <div class="text-center mb-8">
-        <img src="/logo.png" class="h-16 mx-auto mb-4" alt="Meshline WiFi">
+        <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-16 w-16 mx-auto mb-4 text-3xl"><i class="fas fa-wifi text-[#12BC00]"></i></span>
         <h1 class="text-2xl font-bold text-white">Admin Panel</h1>
         <p class="mt-1" style="color: #6b7280">Sign in to continue</p>
       </div>

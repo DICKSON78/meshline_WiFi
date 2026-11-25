@@ -18,7 +18,7 @@
     </div>
     <div class="w-full max-w-md bg-[#111118] rounded-2xl shadow-2xl p-8 relative">
       <div class="text-center mb-6">
-        <img src="/logo.png" class="h-12 mx-auto mb-3" alt="Meshline WiFi">
+        <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-12 w-12 mx-auto mb-3 text-2xl"><i class="fas fa-wifi text-[#12BC00]"></i></span>
         <h1 class="text-2xl font-bold text-white">Reseller Registration</h1>
         <p class="text-sm text-white/50 mt-1">Join Meshline WiFi as a reseller</p>
       </div>

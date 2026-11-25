@@ -26,7 +26,7 @@
       <div class="bg-[#111118] border border-[#1e1e2a] rounded-2xl w-full max-w-sm p-5 relative">
         <button class="absolute top-3 right-3 text-white/50 hover:text-white" @click="closePopup"><i class="fa-solid fa-xmark"></i></button>
         <div class="flex items-center gap-3 mb-4">
-          <img src="/logo.png" class="h-12 w-12 rounded-xl" alt="Meshline WiFi">
+          <span class="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-[#12BC00]/15 border border-[#12BC00]/30"><i class="fas fa-wifi text-xl text-[#12BC00]"></i></span>
           <div>
             <p class="text-base font-bold text-white">Install Meshline WiFi App</p>
             <p class="text-xs text-white/50">Kwa matumizi haraka na rahisi</p>

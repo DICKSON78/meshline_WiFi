@@ -12,7 +12,7 @@
 
     <!-- NOT on WiFi — show captive portal instruction -->
     <div v-if="store.initialized && !store.onWifi" class="bg-[#111118] rounded-2xl shadow-2xl p-8 w-full max-w-md relative text-center">
-      <img src="/logo.png" class="h-16 mx-auto mb-4" alt="Meshline WiFi">
+      <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-16 w-16 mx-auto mb-4 text-3xl"><i class="fas fa-wifi text-[#12BC00]"></i></span>
       <div class="w-16 h-16 rounded-full bg-[#12BC00]/10 flex items-center justify-center mx-auto mb-4">
         <i class="fas fa-wifi text-2xl text-[#12BC00]"></i>
       </div>
@@ -39,7 +39,7 @@
 
     <!-- ON WiFi — show login form -->
     <div v-else class="bg-[#111118] rounded-2xl shadow-2xl p-8 w-full max-w-md relative">
-      <img src="/logo.png" class="h-12 mx-auto mb-6" alt="Meshline WiFi">
+      <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-12 w-12 mx-auto mb-6 text-2xl"><i class="fas fa-wifi text-[#12BC00]"></i></span>
       <h2 class="text-xl font-bold text-white mb-4 text-center">Login</h2>
       <form @submit.prevent="handleLogin" class="space-y-4">
         <div><label class="input-label">Namba ya Simu</label><input v-model="phoneFull" type="tel" required maxlength="10" class="input" placeholder="07XXXXXXXX"></div>
