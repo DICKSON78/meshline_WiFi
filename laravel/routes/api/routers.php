@@ -29,6 +29,7 @@ Route::middleware('role:admin')->prefix('routers')->group(function () {
     Route::get('/{routerID}/details', [RouterController::class, 'details']);
     Route::post('/{routerID}/reboot', [RouterController::class, 'reboot']);
     Route::post('/{routerID}/connect', [RouterController::class, 'connect']);
+    Route::post('/{routerID}/omada-test', [RouterController::class, 'omadaTest']);
 
     Route::get('/{id}', [RouterController::class, 'show']);
     Route::put('/{id}', [RouterController::class, 'update']);

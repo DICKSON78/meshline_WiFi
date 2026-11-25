@@ -48,8 +48,11 @@ class OmadaTestCommand extends Command
             foreach (array_slice($devices, 0, 5) as $device) {
                 $this->line('  - '.($device['name'] ?? $device['deviceId'] ?? 'unknown'));
             }
+            if ($client->lastError()) {
+                $this->warn('Last API error: '.$client->lastError());
+            }
             if (! $sites && ! $devices) {
-                $this->warn('No data returned. Check OMADA_* config/endpoint compatibility (see storage/logs).');
+                $this->warn('No data returned. Check OMADA_* config and endpoint compatibility for this firmware.');
             }
 
             return self::SUCCESS;

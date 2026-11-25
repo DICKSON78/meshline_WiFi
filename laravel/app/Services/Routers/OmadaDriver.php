@@ -187,8 +187,26 @@ class OmadaDriver implements RouterDriver
     /** Omada grants access by creating a voucher (or a RADIUS identity). */
     public function grantAccess(RouterSession $session, string $clientKey, array $limits = [], bool $preserveBytes = false): array
     {
+        $client = $this->client($session);
         $duration = (int) ($limits['uptime_seconds'] ?? $limits['uptime'] ?? 3600);
-        $voucher = $this->client($session)->createVoucher([
+
+        // A reconnect must not create a second voucher for the same client.
+        foreach ($client->vouchers() as $existing) {
+            if (($existing['name'] ?? $existing['note'] ?? '') === $clientKey) {
+                return [
+                    'success' => true,
+                    'user' => $clientKey,
+                    'username' => $clientKey,
+                    'voucher' => $existing,
+                    'code' => $existing['code'] ?? $existing['voucherCode'] ?? $clientKey,
+                    'reused' => true,
+                ];
+            }
+        }
+
+        // NOTE: Omada voucher duration units vary by firmware; the controller
+        // is authoritative — the local DB remains the source of truth.
+        $voucher = $client->createVoucher([
             'name' => $clientKey,
             'note' => $clientKey,
             'clientKey' => $clientKey,
@@ -203,6 +221,7 @@ class OmadaDriver implements RouterDriver
             'username' => $clientKey,
             'voucher' => $voucher,
             'code' => $voucher['code'] ?? $voucher['voucherCode'] ?? $clientKey,
+            'reused' => false,
         ];
     }
 

@@ -240,10 +240,14 @@ on later calls. Per-router values (`omada_client_id`, `omada_client_secret`,
 php artisan omada:test <router-id>
 ```
 
-This logs in and lists sites/devices without printing credentials. If it
-returns no data, check the exact OpenAPI endpoints for your firmware (the
-uncertain ones are marked in `app/Services/Routers/OmadaClient.php`) and
-`storage/laravel.log`.
+This logs in and lists sites/devices without printing credentials. The same
+check is available from the HQ panel as
+`POST /api/routers/{routerID}/omada-test` (admin session required).
+
+`OmadaClient` tries alternative OpenAPI paths per operation (e.g. `/vouchers`
+vs `/hotspot/vouchers`, `/clients` vs `/hotspot/clients`) because firmware and
+cloud differ. The last failing path is reported by `omada:test` and the API
+endpoint, and is also written to `storage/laravel.log`.
 
 ## Cutover checklist (Node → Laravel)
 

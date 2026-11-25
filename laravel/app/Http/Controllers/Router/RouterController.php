@@ -352,6 +352,36 @@ class RouterController extends Controller
         }
     }
 
+    /** Test Omada login/sites/devices without exposing credentials. */
+    public function omadaTest(string $routerID): JsonResponse
+    {
+        $row = $this->routerRow($routerID);
+        if (! $row) {
+            return ApiResponse::fail('Router not found or not active', 404);
+        }
+        if ($this->manager()->driverFor($row)->name() !== 'omada') {
+            return ApiResponse::fail('Router hii haiko kwenye Omada mode', 400);
+        }
+        try {
+            $session = $this->manager()->connect($row);
+            $client = $session->connection;
+            $client->authenticate();
+            $sites = $client->sites();
+            $devices = $client->devices();
+
+            return ApiResponse::ok([
+                'base_url' => $client->baseUrl(),
+                'mode' => $client->mode(),
+                'site' => $client->siteId() ?: '(auto)',
+                'sites' => count($sites),
+                'devices' => count($devices),
+                'error' => $client->lastError(),
+            ]);
+        } catch (\Throwable $e) {
+            return ApiResponse::fail('Omada connection failed: '.$e->getMessage(), 502);
+        }
+    }
+
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([

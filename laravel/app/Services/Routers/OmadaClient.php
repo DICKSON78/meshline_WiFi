@@ -33,6 +33,8 @@ class OmadaClient
 
     private bool $authenticated = false;
 
+    private ?string $lastError = null;
+
     private int $timeout;
 
     public function __construct(array $router)
@@ -57,6 +59,12 @@ class OmadaClient
     public function baseUrl(): string
     {
         return $this->base;
+    }
+
+    /** Last HTTP/API error seen by safe()/firstSuccess(), for diagnostics. */
+    public function lastError(): ?string
+    {
+        return $this->lastError;
     }
 
     private function host(): string
@@ -170,15 +178,45 @@ class OmadaClient
         try {
             $response = $this->request($method, $path, $data, $query);
             if ((int) ($response['errorCode'] ?? 0) !== 0) {
+                $this->lastError = $method.' '.$path.': '.(string) ($response['msg'] ?? $response['message'] ?? 'API error '.$response['errorCode']);
+
                 return $fallback;
             }
+            $this->lastError = null;
 
             return $response['result'] ?? $response;
         } catch (\Throwable $e) {
+            $this->lastError = $method.' '.$path.': '.$e->getMessage();
             report($e);
 
             return $fallback;
         }
+    }
+
+    /**
+     * Try alternate OpenAPI paths (firmware/cloud differences) and return the
+     * first successful result. Failures are recorded in lastError().
+     */
+    private function firstSuccess(array $attempts, mixed $fallback = []): mixed
+    {
+        foreach ($attempts as $attempt) {
+            [$method, $path] = $attempt;
+            $data = $attempt[2] ?? [];
+            $query = $attempt[3] ?? [];
+            try {
+                $response = $this->request($method, $path, $data, $query);
+                if ((int) ($response['errorCode'] ?? 0) === 0) {
+                    $this->lastError = null;
+
+                    return $response['result'] ?? $response;
+                }
+                $this->lastError = $method.' '.$path.': '.(string) ($response['msg'] ?? 'API error '.$response['errorCode']);
+            } catch (\Throwable $e) {
+                $this->lastError = $method.' '.$path.': '.$e->getMessage();
+            }
+        }
+
+        return $fallback;
     }
 
     private function sitePath(string $suffix = ''): string
@@ -211,99 +249,147 @@ class OmadaClient
 
     public function ports(string $deviceId): array
     {
-        // UNCERTAIN: some firmware versions expose ports via /devices/{id}/ports.
-        return (array) $this->safe('GET', $this->sitePath('/devices/'.rawurlencode($deviceId).'/ports'), [], [], []);
+        return (array) $this->firstSuccess([
+            ['GET', $this->sitePath('/devices/'.rawurlencode($deviceId).'/ports')],
+            ['GET', $this->sitePath('/devices/'.rawurlencode($deviceId))],
+        ]);
     }
 
     public function wlans(): array
     {
-        return (array) $this->safe('GET', $this->sitePath('/wlans'), [], [], []);
+        return (array) $this->firstSuccess([
+            ['GET', $this->sitePath('/wlans')],
+            ['GET', $this->sitePath('/wlan/ssids')],
+            ['GET', $this->sitePath('/ssids')],
+        ]);
     }
 
     public function updateSsid(string $wlanId, string $ssid): bool
     {
-        // UNCERTAIN: some controllers use name= in a /wlans/{id} PATCH body.
-        $result = $this->safe('PATCH', $this->sitePath('/wlans/'.rawurlencode($wlanId)), [
-            'name' => $ssid,
-        ], [], null);
+        $id = rawurlencode($wlanId);
 
-        return $result !== null;
+        return $this->firstSuccess([
+            ['PATCH', $this->sitePath('/wlans/'.$id), ['name' => $ssid]],
+            ['PATCH', $this->sitePath('/wlan/ssids/'.$id), ['ssid' => $ssid, 'name' => $ssid]],
+        ], null) !== null;
     }
 
     public function portals(): array
     {
-        return (array) $this->safe('GET', $this->sitePath('/portals'), [], [], []);
+        return (array) $this->firstSuccess([
+            ['GET', $this->sitePath('/portals')],
+            ['GET', $this->sitePath('/portal')],
+        ]);
     }
 
     public function createPortal(array $spec): array
     {
-        // UNCERTAIN: portal schema varies (portalType, authType, ssid list).
-        return (array) $this->safe('POST', $this->sitePath('/portals'), $spec, [], []);
+        return (array) $this->firstSuccess([
+            ['POST', $this->sitePath('/portals'), $spec],
+            ['POST', $this->sitePath('/portal'), $spec],
+        ]);
     }
 
     public function vouchers(): array
     {
-        return (array) $this->safe('GET', $this->sitePath('/vouchers'), [], [], []);
+        return (array) $this->firstSuccess([
+            ['GET', $this->sitePath('/vouchers')],
+            ['GET', $this->sitePath('/hotspot/vouchers')],
+            ['GET', $this->sitePath('/portal/vouchers')],
+        ]);
     }
 
     public function createVoucher(array $spec): array
     {
-        return (array) $this->safe('POST', $this->sitePath('/vouchers'), $spec, [], []);
+        return (array) $this->firstSuccess([
+            ['POST', $this->sitePath('/vouchers'), $spec],
+            ['POST', $this->sitePath('/hotspot/vouchers'), $spec],
+        ]);
     }
 
     public function deleteVoucher(string $voucherId): bool
     {
-        return $this->safe('DELETE', $this->sitePath('/vouchers/'.rawurlencode($voucherId)), [], [], null) !== null;
+        $id = rawurlencode($voucherId);
+
+        return $this->firstSuccess([
+            ['DELETE', $this->sitePath('/vouchers/'.$id)],
+            ['DELETE', $this->sitePath('/hotspot/vouchers/'.$id)],
+        ], null) !== null;
     }
 
     public function clients(): array
     {
-        return (array) $this->safe('GET', $this->sitePath('/clients'), [], [], []);
+        return (array) $this->firstSuccess([
+            ['GET', $this->sitePath('/clients')],
+            ['GET', $this->sitePath('/hotspot/clients')],
+        ]);
     }
 
     public function disconnectClient(string $clientId): bool
     {
-        // UNCERTAIN: TP-Link exposes kick as a POST to /clients/{id}/disconnect.
-        return $this->safe('POST', $this->sitePath('/clients/'.rawurlencode($clientId).'/disconnect'), [], [], null) !== null;
+        $id = rawurlencode($clientId);
+
+        return $this->firstSuccess([
+            ['POST', $this->sitePath('/clients/'.$id.'/disconnect')],
+            ['POST', $this->sitePath('/hotspot/clients/'.$id.'/disconnect')],
+            ['POST', $this->sitePath('/clients/'.$id.'/kick')],
+        ], null) !== null;
     }
 
     public function setClientBlocked(string $clientId, bool $blocked): bool
     {
-        // UNCERTAIN: block state may live under /blocked-clients on old builds.
-        return $this->safe('PATCH', $this->sitePath('/clients/'.rawurlencode($clientId)), [
-            'block' => $blocked,
-        ], [], null) !== null;
+        $id = rawurlencode($clientId);
+        $data = ['block' => $blocked];
+
+        return $this->firstSuccess([
+            ['PATCH', $this->sitePath('/clients/'.$id), $data],
+            ['POST', $this->sitePath('/clients/'.$id.'/block'), $data],
+        ], null) !== null;
     }
 
     public function radiusServers(): array
     {
-        // UNCERTAIN: AAA endpoint name differs between on-prem and cloud.
-        return (array) $this->safe('GET', $this->sitePath('/authentication/servers'), [], [], []);
+        return (array) $this->firstSuccess([
+            ['GET', $this->sitePath('/authentication/servers')],
+            ['GET', $this->sitePath('/aaa/servers')],
+            ['GET', $this->sitePath('/radius/servers')],
+        ]);
     }
 
     public function configureRadius(array $spec): bool
     {
-        // UNCERTAIN: AAA server object schema is firmware-dependent.
-        return $this->safe('POST', $this->sitePath('/authentication/servers'), $spec, [], null) !== null;
+        return $this->firstSuccess([
+            ['POST', $this->sitePath('/authentication/servers'), $spec],
+            ['POST', $this->sitePath('/aaa/servers'), $spec],
+        ], null) !== null;
     }
 
     public function walledGarden(array $spec): bool
     {
-        // UNCERTAIN: Omada calls this a portal "free rule" / whitelist.
-        return $this->safe('POST', $this->sitePath('/portals/free-rules'), $spec, [], null) !== null;
+        return $this->firstSuccess([
+            ['POST', $this->sitePath('/portals/free-rules'), $spec],
+            ['POST', $this->sitePath('/portal/free-rules'), $spec],
+            ['POST', $this->sitePath('/hotspot/free-rules'), $spec],
+        ], null) !== null;
     }
 
     public function logs(int $limit = 50): array
     {
-        // UNCERTAIN: log endpoint may be /logs with a "limit" query parameter.
-        $rows = (array) $this->safe('GET', $this->sitePath('/logs'), [], ['limit' => $limit], []);
+        $rows = (array) $this->firstSuccess([
+            ['GET', $this->sitePath('/logs'), [], ['limit' => $limit]],
+            ['GET', $this->sitePath('/events'), [], ['limit' => $limit]],
+        ]);
 
         return array_slice($rows, -max(1, $limit));
     }
 
     public function rebootDevice(string $deviceId): bool
     {
-        // UNCERTAIN: confirmed on recent controller versions, absent on older.
-        return $this->safe('POST', $this->sitePath('/devices/'.rawurlencode($deviceId).'/reboot'), [], [], null) !== null;
+        $id = rawurlencode($deviceId);
+
+        return $this->firstSuccess([
+            ['POST', $this->sitePath('/devices/'.$id.'/reboot')],
+            ['POST', $this->sitePath('/devices/'.$id.'/power/reboot')],
+        ], null) !== null;
     }
 }
