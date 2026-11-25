@@ -207,27 +207,43 @@ ROUTER_DRIVER=omada
 OMADA_MODE=onprem
 OMADA_CONTROLLER_URL=https://192.168.88.10:8043
 OMADA_SITE_ID=Default
-OMADA_CLIENT_ID=
-OMADA_CLIENT_SECRET=
+OMADA_USERNAME=admin
+OMADA_PASSWORD=
+OMADA_VERIFY_TLS=false     # self-signed controller certificates
+OMADA_TIMEOUT=10
 ```
 
-On-prem uses cookie auth plus `X-CSRFToken`; supply controller credentials in
-the router row (`omada_user` / `omada_password` or the client-id pair, encrypted
-at rest) when the driver requires them.
+On-prem uses `POST /api/v2/login` with username/password, then sends the
+session cookie plus `X-CSRFToken`. Controller values can be set globally with
+the `OMADA_*` variables above, or per router in `mikrotiks` using the admin
+router API (`driver`, `omada_mode`, `omada_controller_url`, `omada_site_id`,
+`omada_username`, `omada_password`). Secrets are encrypted at rest.
 
 ### Omada cloud
 
 ```dotenv
 ROUTER_DRIVER=omada
 OMADA_MODE=cloud
-OMADA_CONTROLLER_URL=https://omada.tplinknetwork.com
+OMADA_CLOUD_URL=https://omada.tplinknetwork.com
 OMADA_SITE_ID=<site-id>
 OMADA_CLIENT_ID=<client-id>
 OMADA_CLIENT_SECRET=<client-secret>
 ```
 
-Cloud uses client-credentials OAuth against `/api/v2`. Per-router values in
-`mikrotiks` take precedence over these globals.
+Cloud uses `clientId`/`clientSecret` against `/api/v2/login` and a Bearer token
+on later calls. Per-router values (`omada_client_id`, `omada_client_secret`,
+`omada_site_id`) take precedence over these globals.
+
+### Verify the connection
+
+```bash
+php artisan omada:test <router-id>
+```
+
+This logs in and lists sites/devices without printing credentials. If it
+returns no data, check the exact OpenAPI endpoints for your firmware (the
+uncertain ones are marked in `app/Services/Routers/OmadaClient.php`) and
+`storage/laravel.log`.
 
 ## Cutover checklist (Node → Laravel)
 

@@ -17,7 +17,7 @@ trait RouterResponseTrait
             return $router;
         }
         $row = (array) $router;
-        foreach (['password', 'wireguard_private_key', 'wireguard_preshared_key'] as $key) {
+        foreach (['password', 'omada_password', 'omada_client_secret', 'wireguard_private_key', 'wireguard_preshared_key'] as $key) {
             unset($row[$key]);
         }
 

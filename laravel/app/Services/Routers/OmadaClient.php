@@ -41,9 +41,7 @@ class OmadaClient
         $this->mode = strtolower((string) ($router['omada_mode'] ?? env('OMADA_MODE', 'onprem')));
         $this->siteId = (string) ($router['omada_site_id'] ?? env('OMADA_SITE_ID', ''));
         $this->timeout = max(2, (int) env('OMADA_TIMEOUT', 10));
-        $this->base = $this->mode === 'cloud'
-            ? rtrim((string) env('OMADA_CLOUD_URL', 'https://omada.tplinknetwork.com'), '/').'/api/v2'
-            : 'https://'.$this->host().':'.(int) ($router['omada_port'] ?? env('OMADA_PORT', 8043)).'/api/v2';
+        $this->base = $this->mode === 'cloud' ? $this->cloudBase() : $this->onPremBase();
     }
 
     public function mode(): string
@@ -56,9 +54,33 @@ class OmadaClient
         return $this->siteId;
     }
 
+    public function baseUrl(): string
+    {
+        return $this->base;
+    }
+
     private function host(): string
     {
         return (string) ($this->router['host'] ?? $this->router['omada_host'] ?? '');
+    }
+
+    private function cloudBase(): string
+    {
+        $url = (string) (env('OMADA_CLOUD_URL') ?: env('OMADA_BASE_URL') ?: 'https://omada.tplinknetwork.com');
+
+        return rtrim($url, '/').'/api/v2';
+    }
+
+    private function onPremBase(): string
+    {
+        $url = (string) ($this->router['omada_controller_url'] ?? env('OMADA_CONTROLLER_URL', ''));
+        if ($url !== '') {
+            $url = rtrim($url, '/');
+
+            return str_ends_with($url, '/api/v2') ? $url : $url.'/api/v2';
+        }
+
+        return 'https://'.$this->host().':'.(int) ($this->router['omada_port'] ?? env('OMADA_PORT', 8043)).'/api/v2';
     }
 
     private function verifyTls(): bool
@@ -79,8 +101,10 @@ class OmadaClient
                 'clientSecret' => (string) ($this->router['omada_client_secret'] ?? env('OMADA_CLIENT_SECRET', '')),
             ]
             : [
-                'username' => (string) ($this->router['user'] ?? $this->router['omada_user'] ?? 'admin'),
-                'password' => (string) ($this->router['password'] ?? $this->router['omada_password'] ?? ''),
+                'username' => (string) ($this->router['omada_username'] ?? $this->router['user']
+                    ?? $this->router['omada_user'] ?? env('OMADA_USERNAME', 'admin')),
+                'password' => (string) ($this->router['omada_password'] ?? $this->router['password']
+                    ?? env('OMADA_PASSWORD', '')),
             ];
         $response = Http::withOptions([
             'verify' => $this->verifyTls(),

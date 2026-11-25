@@ -358,20 +358,44 @@ class RouterController extends Controller
             'router_id' => 'required|string',
             'router_name' => 'required|string',
             'host' => 'required|string',
-            'user' => 'required|string',
-            'password' => 'required|string',
+            'user' => 'nullable|string',
+            'password' => 'nullable|string',
+            'driver' => 'sometimes|in:mikrotik,omada',
+            'omada_mode' => 'sometimes|in:onprem,cloud',
+            'omada_controller_url' => 'sometimes|nullable|string',
+            'omada_site_id' => 'sometimes|nullable|string',
+            'omada_client_id' => 'sometimes|nullable|string',
+            'omada_client_secret' => 'sometimes|nullable|string',
+            'omada_username' => 'sometimes|nullable|string',
+            'omada_password' => 'sometimes|nullable|string',
         ]);
+        $driver = strtolower((string) ($data['driver'] ?? env('ROUTER_DRIVER', 'mikrotik')));
+        if ($driver !== 'omada' && (empty($data['user']) || empty($data['password']))) {
+            return ApiResponse::fail('MikroTik user na password vinahitajika', 422);
+        }
+        $insert = [
+            'router_id' => $data['router_id'], 'router_name' => $data['router_name'],
+            'host' => $data['host'], 'user' => $data['user'] ?? null,
+            'password' => ! empty($data['password']) ? Encryption::encrypt($data['password']) : null,
+            'driver' => $driver,
+            'port' => (int) ($request->input('port') ?: ($driver === 'omada' ? 8043 : 8728)),
+            'location_id' => $request->input('location_id'),
+            'ssid' => $request->input('ssid'), 'model' => $request->input('model'),
+            'serial_number' => $request->input('serial_number'),
+            'status' => 'offline', 'created_at' => now(), 'updated_at' => now(),
+        ];
+        foreach (['omada_mode', 'omada_controller_url', 'omada_site_id', 'omada_client_id', 'omada_username'] as $key) {
+            if ($request->filled($key)) {
+                $insert[$key] = $request->input($key);
+            }
+        }
+        foreach (['omada_client_secret', 'omada_password'] as $secret) {
+            if ($request->filled($secret)) {
+                $insert[$secret] = Encryption::encrypt((string) $request->input($secret));
+            }
+        }
         try {
-            DB::table('mikrotiks')->insert([
-                'router_id' => $data['router_id'], 'router_name' => $data['router_name'],
-                'host' => $data['host'], 'user' => $data['user'],
-                'password' => Encryption::encrypt($data['password']),
-                'port' => (int) ($request->input('port') ?: 8728),
-                'location_id' => $request->input('location_id'),
-                'ssid' => $request->input('ssid'), 'model' => $request->input('model'),
-                'serial_number' => $request->input('serial_number'),
-                'status' => 'offline', 'created_at' => now(), 'updated_at' => now(),
-            ]);
+            DB::table('mikrotiks')->insert($insert);
 
             return ApiResponse::success([], 'Router imeongezwa kikamilifu');
         } catch (\Throwable $e) {
@@ -391,10 +415,22 @@ class RouterController extends Controller
             'port' => $request->input('port'),
             'ssid' => $request->input('ssid'),
             'status' => $request->input('status'),
+            'driver' => $request->input('driver'),
+            'omada_mode' => $request->input('omada_mode'),
+            'omada_controller_url' => $request->input('omada_controller_url'),
+            'omada_site_id' => $request->input('omada_site_id'),
+            'omada_client_id' => $request->input('omada_client_id'),
+            'omada_username' => $request->input('omada_username'),
             'updated_at' => now(),
         ];
         if ($request->filled('password')) {
             $data['password'] = Encryption::encrypt((string) $request->input('password'));
+        }
+        if ($request->filled('omada_password')) {
+            $data['omada_password'] = Encryption::encrypt((string) $request->input('omada_password'));
+        }
+        if ($request->filled('omada_client_secret')) {
+            $data['omada_client_secret'] = Encryption::encrypt((string) $request->input('omada_client_secret'));
         }
         try {
             DB::table('mikrotiks')->where('id', $id)->update(array_filter($data, fn ($v) => $v !== null, ARRAY_FILTER_USE_BOTH));
