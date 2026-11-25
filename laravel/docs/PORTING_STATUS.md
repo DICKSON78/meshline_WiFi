@@ -41,7 +41,7 @@ Run `php artisan schedule:list` to confirm registration.
    `SpaController`; root `public/assets` is not authoritative and may be stale.
    Rebuild with `cd ../frontend && npm install && npm run build` before cutover.
 2. **Session store changed.** Express used `express-mysql-session`; Laravel uses
-   the `laravel_sessions` database table with the same `hotbando.sid` cookie and
+   the `laravel_sessions` database table with the same `meshline_sid` cookie and
    24h (`SESSION_LIFETIME=1440`) lifetime. Existing sessions are not portable —
    users log in again once at cutover.
 3. **CSRF is now session-native.** Tokens come from `csrf_token()` and

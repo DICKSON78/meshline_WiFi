@@ -34,7 +34,7 @@ Kwa uzalishaji: MySQL 8, Redis (hiari), FreeRADIUS na nginx vinatumika kama hudu
 
 ## Vitu muhimu
 
-- Session cookie: **`hotbando.sid`**, meza **`laravel_sessions`**, saa 24, `SameSite=lax`.
+- Session cookie: **`meshline_sid`**, meza **`laravel_sessions`**, saa 24, `SameSite=lax`.
 - CSRF: `GET /api/csrf` → `{csrfToken}`; frontend hutuma `X-CSRF-TOKEN`. Njia za login/webhook/zero-touch zimetengwa (exempt).
 - Rate limiting: `1200 / dakika 15` kwa akaunti (au IP), imehifadhiwa kwenye Redis/cache.
 - `frontend/dist` inatumiwa moja kwa moja; `public/assets/` ya zamani haijatumiwa.

@@ -55,7 +55,7 @@ migrations create only `laravel_sessions`, `cache` and `jobs`. If a legacy-data
 importer command is available (`php artisan db:import`), prefer it over running
 raw SQL. Always take a dump first.
 
-The session table is now `laravel_sessions` (cookie is still `hotbando.sid`);
+The session table is now `laravel_sessions` (cookie is still `meshline_sid`);
 existing Express sessions are **not** readable — plan for re-login at cutover.
 
 ### Frontend
@@ -240,7 +240,7 @@ Cloud uses client-credentials OAuth against `/api/v2`. Per-router values in
    `PaymentFulfillment` class.
 3. Import legacy schema/data; run Laravel migrations that only add session,
    cache and jobs tables. Verify `laravel_sessions` exists and
-   `SESSION_COOKIE=hotbando.sid`.
+   `SESSION_COOKIE=meshline_sid`.
 4. Build `../frontend/dist` and confirm `/`, `/admin`, `/hotspot/dashboard`,
    `/health`, `/api/csrf`, `/api/me`, `/api/packages`.
 5. Run the smoke tests and a read-only parity sweep of admin/HQ/reseller endpoints.

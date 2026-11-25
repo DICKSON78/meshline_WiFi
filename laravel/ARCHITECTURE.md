@@ -15,7 +15,7 @@ and frontend views. No Docker — run PHP/natively with nginx.
 - All API endpoints live in `routes/api/*.php`, loaded by `routes/web.php` inside the
   `api` prefix **with the `web` middleware group** so sessions and CSRF work exactly as
   in Express. Root-level captive probes live in `routes/captive.php`.
-- Session cookie `hotbando.sid`, stored in table `laravel_sessions`, 24h lifetime,
+- Session cookie `meshline_sid`, stored in table `laravel_sessions`, 24h lifetime,
   `SameSite=lax`, `HttpOnly`, `Secure` only when `SESSION_SECURE_COOKIE=true`.
 - Login/register/logout/webhooks/zero-touch are CSRF-exempt (list in `bootstrap/app.php`).
   Everywhere else the Vue client sends `X-CSRF-TOKEN` obtained from `GET /api/csrf`.
