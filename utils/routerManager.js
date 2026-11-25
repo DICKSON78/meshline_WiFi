@@ -8,7 +8,7 @@ const { encrypt } = require('./encryption');
 const DEFAULT_HOTSPOT_INTERFACE = 'wlan1';
 const DEFAULT_HOTSPOT_IP = process.env.HOTSPOT_IP || '10.5.50.1';
 const DEFAULT_HOTSPOT_NET = process.env.HOTSPOT_SUBNET || '10.5.50.0';
-const DEFAULT_SSID = 'HotBando-Free-WiFi';
+const DEFAULT_SSID = 'Meshline WiFi-Free-WiFi';
 
 function routerWhere(routerID) {
     const isNumericId = /^\d+$/.test(String(routerID));
@@ -149,7 +149,7 @@ async function configureRouter(routerID, options = {}) {
     await run('Add hotspot IP address', '/ip/address/add', [
         `=address=${hotspotIP}/${hotspotPrefixLen}`,
         `=interface=${hotspotIface}`,
-        `=comment=hotbando-hotspot`
+        `=comment=meshline-hotspot`
     ]);
 
     // 3. DHCP pool + server + network
@@ -163,7 +163,7 @@ async function configureRouter(routerID, options = {}) {
         `=dns-server=${hotspotIP}`
     ]);
     await run('Add DHCP server', '/ip/dhcp-server/add', [
-        `=name=hotbando-dhcp`,
+        `=name=meshline-dhcp`,
         `=interface=${hotspotIface}`,
         `=address-pool=hotbando-pool`,
         `=disabled=no`
@@ -192,7 +192,7 @@ async function configureRouter(routerID, options = {}) {
     try {
         const statics = await conn.write('/ip/dns/static/print');
         for (const s of statics) {
-            if (s.comment === 'HotBando captive') {
+            if (s.comment === 'Meshline WiFi captive') {
                 await conn.write('/ip/dns/static/remove', [`=.id=${s['.id']}`]);
             }
         }
@@ -202,13 +202,13 @@ async function configureRouter(routerID, options = {}) {
             `=name=${host}`,
             `=address=${hotspotIP}`,
             `=ttl=1m`,
-            `=comment=HotBando captive`
+            `=comment=Meshline WiFi captive`
         ]);
     }
 
     // Force every client DNS query through the router so the entries above are
     // actually used (clients otherwise keep using the upstream DNS from DHCP).
-    await removeByComment('/ip/firewall/nat', 'HotBando dns');
+    await removeByComment('/ip/firewall/nat', 'Meshline WiFi dns');
     await run('Redirect DNS (UDP)', '/ip/firewall/nat/add', [
         `=chain=dstnat`,
         `=protocol=udp`,
@@ -216,7 +216,7 @@ async function configureRouter(routerID, options = {}) {
         `=in-interface=${hotspotIface}`,
         `=action=redirect`,
         `=to-ports=53`,
-        `=comment=HotBando dns`
+        `=comment=Meshline WiFi dns`
     ]);
     await run('Redirect DNS (TCP)', '/ip/firewall/nat/add', [
         `=chain=dstnat`,
@@ -225,10 +225,10 @@ async function configureRouter(routerID, options = {}) {
         `=in-interface=${hotspotIface}`,
         `=action=redirect`,
         `=to-ports=53`,
-        `=comment=HotBando dns`
+        `=comment=Meshline WiFi dns`
     ]);
     // DNS from unauthorized clients must reach the router itself.
-    await removeByComment('/ip/firewall/filter', 'HotBando DNS');
+    await removeByComment('/ip/firewall/filter', 'Meshline WiFi DNS');
     await run('Accept DNS (UDP)', '/ip/firewall/filter/add', [
         `=chain=input`,
         `=protocol=udp`,
@@ -236,7 +236,7 @@ async function configureRouter(routerID, options = {}) {
         `=in-interface=${hotspotIface}`,
         `=action=accept`,
         `=place-before=0`,
-        `=comment=HotBando DNS`
+        `=comment=Meshline WiFi DNS`
     ]);
     await run('Accept DNS (TCP)', '/ip/firewall/filter/add', [
         `=chain=input`,
@@ -245,7 +245,7 @@ async function configureRouter(routerID, options = {}) {
         `=in-interface=${hotspotIface}`,
         `=action=accept`,
         `=place-before=0`,
-        `=comment=HotBando DNS`
+        `=comment=Meshline WiFi DNS`
     ]);
 
     // 5. Hotspot server + profile
@@ -294,7 +294,7 @@ async function configureRouter(routerID, options = {}) {
                 `=rate-limit=${rateLimit}`,
                 `=idle-timeout=${idleTimeout}`,
                 `=session-timeout=${sessionTimeout}`,
-                `=comment=HotBando ${name.replace('hotbando-', '')}`
+                `=comment=Meshline WiFi ${name.replace('meshline-', '')}`
             ]);
         }
     } catch (e) { /* ignore */ }
@@ -310,7 +310,7 @@ async function configureRouter(routerID, options = {}) {
     try {
         const wg = await conn.write('/ip/hotspot/walled-garden/print');
         for (const r of wg) {
-            if (r.comment && r.comment.startsWith('HotBando')) {
+            if (r.comment && r.comment.startsWith('Meshline WiFi')) {
                 await conn.write('/ip/hotspot/walled-garden/remove', [`=.id=${r['.id']}`]);
             }
         }
@@ -318,7 +318,7 @@ async function configureRouter(routerID, options = {}) {
     try {
         const wgip = await conn.write('/ip/hotspot/walled-garden/ip/print');
         for (const r of wgip) {
-            if (r.comment && r.comment.startsWith('HotBando')) {
+            if (r.comment && r.comment.startsWith('Meshline WiFi')) {
                 await conn.write('/ip/hotspot/walled-garden/ip/remove', [`=.id=${r['.id']}`]);
             }
         }
@@ -339,7 +339,7 @@ async function configureRouter(routerID, options = {}) {
         await run(`Allow portal host ${host}`, '/ip/hotspot/walled-garden/add', [
             `=dst-host=${host}`,
             `=action=allow`,
-            `=comment=HotBando portal`
+            `=comment=Meshline WiFi portal`
         ]);
     }
     if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(serverIp)) {
@@ -347,23 +347,23 @@ async function configureRouter(routerID, options = {}) {
         await run('Allow portal IP', '/ip/hotspot/walled-garden/ip/add', [
             `=dst-address=${serverIp}`,
             `=action=accept`,
-            `=comment=HotBando portal`
+            `=comment=Meshline WiFi portal`
         ]);
     }
     await run('Allow DNS (UDP)', '/ip/hotspot/walled-garden/ip/add', [
         `=protocol=udp`,
         `=dst-port=53`,
         `=action=accept`,
-        `=comment=HotBando DNS`
+        `=comment=Meshline WiFi DNS`
     ]);
     await run('Allow DNS (TCP)', '/ip/hotspot/walled-garden/ip/add', [
         `=protocol=tcp`,
         `=dst-port=53`,
         `=action=accept`,
-        `=comment=HotBando DNS`
+        `=comment=Meshline WiFi DNS`
     ]);
 
-    // 7. RADIUS server pointing to HotBando
+    // 7. RADIUS server pointing to Meshline WiFi
     if (serverIP && radiusSecret) {
         await run('Add RADIUS server', '/radius/add', [
             `=service=hotspot`,

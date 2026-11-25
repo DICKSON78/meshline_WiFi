@@ -1992,7 +1992,7 @@ async getAdViewsForAnalytics(req, res) {
         });
 
         res.setHeader('Content-Type', 'text/csv');
-        res.setHeader('Content-Disposition', `attachment; filename=hotbando_ripoti_${reportType}_${startDate}_to_${endDate}.csv`);
+        res.setHeader('Content-Disposition', `attachment; filename=meshline_ripoti_${reportType}_${startDate}_to_${endDate}.csv`);
         return res.send(csv);
 
       } else if (format === 'excel') {
@@ -2004,7 +2004,7 @@ async getAdViewsForAnalytics(req, res) {
         });
 
         res.setHeader('Content-Type', 'application/vnd.ms-excel');
-        res.setHeader('Content-Disposition', `attachment; filename=hotbando_ripoti_${reportType}_${startDate}_to_${endDate}.xls`);
+        res.setHeader('Content-Disposition', `attachment; filename=meshline_ripoti_${reportType}_${startDate}_to_${endDate}.xls`);
         return res.send(tsv);
 
       } else if (format === 'pdf') {
@@ -2014,7 +2014,7 @@ async getAdViewsForAnalytics(req, res) {
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>HotBando Ripoti</title>
+  <title>Meshline WiFi Ripoti</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     h1 { color: #FF7A30; }
@@ -2025,7 +2025,7 @@ async getAdViewsForAnalytics(req, res) {
   </style>
 </head>
 <body>
-  <h1>HotBando Ripoti - ${reportType.toUpperCase()}</h1>
+  <h1>Meshline WiFi Ripoti - ${reportType.toUpperCase()}</h1>
   <p><strong>Kipindi:</strong> ${startDate} hadi ${endDate}</p>
   <p><strong>Tarehe ya Uchapisho:</strong> ${new Date().toLocaleDateString('sw-TZ')}</p>
   <table>

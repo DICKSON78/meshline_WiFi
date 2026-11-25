@@ -1,10 +1,10 @@
-# Connecting a Fresh MikroTik Router to HotBando
+# Connecting a Fresh MikroTik Router to Meshline WiFi
 
 There are **two** ways to connect a router:
 
 1. **Zero-touch Connect (recommended, layman-friendly)** → `mikrotik-zero-touch.rsc`
    The technician imports ONE script. The router detects its own WAN + WiFi
-   interfaces, phones home to the HotBando server, and registers as **PENDING**.
+   interfaces, phones home to the Meshline WiFi server, and registers as **PENDING**.
    The OWNER then opens the admin panel — from anywhere in Tanzania — and clicks
    **Connect** on the router card. The router's next poll (≤2 min) pulls and
    applies its complete config (WireGuard tunnel, hotspot, RADIUS, SSID). After
@@ -20,20 +20,20 @@ and the router talks to FreeRADIUS (UDP 1812/1813) for hotspot auth/accounting.
 
 ```
    Admin Portal ──(API 8728 over WireGuard)──▶ MikroTik Router
-   (hotbando VPS wg0 10.7.0.1/16)              │  ◀──(RADIUS 1812/1813 UDP)──  VPS
+   (meshline VPS wg0 10.7.0.1/16)              │  ◀──(RADIUS 1812/1813 UDP)──  VPS
         │                                      └── WiFi clients (captive portal)
 ```
 
 ## Prerequisites
 
-1. A **running HotBando instance** with a trusted HTTPS hostname reachable by the router.
+1. A **running Meshline WiFi instance** with a trusted HTTPS hostname reachable by the router.
    Current server: `https://hotbandowifi.online` (port `443`).
 2. **RADIUS enabled** and `RADIUS_SECRET` set in `.env`.
 3. **Zero-touch only:** `ROUTER_REGISTRATION_SECRET` set in the server `.env`
    (reveal it only to installers).
 4. Router is **powered, has an internet WAN link** (factory defaults fine).
 5. Firewall: incoming **TCP 80/443**, **UDP 1812/1813** (RADIUS) and
-   **UDP 51820** (WireGuard) — all already open on the HotBando VPS.
+   **UDP 51820** (WireGuard) — all already open on the Meshline WiFi VPS.
 
 ---
 
@@ -82,12 +82,12 @@ Open `https://<your-host>/admin/login` and log in with an admin account.
    |----------------|-------------------|----------------------------------------------------|
    | Router ID      | `RT-001`          | Unique, short ID                                   |
    | Jina la Router | `UDSM Main Router`| Human-readable name                                |
-   | Host/IP        | `10.7.0.10`       | IP reachable from the HotBando server              |
+   | Host/IP        | `10.7.0.10`       | IP reachable from the Meshline WiFi server              |
    | Port           | `8728`            | RouterOS API port (8728 plain, 8729 TLS)           |
    | Username       | `admin`           | RouterOS user with full access                     |
    | Password       | `••••••••`        | RouterOS password                                  |
    | Eneo           | *(select)*        | Optional location (creates one if missing)         |
-   | SSID           | `HotBando-UDSM`   | Optional WiFi name                                 |
+   | SSID           | `Meshline WiFi-UDSM`   | Optional WiFi name                                 |
 4. Click **Hifadhi Router** (Save Router). The router is now stored in the
    database with status `offline` until the router-side config is applied.
 
@@ -102,7 +102,7 @@ The full hotspot + RADIUS configuration lives in one script:
 
 1. Copy the script from the repo (or download the raw file from GitHub).
 2. Replace these placeholders:
-   - `<HOTBANDO_SERVER_IP>` → your HotBando public **HTTPS hostname** (e.g. `hotbandowifi.online`)
+   - `<MESHLINE_SERVER_IP>` → your Meshline WiFi public **HTTPS hostname** (e.g. `hotbandowifi.online`)
    - `<RADIUS_SECRET>` → the same `RADIUS_SECRET` from `.env`
    - `<WAN_INTERFACE>` → the interface facing your modem (hAP: `ether1`)
    - `<HOTSPOT_INTERFACE>` → the client-facing interface (hAP: `bridge1`)
@@ -118,7 +118,7 @@ The full hotspot + RADIUS configuration lives in one script:
      ```
    - **SSH/CLI:**
      ```
-     /tool fetch url="https://raw.githubusercontent.com/<org>/hotbando/main/freeradius/mikrotik-hotbando-bootstrap.rsc" dst-path=mikrotik-hotbando-bootstrap.rsc
+     /tool fetch url="https://raw.githubusercontent.com/<org>/meshline/main/freeradius/mikrotik-hotbando-bootstrap.rsc" dst-path=mikrotik-hotbando-bootstrap.rsc
      /import file-name=mikrotik-hotbando-bootstrap.rsc
      ```
 
@@ -137,13 +137,13 @@ On the router (Terminal):
 
 You should see one entry with:
 - `Service: hotspot`
-- `Address: <HOTBANDO_SERVER_IP>`
+- `Address: <MESHLINE_SERVER_IP>`
 - `Authentication-Port: 1812`, `Accounting-Port: 1813`
 
 Also confirm the router can reach the RADIUS server:
 
 ```
-/ping address=<HOTBANDO_SERVER_IP> count=3
+/ping address=<MESHLINE_SERVER_IP> count=3
 ```
 
 > **Firewall note:** the VPS must allow incoming **UDP 1812/1813** (FreeRADIUS)
@@ -160,8 +160,8 @@ memory, uptime, active users, and revenue.
 
 1. Connect a phone/laptop to the router's WiFi.
 2. The device is redirected to the captive portal
-   `https://<HOTBANDO_SERVER_IP>/hotspot` (the bootstrap script installs a
-   `login.html` that redirects unauthenticated clients to the HotBando portal).
+   `https://<MESHLINE_SERVER_IP>/hotspot` (the bootstrap script installs a
+   `login.html` that redirects unauthenticated clients to the Meshline WiFi portal).
 3. Register / redeem a voucher in the portal.
 4. The RADIUS + mac-auth flow grants access — verify the session appears under
    **Router Details → Watumiaji wa Sasa** (Active Users).

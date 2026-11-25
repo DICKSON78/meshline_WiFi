@@ -1,6 +1,6 @@
 module.exports = {
     apps: [{
-        name: 'hotbando-api',
+        name: 'meshline-api',
         script: 'index.js',
         instances: process.env.NODE_ENV === 'production' ? 2 : 1,
         exec_mode: 'cluster',

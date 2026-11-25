@@ -26,7 +26,7 @@ router.get('/session', async (req, res) => {
         const candidates = [...new Set([
             explicitRouterID,
             req.session.routerID,
-            req.session.hotbando_user?.last_router_id
+            req.session.meshline_user?.last_router_id
         ].filter(Boolean))];
 
         // Only accept a router that is actually registered. A stale or
@@ -70,7 +70,7 @@ router.get('/session', async (req, res) => {
             location: req.session.location || '',
             onWifi: req.session.onWifi,
             registeredRouter,
-            user: publicSessionUser(req.session.hotbando_user)
+            user: publicSessionUser(req.session.meshline_user)
         });
     } catch (error) {
         console.error('❌ API session error:', error);
@@ -108,12 +108,12 @@ router.get('/packages', async (req, res) => {
 // Middleware: require WiFi connection from registered MikroTik
 async function requireWifi(req, res, next) {
     // Heal stale sessions: a logged-in user's bound router counts as on-WiFi
-    if (!req.session.onWifi && req.session.hotbando_user?.last_router_id) {
+    if (!req.session.onWifi && req.session.meshline_user?.last_router_id) {
         try {
             // Query with timeout to prevent hanging
             const queryPromise = db.execute(
                 'SELECT router_id, status FROM mikrotiks WHERE router_id = ? AND is_active = 1 LIMIT 1',
-                [req.session.hotbando_user.last_router_id]
+                [req.session.meshline_user.last_router_id]
             );
             const timeoutPromise = new Promise((_, reject) =>
                 setTimeout(() => reject(new Error('Router check timeout')), 2000)
@@ -126,34 +126,34 @@ async function requireWifi(req, res, next) {
                 if (router.status === 'online') {
                     req.session.routerID = router.router_id;
                     req.session.onWifi = true;
-                    console.log(`[WiFi] ✓ User ${req.session.hotbando_user?.id} authenticated to router ${router.router_id}`);
+                    console.log(`[WiFi] ✓ User ${req.session.meshline_user?.id} authenticated to router ${router.router_id}`);
                 } else {
                     console.log(`[WiFi] ✗ Router ${router.router_id} is offline (status: ${router.status})`);
                     // Router is offline - return 503 Service Unavailable
                     return res.status(503).json({
-                        error: 'HotBando router is offline. Please try again later.',
+                        error: 'Meshline WiFi router is offline. Please try again later.',
                         onWifi: false,
                         routerStatus: 'offline'
                     });
                 }
             } else {
-                console.log(`[WiFi] ✗ Router ${req.session.hotbando_user?.last_router_id} not found or inactive`);
+                console.log(`[WiFi] ✗ Router ${req.session.meshline_user?.last_router_id} not found or inactive`);
             }
         } catch (error) {
             // If router check fails/times out, still allow WiFi check below
-            console.warn(`[WiFi] Query failed for user ${req.session.hotbando_user?.id}: ${error.message}`);
+            console.warn(`[WiFi] Query failed for user ${req.session.meshline_user?.id}: ${error.message}`);
             // This prevents captive portal from hanging
         }
     }
     if (!req.session.onWifi) {
-        console.log(`[WiFi] ✗ User ${req.session.hotbando_user?.id || 'unknown'} not on WiFi`);
+        console.log(`[WiFi] ✗ User ${req.session.meshline_user?.id || 'unknown'} not on WiFi`);
         return res.status(403).json({
-            error: 'Please connect to HotBando WiFi first.',
+            error: 'Please connect to Meshline WiFi first.',
             onWifi: false,
             redirectTo: '/hotspot',
             debug: {
-                hasSession: !!req.session.hotbando_user,
-                hasRouter: !!req.session.hotbando_user?.last_router_id
+                hasSession: !!req.session.meshline_user,
+                hasRouter: !!req.session.meshline_user?.last_router_id
             }
         });
     }
@@ -162,20 +162,20 @@ async function requireWifi(req, res, next) {
 
 // JSON dashboard data
 router.get('/dashboard', requireWifi, async (req, res) => {
-    if (!req.session.hotbando_user) {
+    if (!req.session.meshline_user) {
         return res.status(401).json({ error: 'Umelazimika kuingia kwenye akaunti yako.' });
     }
 
     try {
         const [freshUsers] = await db.execute(
             'SELECT * FROM users WHERE id = ?',
-            [req.session.hotbando_user.id]
+            [req.session.meshline_user.id]
         );
         if (freshUsers.length === 0) {
             return res.status(401).json({ error: 'Akaunti haipatikani.' });
         }
-        req.session.hotbando_user = { ...publicSessionUser(freshUsers[0]), mac_address: req.session.hotbando_user.mac_address || freshUsers[0].mac_address, last_router_id: req.session.hotbando_user.last_router_id || freshUsers[0].last_router_id };
-        let user = req.session.hotbando_user;
+        req.session.meshline_user = { ...publicSessionUser(freshUsers[0]), mac_address: req.session.meshline_user.mac_address || freshUsers[0].mac_address, last_router_id: req.session.meshline_user.last_router_id || freshUsers[0].last_router_id };
+        let user = req.session.meshline_user;
         const now = new Date();
         // Fallback: try to activate recent successful payment if no active package
         if (user?.id) {
@@ -197,8 +197,8 @@ router.get('/dashboard', requireWifi, async (req, res) => {
                             await fulfillOrder(txs[0].order_reference, { amount: txs[0].amount, currency: 'TZS' });
                             const [freshUsers2] = await db.execute('SELECT * FROM users WHERE id = ?', [user.id]);
                             if (freshUsers2.length) {
-                                req.session.hotbando_user = { ...publicSessionUser(freshUsers2[0]), mac_address: req.session.hotbando_user.mac_address, last_router_id: req.session.hotbando_user.last_router_id };
-                                user = req.session.hotbando_user;
+                                req.session.meshline_user = { ...publicSessionUser(freshUsers2[0]), mac_address: req.session.meshline_user.mac_address, last_router_id: req.session.meshline_user.last_router_id };
+                                user = req.session.meshline_user;
                             }
                         } catch (e) {}
                     }
@@ -224,8 +224,8 @@ router.get('/dashboard', requireWifi, async (req, res) => {
         const adsWatchedToday = todayViews[0].count;
         const adsRemaining = Math.max(0, dailyAdLimit - adsWatchedToday);
 
-        const macAddr = req.session.mac || user.mac_address || req.session.hotbando_user?.mac_address || null;
-        const routerId = req.session.routerID || user.last_router_id || req.session.hotbando_user?.last_router_id || null;
+        const macAddr = req.session.mac || user.mac_address || req.session.meshline_user?.mac_address || null;
+        const routerId = req.session.routerID || user.last_router_id || req.session.meshline_user?.last_router_id || null;
         const paidBytesRemaining = Number(user.paid_bytes_remaining || 0);
         const paidDataLimitBytes = Number(user.paid_data_limit_bytes || 0);
         const paidMB = paidBytesRemaining > 0 ? (paidBytesRemaining / (1024 * 1024)).toFixed(2) : (paidDataLimitBytes > 0 ? (paidDataLimitBytes / (1024 * 1024)).toFixed(2) : 'Unlimited');
@@ -264,7 +264,7 @@ router.get('/dashboard', requireWifi, async (req, res) => {
             canWatchAds: adsRemaining > 0,
             routerStatus: routerId ? 'registered' : 'registered',
             connectedUsers: null,
-            routerMessage: 'Umeunganishwa kwenye mtandao wa HotBando.'
+            routerMessage: 'Umeunganishwa kwenye mtandao wa Meshline WiFi.'
         });
     } catch (error) {
         console.error('❌ API dashboard error:', error);
@@ -274,7 +274,7 @@ router.get('/dashboard', requireWifi, async (req, res) => {
 
 // Data usage endpoint (for real-time usage polling)
 router.get('/usage', requireWifi, async (req, res) => {
-    const user = req.session.hotbando_user;
+    const user = req.session.meshline_user;
     if (!user) {
         return res.status(401).json({ error: 'Umelazimika kuingia kwenye akaunti yako.' });
     }
@@ -287,7 +287,7 @@ router.get('/usage', requireWifi, async (req, res) => {
             return res.status(404).json({ error: 'Akaunti haipatikani.' });
         }
         const fresh = users[0];
-        req.session.hotbando_user = { ...req.session.hotbando_user, ...fresh };
+        req.session.meshline_user = { ...req.session.meshline_user, ...fresh };
         const now = new Date();
         let usageUntil = fresh.usage_until ? new Date(fresh.usage_until) : null;
         if (usageUntil && isNaN(usageUntil.getTime())) usageUntil = null;
@@ -315,7 +315,7 @@ router.get('/usage', requireWifi, async (req, res) => {
 
 // Payment confirmations and failures remain available after the checkout modal closes.
 router.get('/notifications', async (req, res) => {
-    const user = req.session.hotbando_user;
+    const user = req.session.meshline_user;
     if (!user?.id) return res.status(401).json({ error: 'Umelazimika kuingia kwenye akaunti yako.' });
     try {
         const [rows] = await db.execute(
@@ -331,7 +331,7 @@ router.get('/notifications', async (req, res) => {
 });
 
 router.post('/notifications/read', async (req, res) => {
-    const user = req.session.hotbando_user;
+    const user = req.session.meshline_user;
     if (!user?.id) return res.status(401).json({ error: 'Umelazimika kuingia kwenye akaunti yako.' });
     try {
         await db.execute(
@@ -347,7 +347,7 @@ router.post('/notifications/read', async (req, res) => {
 
 // Logout (JSON)
 router.get('/logout', async (req, res) => {
-    const user = req.session.hotbando_user;
+    const user = req.session.meshline_user;
     if (user) {
         try {
             await mikrotikService.removeUserFromRouter(user.mac_address, user.last_router_id);
@@ -362,28 +362,28 @@ router.get('/logout', async (req, res) => {
 
 // CAPTIVE PORTAL DETECTION ENDPOINTS
 router.get('/captive/generate_204', (req, res) => {
-  if (!req.session.hotbando_user) {
+  if (!req.session.meshline_user) {
     return res.status(200).send();
   }
   res.status(204).send();
 });
 
 router.get('/captive/ncsi.txt', (req, res) => {
-  if (!req.session.hotbando_user) {
+  if (!req.session.meshline_user) {
     return res.status(200).send('Microsoft NCSI');
   }
   res.status(204).send();
 });
 
 router.get('/captive/hotspotdetect.html', (req, res) => {
-  if (!req.session.hotbando_user) {
+  if (!req.session.meshline_user) {
     return res.status(200).send('<HTML><HEAD><TITLE>Success</TITLE></HEAD><BODY>Success</BODY></HTML>');
   }
   res.status(204).send();
 });
 
 router.get('/captive/status', (req, res) => {
-  const user = req.session.hotbando_user;
+  const user = req.session.meshline_user;
   res.json({
     authenticated: !!user,
     user: user ? { id: user.id, name: user.name, phone: user.phone_number } : null,
@@ -392,7 +392,7 @@ router.get('/captive/status', (req, res) => {
 });
 
 router.post('/logout', async (req, res) => {
-    const user = req.session.hotbando_user;
+    const user = req.session.meshline_user;
     if (user) {
         try {
             await mikrotikService.removeUserFromRouter(user.mac_address, user.last_router_id);

@@ -15,7 +15,7 @@ function generateVoucherCode() {
 }
 
 function currentPaymentUser(req) {
-  return req.session?.hotbando_user || req.session?.user || req.session?.admin_user || req.session?.partner;
+  return req.session?.meshline_user || req.session?.user || req.session?.admin_user || req.session?.partner;
 }
 
 function normalizeTanzanianPhone(input) {
@@ -116,7 +116,7 @@ exports.initiatePayment = async (req, res) => {
     if (gift) {
       const recipient = await findCustomerByPhone(db, recipientPhone);
       if (!recipient) {
-        return res.status(400).json({ error: 'Mpokeaji hajajisajili HotBando. Mwambie ajisajili kwenye customer portal kwanza.' });
+        return res.status(400).json({ error: 'Mpokeaji hajajisajili Meshline WiFi. Mwambie ajisajili kwenye customer portal kwanza.' });
       }
       recipientUserId = recipient.id;
     }

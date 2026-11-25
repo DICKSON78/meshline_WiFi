@@ -12,18 +12,18 @@
 
     <!-- NOT on WiFi — show captive portal instruction -->
     <div v-if="store.initialized && !store.onWifi" class="bg-[#111118] rounded-2xl shadow-2xl p-8 w-full max-w-md relative text-center">
-      <img src="/logo.png" class="h-16 mx-auto mb-4" alt="HotBando">
+      <img src="/logo.png" class="h-16 mx-auto mb-4" alt="Meshline WiFi">
       <div class="w-16 h-16 rounded-full bg-[#12BC00]/10 flex items-center justify-center mx-auto mb-4">
         <i class="fas fa-wifi text-2xl text-[#12BC00]"></i>
       </div>
-      <h2 class="text-lg font-bold text-white mb-2">Connect to HotBando WiFi</h2>
+      <h2 class="text-lg font-bold text-white mb-2">Connect to Meshline WiFi</h2>
       <p class="text-sm text-white/60 mb-6">
-        To log in and access free internet, you must be connected to a HotBando WiFi network.
+        To log in and access free internet, you must be connected to a Meshline WiFi network.
       </p>
       <div class="bg-[#0a0a0f] rounded-xl p-4 text-left space-y-3">
         <div class="flex items-start gap-3">
           <span class="text-[#12BC00] font-bold text-sm">1.</span>
-          <p class="text-sm text-white/70">Go to WiFi settings and connect to <b class="text-white">HotBando WiFi</b></p>
+          <p class="text-sm text-white/70">Go to WiFi settings and connect to <b class="text-white">Meshline WiFi</b></p>
         </div>
         <div class="flex items-start gap-3">
           <span class="text-[#12BC00] font-bold text-sm">2.</span>
@@ -39,7 +39,7 @@
 
     <!-- ON WiFi — show login form -->
     <div v-else class="bg-[#111118] rounded-2xl shadow-2xl p-8 w-full max-w-md relative">
-      <img src="/logo.png" class="h-12 mx-auto mb-6" alt="HotBando">
+      <img src="/logo.png" class="h-12 mx-auto mb-6" alt="Meshline WiFi">
       <h2 class="text-xl font-bold text-white mb-4 text-center">Login</h2>
       <form @submit.prevent="handleLogin" class="space-y-4">
         <div><label class="input-label">Namba ya Simu</label><input v-model="phoneFull" type="tel" required maxlength="10" class="input" placeholder="07XXXXXXXX"></div>

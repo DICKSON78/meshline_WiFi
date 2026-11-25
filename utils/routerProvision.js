@@ -40,12 +40,12 @@ function resolvePublicBaseUrl() {
 const PUBLIC_BASE_URL = resolvePublicBaseUrl();
 const PUBLIC_FETCH_MODE = PUBLIC_BASE_URL.startsWith('https://') ? 'https' : 'http';
 const RADIUS_SECRET = process.env.RADIUS_SECRET || '';
-const MIKROTIK_API_PASSWORD = process.env.MIKROTIK_API_PASSWORD || 'HotBandoApi2024!Secure';
+const MIKROTIK_API_PASSWORD = process.env.MIKROTIK_API_PASSWORD || 'Meshline WiFiApi2024!Secure';
 // RouterOS /radius expects an IP address, so prefer the numeric public IP.
 const RADIUS_HOST = /^\d{1,3}(?:\.\d{1,3}){3}$/.test(process.env.SERVER_PUBLIC_IP || '')
     ? process.env.SERVER_PUBLIC_IP
     : SERVER_PUBLIC_HOST;
-const DEFAULT_SSID = process.env.DEFAULT_SSID || 'HotBando-Free-WiFi';
+const DEFAULT_SSID = process.env.DEFAULT_SSID || 'Meshline WiFi-Free-WiFi';
 const HOTSPOT_IP = process.env.HOTSPOT_IP || '10.5.50.1';
 const HOTSPOT_NET = process.env.HOTSPOT_SUBNET || '10.5.50.0/24';
 const HOTSPOT_DNS = process.env.HOTSPOT_DNS || '8.8.8.8';
@@ -89,7 +89,7 @@ async function resolveRouter({ serial, identity, model, firmware, publicIp, rout
 
     if (!router) {
         const id = routerId || `HB-${String(serial || Date.now()).replace(/[^A-Za-z0-9_-]/g, '').substring(0, 24)}`;
-        const name = identity || `HotBando ${id}`;
+        const name = identity || `Meshline WiFi ${id}`;
         const [result] = await db.execute(
             `INSERT INTO mikrotiks
                 (router_id, router_name, host, port, \`user\`, password, ssid, status, setup_status, setup_step,
@@ -241,7 +241,7 @@ async function connectRouter(routerID, payload = {}) {
  */
 function generateBootstrapScript() {
     return `# ============================================================================
-# HotBando Zero-Touch Bootstrap — paste ONCE into WebFig Terminal
+# Meshline WiFi Zero-Touch Bootstrap — paste ONCE into WebFig Terminal
 # (http://192.168.88.1 on a fresh router with internet on its WAN)
 # Server: ${PUBLIC_BASE_URL}
 # After this import everything is automatic: register → owner Connect → full config.
@@ -250,18 +250,18 @@ function generateBootstrapScript() {
 # ============================================================================
 # CLEAN START (delete old files/config before fresh install)
 # ============================================================================
-:put "=== Cleaning old HotBando files / configs ==="
-:do { /file remove [find name="hotbando-provision.rsc"] } on-error={}
+:put "=== Cleaning old Meshline WiFi files / configs ==="
+:do { /file remove [find name="meshline-provision.rsc"] } on-error={}
 :do { /file remove [find name="hb-provision.rsc"] } on-error={}
 :do { /file remove [find name="provision.rsc"] } on-error={}
-:do { /interface wireguard remove [find name="wg-hotbando"] } on-error={}
-:do { /system scheduler remove [find name="hotbando-poll"] } on-error={}
-:do { /system scheduler remove [find name="hotbando-heartbeat"] } on-error={}
+:do { /interface wireguard remove [find name="wg-meshline"] } on-error={}
+:do { /system scheduler remove [find name="meshline-poll"] } on-error={}
+:do { /system scheduler remove [find name="meshline-heartbeat"] } on-error={}
 :put "=== Old config removed — starting fresh ==="
 
 # --- Step 1: Gather router info (with fallbacks for CHR/emulators) ---
-:global hotbandoBaseUrl "${PUBLIC_BASE_URL}"
-:global hotbandoSecret "${ROUTER_REGISTRATION_SECRET}"
+:global meshlineBaseUrl "${PUBLIC_BASE_URL}"
+:global meshlineSecret "${ROUTER_REGISTRATION_SECRET}"
 
 # Serial number: try routerboard first, fall back to identity + clock
 :global hbSerial ""
@@ -305,7 +305,7 @@ function generateBootstrapScript() {
 } on-error={}
 
 :put "============================================="
-:put "HotBando Zero-Touch Setup"
+:put "Meshline WiFi Zero-Touch Setup"
 :put ("Serial: " . $hbSerial)
 :put ("Identity: " . $hbIdentity)
 :put ("Model: " . $hbModel)
@@ -313,7 +313,7 @@ function generateBootstrapScript() {
 :put "============================================="
 
 # --- Step 2: Download provisioning script (with retry + HTTP fallback) ---
-:global hbRegUrl ("${PUBLIC_BASE_URL}/api/zero-touch/register?secret=" . $hotbandoSecret . "&serial=" . $hbSerialClean . "&auto_connect=1")
+:global hbRegUrl ("${PUBLIC_BASE_URL}/api/zero-touch/register?secret=" . $meshlineSecret . "&serial=" . $hbSerialClean . "&auto_connect=1")
 
 # Use :global for variables modified across blocks (avoids scoping issues)
 :global dlOk false
@@ -359,7 +359,7 @@ function generateBootstrapScript() {
     :put "Check internet on the router (ping 8.8.8.8)."
     :put "Check server IP/port and secret."
     :put "============================================="
-    :error "HotBando phone-home failed"
+    :error "Meshline WiFi phone-home failed"
 }
 
 # --- Step 3: Verify downloaded file ---
@@ -373,30 +373,30 @@ function generateBootstrapScript() {
 
 :if ($fileSize < 100) do={
     :put "ERROR: downloaded file is too small (corrupt?)"
-    :error "HotBando phone-home failed"
+    :error "Meshline WiFi phone-home failed"
 }
 
 # --- Step 4: Apply configuration ---
-:put "Applying HotBando configuration..."
+:put "Applying Meshline WiFi configuration..."
 :do {
     /import file-name="universal-bootstrap.rsc"
     :put "Configuration applied successfully!"
 } on-error={
     :put "ERROR: failed to import provisioning script!"
     :put "Check /file print and /log print for details."
-    :error "HotBando import failed"
+    :error "Meshline WiFi import failed"
 }
 
 # --- Step 5: Verification (auto-check everything) ---
 :put "--- Auto-Verifying configuration ---"
 :put "/interface wireguard:"
-/interface wireguard print detail where name="wg-hotbando"
+/interface wireguard print detail where name="wg-meshline"
 :put "/ip address on tunnel:"
-/ip address print where interface="wg-hotbando"
+/ip address print where interface="wg-meshline"
 :put "/heartbeat scheduler:"
-/system scheduler print where name="hotbando-heartbeat"
+/system scheduler print where name="meshline-heartbeat"
 :put "/poll scheduler:"
-/system scheduler print where name="hotbando-poll"
+/system scheduler print where name="meshline-poll"
 :put "/ping server:"
 /ping ${SERVER_PUBLIC_HOST} count=3
 
@@ -404,7 +404,7 @@ function generateBootstrapScript() {
 :do { /file remove "universal-bootstrap.rsc" } on-error={}
 
 :put "============================================="
-:put "HotBando setup complete! Router is provisioned and ONLINE."
+:put "Meshline WiFi setup complete! Router is provisioned and ONLINE."
 :put "WireGuard tunnel is active and Hotspot is ready to serve clients."
 :put "============================================="
 `;
@@ -412,44 +412,44 @@ function generateBootstrapScript() {
 function generateWaitScript({ routerID, routerName, assignedIp }) {
     return `
 # ============================================================================
-# HotBando Router — REGISTERED, awaiting CONNECT approval
+# Meshline WiFi Router — REGISTERED, awaiting CONNECT approval
 # Router: ${routerID}  — ${sanitize(routerName)}
 # Reserved WireGuard IP: ${assignedIp}
-# The owner must click CONNECT in the HotBando panel. This router will poll
+# The owner must click CONNECT in the Meshline WiFi panel. This router will poll
 # every 2 minutes and pull + apply the full config automatically.
 # ============================================================================
 
 :global hbRouterId "${sanitize(routerID)}"
 :global hbPollUrl ("${PUBLIC_BASE_URL}/api/zero-touch/provision/" . $hbRouterId . "?secret=${ROUTER_REGISTRATION_SECRET}")
 
-:put ("HotBando registered: " . $hbRouterId . " — waiting for CONNECT approval")
+:put ("Meshline WiFi registered: " . $hbRouterId . " — waiting for CONNECT approval")
 
-/system scheduler remove [find name="hotbando-poll"]
-/system scheduler add name="hotbando-poll" interval=2m start-time=startup on-event={
+/system scheduler remove [find name="meshline-poll"]
+/system scheduler add name="meshline-poll" interval=2m start-time=startup on-event={
   :local tmp "hb-latest.rsc"
   :do { /file remove $tmp } on-error={}
   :do { /tool fetch url=$hbPollUrl dst-path=$tmp mode=${PUBLIC_FETCH_MODE} } on-error={
-    :log warning "HotBando poll fetch failed"
+    :log warning "Meshline WiFi poll fetch failed"
   }
   :delay 3
   :local size 0
   :do { :set size [/file get [/file find name=$tmp] size] } on-error={}
   :if ($size > 300) do={
-    :put "HotBando: pulling approved configuration (${routerID})"
-    :log info ("HotBando pulling approved configuration for " . $hbRouterId)
+    :put "Meshline WiFi: pulling approved configuration (${routerID})"
+    :log info ("Meshline WiFi pulling approved configuration for " . $hbRouterId)
     :do { /import file-name=$tmp } on-error={
-      :log warning "HotBando import failed"
+      :log warning "Meshline WiFi import failed"
     }
     :delay 2
     :do { /file remove $tmp } on-error={}
   }
-} comment="HotBando poll for approval"
+} comment="Meshline WiFi poll for approval"
 
 # Also keep a heartbeat-style ping so the panel can see the router attempted
-/system scheduler remove [find name="hotbando-heartbeat"]
-/system scheduler add name="hotbando-heartbeat" interval=2m start-time=startup on-event={
+/system scheduler remove [find name="meshline-heartbeat"]
+/system scheduler add name="meshline-heartbeat" interval=2m start-time=startup on-event={
   :do { /tool fetch url=("${PUBLIC_BASE_URL}/api/zero-touch/heartbeat?router_id=${routerID}&secret=${ROUTER_REGISTRATION_SECRET}") mode=${PUBLIC_FETCH_MODE} keep-result=no check-certificate=yes } on-error={}
-} comment="HotBando heartbeat"
+} comment="Meshline WiFi heartbeat"
 
 :put "Polling for approval every 2 minutes..."
 `;
@@ -532,23 +532,23 @@ function serverWalledGardenRules() {
     // the configured host or the www alias. These are HTTP-level rules, so they
     // belong in /ip hotspot walled-garden (dst-address is read-only there).
     if (!SERVER_PUBLIC_IS_IP) {
-        rules.push(`/ip hotspot walled-garden add action=allow dst-host="${SERVER_PUBLIC_HOST}" comment="HotBando server"`);
+        rules.push(`/ip hotspot walled-garden add action=allow dst-host="${SERVER_PUBLIC_HOST}" comment="Meshline WiFi server"`);
         if (!/^www\./i.test(SERVER_PUBLIC_HOST)) {
-            rules.push(`/ip hotspot walled-garden add action=allow dst-host="www.${SERVER_PUBLIC_HOST}" comment="HotBando server (www)"`);
+            rules.push(`/ip hotspot walled-garden add action=allow dst-host="www.${SERVER_PUBLIC_HOST}" comment="Meshline WiFi server (www)"`);
         }
         const appHost = (() => {
             try { return new URL(PUBLIC_BASE_URL).hostname; } catch (e) { return ''; }
         })();
         if (appHost && appHost !== SERVER_PUBLIC_HOST && !/^www\./i.test(appHost)) {
-            rules.push(`/ip hotspot walled-garden add action=allow dst-host="${appHost}" comment="HotBando portal"`);
-            rules.push(`/ip hotspot walled-garden add action=allow dst-host="www.${appHost}" comment="HotBando portal (www)"`);
+            rules.push(`/ip hotspot walled-garden add action=allow dst-host="${appHost}" comment="Meshline WiFi portal"`);
+            rules.push(`/ip hotspot walled-garden add action=allow dst-host="www.${appHost}" comment="Meshline WiFi portal (www)"`);
         }
     }
 
     // IP-level rules must use the separate menu, where the action is accept.
     const serverIp = process.env.SERVER_PUBLIC_IP || SERVER_PUBLIC_HOST;
     if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(serverIp)) {
-        rules.push(`/ip hotspot walled-garden ip add action=accept dst-address=${serverIp} comment="HotBando server IP"`);
+        rules.push(`/ip hotspot walled-garden ip add action=accept dst-address=${serverIp} comment="Meshline WiFi server IP"`);
     }
 
     return rules.join('\n');
@@ -567,7 +567,7 @@ function generateProvisionScript({ router, routerID, assignedIp, wireguard }) {
 
     return `
 # ============================================================================
-# HotBando Router Auto-Provisioning Script  (generated by server)
+# Meshline WiFi Router Auto-Provisioning Script  (generated by server)
 # Router: ${routerID}  — ${router.router_name}
 # WireGuard IP: ${assignedIp}
 # Do NOT edit manually. Generated at: ${new Date().toISOString()}
@@ -578,11 +578,11 @@ function generateProvisionScript({ router, routerID, assignedIp, wireguard }) {
 # ----------------------------------------------------------------------------
 /system identity set name="${sanitize(router.router_name || routerID)}"
 
-# Create dedicated HotBando API user (least privilege)
-:do { /user remove [find name="hotbando-api"] } on-error={}
-:do { /user group remove [find name="hotbando-api"] } on-error={}
-:do { /user group add name="hotbando-api" policy=read,api,rest-api skin=default } on-error={}
-:do { /user add name="hotbando-api" group="hotbando-api" password="${MIKROTIK_API_PASSWORD}" comment="HotBando API (least privilege)" } on-error={}
+# Create dedicated Meshline WiFi API user (least privilege)
+:do { /user remove [find name="meshline-api"] } on-error={}
+:do { /user group remove [find name="meshline-api"] } on-error={}
+:do { /user group add name="meshline-api" policy=read,api,rest-api skin=default } on-error={}
+:do { /user add name="meshline-api" group="meshline-api" password="${MIKROTIK_API_PASSWORD}" comment="Meshline WiFi API (least privilege)" } on-error={}
 
 # ----------------------------------------------------------------------------
 # 1. INTERFACE DETECTION
@@ -591,11 +591,11 @@ function generateProvisionScript({ router, routerID, assignedIp, wireguard }) {
 # ----------------------------------------------------------------------------
 # Use :global for variables modified across blocks
 :global wanIface "ether1"
-:global hotspotIface "bridge-hotbando"
+:global hotspotIface "bridge-meshline"
 
 # Create the hotspot bridge (never delete it here — removing it detaches radios
 # while DHCP/hotspot still reference it, which silently kills the portal).
-:do { /interface bridge add name=bridge-hotbando disabled=no comment="HotBando hotspot bridge" } on-error={}
+:do { /interface bridge add name=bridge-meshline disabled=no comment="Meshline WiFi hotspot bridge" } on-error={}
 
 :global wirelessCount 0
 
@@ -603,7 +603,7 @@ function generateProvisionScript({ router, routerID, assignedIp, wireguard }) {
 :do {
   :foreach w in=[/interface wireless find] do={
     :do { /interface bridge port remove [find interface=$w] } on-error={}
-    :do { /interface bridge port add bridge=bridge-hotbando interface=$w } on-error={}
+    :do { /interface bridge port add bridge=bridge-meshline interface=$w } on-error={}
     :do { /interface wireless set $w ssid="${sanitize(ssid)}" mode=ap-bridge disabled=no } on-error={}
     :set wirelessCount ($wirelessCount + 1)
   }
@@ -613,7 +613,7 @@ function generateProvisionScript({ router, routerID, assignedIp, wireguard }) {
 :do {
   :foreach w in=[/interface wifi find] do={
     :do { /interface bridge port remove [find interface=$w] } on-error={}
-    :do { /interface bridge port add bridge=bridge-hotbando interface=$w } on-error={}
+    :do { /interface bridge port add bridge=bridge-meshline interface=$w } on-error={}
     :do { /interface wifi set $w disabled=no ssid="${sanitize(ssid)}" } on-error={
       :do { /interface wifi set $w disabled=no configuration.ssid="${sanitize(ssid)}" } on-error={}
     }
@@ -622,7 +622,7 @@ function generateProvisionScript({ router, routerID, assignedIp, wireguard }) {
 } on-error={}
 
 :if ($wirelessCount = 0) do={
-  :put "WARNING: no wireless radio found. Connect an AP to bridge-hotbando."
+  :put "WARNING: no wireless radio found. Connect an AP to bridge-meshline."
 }
 
 :put ("WAN interface: " . $wanIface)
@@ -630,31 +630,31 @@ function generateProvisionScript({ router, routerID, assignedIp, wireguard }) {
 :put ("Wireless radios attached: " . $wirelessCount)
 
 # ----------------------------------------------------------------------------
-# 2. WIREGUARD TUNNEL TO HOTBANDO SERVER
+# 2. WIREGUARD TUNNEL TO MESHLINE SERVER
 # ----------------------------------------------------------------------------
-/interface wireguard remove [find name="wg-hotbando"]
-/interface wireguard add name="wg-hotbando" listen-port=13231 private-key="${wireguard.routerPrivateKey}"
+/interface wireguard remove [find name="wg-meshline"]
+/interface wireguard add name="wg-meshline" listen-port=13231 private-key="${wireguard.routerPrivateKey}"
 
-/interface wireguard peers remove [find interface="wg-hotbando"]
+/interface wireguard peers remove [find interface="wg-meshline"]
 /interface wireguard peers add \\
-  interface="wg-hotbando" \\
+  interface="wg-meshline" \\
   public-key="${wireguard.serverPublicKey}" \\
   endpoint-address=${SERVER_PUBLIC_HOST} \\
   endpoint-port=${wireguardService.listenPort || 51820} \\
   allowed-address=${wireguardService.serverIp}/32 \\
   persistent-keepalive=25s
 
-/ip address add address=${assignedIp}/32 interface="wg-hotbando"
-/ip route add dst-address=${wireguardService.serverIp}/32 gateway="wg-hotbando"
+/ip address add address=${assignedIp}/32 interface="wg-meshline"
+/ip route add dst-address=${wireguardService.serverIp}/32 gateway="wg-meshline"
 
 # Firewall: allow WG tunnel traffic, router input & restrict API to tunnel
-/ip firewall filter remove [find comment="HotBando WG"]
-/ip firewall filter remove [find comment="HotBando WG input"]
-/ip firewall filter add chain=input protocol=udp dst-port=13231 action=accept place-before=0 comment="HotBando WG"
-/ip firewall filter add chain=input in-interface="wg-hotbando" action=accept place-before=0 comment="HotBando WG input"
-/ip firewall filter add chain=forward in-interface="wg-hotbando" action=accept comment="HotBando WG"
-/ip firewall filter add chain=forward out-interface="wg-hotbando" action=accept comment="HotBando WG"
-:do { /interface list member add list=LAN interface="wg-hotbando" comment="HotBando WG LAN" } on-error={}
+/ip firewall filter remove [find comment="Meshline WiFi WG"]
+/ip firewall filter remove [find comment="Meshline WiFi WG input"]
+/ip firewall filter add chain=input protocol=udp dst-port=13231 action=accept place-before=0 comment="Meshline WiFi WG"
+/ip firewall filter add chain=input in-interface="wg-meshline" action=accept place-before=0 comment="Meshline WiFi WG input"
+/ip firewall filter add chain=forward in-interface="wg-meshline" action=accept comment="Meshline WiFi WG"
+/ip firewall filter add chain=forward out-interface="wg-meshline" action=accept comment="Meshline WiFi WG"
+:do { /interface list member add list=LAN interface="wg-meshline" comment="Meshline WiFi WG LAN" } on-error={}
 /ip service set api disabled=no address=${wireguardService.networkCidr}
 /ip service set winbox disabled=no address=${wireguardService.networkCidr}
 
@@ -666,41 +666,41 @@ function generateProvisionScript({ router, routerID, assignedIp, wireguard }) {
 
 /ip dhcp-server remove [find interface=$hotspotIface]
 /ip address remove [find interface=$hotspotIface]
-/ip address add address=${HOTSPOT_IP}/${hotspotPrefixLen} interface=$hotspotIface network=${hotspotNetBase} comment="HotBando hotspot gateway"
+/ip address add address=${HOTSPOT_IP}/${hotspotPrefixLen} interface=$hotspotIface network=${hotspotNetBase} comment="Meshline WiFi hotspot gateway"
 
 /ip pool remove [find name="hotbando-pool"]
-/ip pool add name="hotbando-pool" ranges=${hotspotNetPrefix}.100-${hotspotNetPrefix}.200 comment="HotBando client pool"
-/ip dhcp-server remove [find name="hotbando-dhcp"]
-/ip dhcp-server add name="hotbando-dhcp" interface=$hotspotIface address-pool=hotbando-pool lease-time=1h disabled=no comment="HotBando DHCP"
+/ip pool add name="hotbando-pool" ranges=${hotspotNetPrefix}.100-${hotspotNetPrefix}.200 comment="Meshline WiFi client pool"
+/ip dhcp-server remove [find name="meshline-dhcp"]
+/ip dhcp-server add name="meshline-dhcp" interface=$hotspotIface address-pool=hotbando-pool lease-time=1h disabled=no comment="Meshline WiFi DHCP"
 /ip dhcp-server network remove [find address=${hotspotCidr}]
 /ip dhcp-server network add address=${hotspotCidr} gateway=${HOTSPOT_IP} dns-server=${HOTSPOT_IP}
 # ^ hand out the router itself as DNS so the captive-portal names below resolve
 
 /ip dns set allow-remote-requests=yes servers=${HOTSPOT_DNS}
-/ip dns static remove [find comment="HotBando captive"]
-/ip dns static add name="connectivitycheck.gstatic.com" address=${HOTSPOT_IP} ttl=1m comment="HotBando captive"
-/ip dns static add name="connectivitycheck.android.com" address=${HOTSPOT_IP} ttl=1m comment="HotBando captive"
-/ip dns static add name="captive.apple.com" address=${HOTSPOT_IP} ttl=1m comment="HotBando captive"
-/ip dns static add name="msftconnecttest.com" address=${HOTSPOT_IP} ttl=1m comment="HotBando captive"
-/ip dns static add name="www.msftconnecttest.com" address=${HOTSPOT_IP} ttl=1m comment="HotBando captive"
-/ip dns static add name="msftncsi.com" address=${HOTSPOT_IP} ttl=1m comment="HotBando captive"
-/ip dns static add name="www.msftncsi.com" address=${HOTSPOT_IP} ttl=1m comment="HotBando captive"
-/ip dns static add name="detectportal.firefox.com" address=${HOTSPOT_IP} ttl=1m comment="HotBando captive"
-/ip dns static add name="nmcheck.gnome.org" address=${HOTSPOT_IP} ttl=1m comment="HotBando captive"
+/ip dns static remove [find comment="Meshline WiFi captive"]
+/ip dns static add name="connectivitycheck.gstatic.com" address=${HOTSPOT_IP} ttl=1m comment="Meshline WiFi captive"
+/ip dns static add name="connectivitycheck.android.com" address=${HOTSPOT_IP} ttl=1m comment="Meshline WiFi captive"
+/ip dns static add name="captive.apple.com" address=${HOTSPOT_IP} ttl=1m comment="Meshline WiFi captive"
+/ip dns static add name="msftconnecttest.com" address=${HOTSPOT_IP} ttl=1m comment="Meshline WiFi captive"
+/ip dns static add name="www.msftconnecttest.com" address=${HOTSPOT_IP} ttl=1m comment="Meshline WiFi captive"
+/ip dns static add name="msftncsi.com" address=${HOTSPOT_IP} ttl=1m comment="Meshline WiFi captive"
+/ip dns static add name="www.msftncsi.com" address=${HOTSPOT_IP} ttl=1m comment="Meshline WiFi captive"
+/ip dns static add name="detectportal.firefox.com" address=${HOTSPOT_IP} ttl=1m comment="Meshline WiFi captive"
+/ip dns static add name="nmcheck.gnome.org" address=${HOTSPOT_IP} ttl=1m comment="Meshline WiFi captive"
 
-/ip firewall nat remove [find comment="HotBando masquerade"]
-/ip firewall nat add chain=srcnat src-address=${hotspotCidr} action=masquerade comment="HotBando masquerade"
+/ip firewall nat remove [find comment="Meshline WiFi masquerade"]
+/ip firewall nat add chain=srcnat src-address=${hotspotCidr} action=masquerade comment="Meshline WiFi masquerade"
 # Remove the old, backwards WAN->hotspot redirects (they hijack inbound web
 # traffic and are not needed: the hotspot server redirects clients itself).
-/ip firewall nat remove [find comment="HotBando http"]
-/ip firewall nat remove [find comment="HotBando https"]
+/ip firewall nat remove [find comment="Meshline WiFi http"]
+/ip firewall nat remove [find comment="Meshline WiFi https"]
 # Force client DNS through the router so captive detection is deterministic.
-/ip firewall nat remove [find comment="HotBando dns"]
-/ip firewall nat add chain=dstnat protocol=udp dst-port=53 in-interface=$hotspotIface action=redirect to-ports=53 comment="HotBando dns"
-/ip firewall nat add chain=dstnat protocol=tcp dst-port=53 in-interface=$hotspotIface action=redirect to-ports=53 comment="HotBando dns"
-/ip firewall filter remove [find comment="HotBando DNS"]
-/ip firewall filter add chain=input protocol=udp dst-port=53 in-interface=$hotspotIface action=accept place-before=0 comment="HotBando DNS"
-/ip firewall filter add chain=input protocol=tcp dst-port=53 in-interface=$hotspotIface action=accept place-before=0 comment="HotBando DNS"
+/ip firewall nat remove [find comment="Meshline WiFi dns"]
+/ip firewall nat add chain=dstnat protocol=udp dst-port=53 in-interface=$hotspotIface action=redirect to-ports=53 comment="Meshline WiFi dns"
+/ip firewall nat add chain=dstnat protocol=tcp dst-port=53 in-interface=$hotspotIface action=redirect to-ports=53 comment="Meshline WiFi dns"
+/ip firewall filter remove [find comment="Meshline WiFi DNS"]
+/ip firewall filter add chain=input protocol=udp dst-port=53 in-interface=$hotspotIface action=accept place-before=0 comment="Meshline WiFi DNS"
+/ip firewall filter add chain=input protocol=tcp dst-port=53 in-interface=$hotspotIface action=accept place-before=0 comment="Meshline WiFi DNS"
 
 /ip hotspot remove [find]
 /ip hotspot profile remove [find name="hotbando-profile"]
@@ -709,20 +709,20 @@ function generateProvisionScript({ router, routerID, assignedIp, wireguard }) {
   html-directory=hotspot \\
   use-radius=yes radius-accounting=yes radius-interim-update=30s \\
   radius-mac-format=XX:XX:XX:XX:XX:XX \\
-  hotspot-address=${HOTSPOT_IP} dns-name="hotspot.hotbando.local" \\
-  comment="HotBando hotspot profile"
+  hotspot-address=${HOTSPOT_IP} dns-name="hotspot.meshline.local" \\
+  comment="Meshline WiFi hotspot profile"
 # mac-auth-mode is unavailable on very old RouterOS builds; set it separately
 # so the profile is still created (and the portal still works) if unsupported.
 :do { /ip hotspot profile set [find name="hotbando-profile"] mac-auth-mode=mac-as-username-and-password } on-error={}
-/ip hotspot add name="hotbando-server" interface=$hotspotIface address-pool=hotbando-pool profile=hotbando-profile disabled=no comment="HotBando hotspot server"
+/ip hotspot add name="hotbando-server" interface=$hotspotIface address-pool=hotbando-pool profile=hotbando-profile disabled=no comment="Meshline WiFi hotspot server"
 
-/ip hotspot walled-garden remove [find comment~"HotBando"]
+/ip hotspot walled-garden remove [find comment~"Meshline WiFi"]
 # IP-level rules live in the "ip" submenu, where the action is accept (not
 # allow). Clear our old entries first so re-provisioning is idempotent.
-/ip hotspot walled-garden ip remove [find comment~"HotBando"]
+/ip hotspot walled-garden ip remove [find comment~"Meshline WiFi"]
 ${serverWalledGardenRules()}
-/ip hotspot walled-garden ip add action=accept protocol=udp dst-port=53 comment="HotBando DNS"
-/ip hotspot walled-garden ip add action=accept protocol=tcp dst-port=53 comment="HotBando DNS"
+/ip hotspot walled-garden ip add action=accept protocol=udp dst-port=53 comment="Meshline WiFi DNS"
+/ip hotspot walled-garden ip add action=accept protocol=tcp dst-port=53 comment="Meshline WiFi DNS"
 # IMPORTANT: never whitelist the OS captive-portal probe hosts
 # (connectivitycheck.gstatic.com, captive.apple.com, msftconnecttest.com,
 # detectportal.firefox.com, ...). Whitelisting them lets the phone's probe
@@ -730,38 +730,38 @@ ${serverWalledGardenRules()}
 # captive portal. Leave them intercepted so the hotspot redirects the probe.
 # Portal CDN (Tailwind, fonts, icons) so the login page renders fully
 # inside the phone captive browser before login
-/ip hotspot walled-garden add action=allow dst-host="cdn.tailwindcss.com" comment="HotBando portal CSS"
-/ip hotspot walled-garden add action=allow dst-host="fonts.googleapis.com" comment="HotBando portal fonts"
-/ip hotspot walled-garden add action=allow dst-host="fonts.gstatic.com" comment="HotBando portal fonts"
-/ip hotspot walled-garden add action=allow dst-host="cdnjs.cloudflare.com" comment="HotBando portal icons"
-/ip hotspot walled-garden add action=allow dst-host="unpkg.com" comment="HotBando portal libs"
-/ip hotspot walled-garden add action=allow dst-host="cdn.jsdelivr.net" comment="HotBando portal libs"
+/ip hotspot walled-garden add action=allow dst-host="cdn.tailwindcss.com" comment="Meshline WiFi portal CSS"
+/ip hotspot walled-garden add action=allow dst-host="fonts.googleapis.com" comment="Meshline WiFi portal fonts"
+/ip hotspot walled-garden add action=allow dst-host="fonts.gstatic.com" comment="Meshline WiFi portal fonts"
+/ip hotspot walled-garden add action=allow dst-host="cdnjs.cloudflare.com" comment="Meshline WiFi portal icons"
+/ip hotspot walled-garden add action=allow dst-host="unpkg.com" comment="Meshline WiFi portal libs"
+/ip hotspot walled-garden add action=allow dst-host="cdn.jsdelivr.net" comment="Meshline WiFi portal libs"
 
-/radius remove [find comment~"HotBando"]
+/radius remove [find comment~"Meshline WiFi"]
 /radius remove [find service=hotspot]
 /radius add address=${wireguardService.serverIp} secret=${RADIUS_SECRET} service=hotspot \\
   authentication-port=1812 accounting-port=1813 timeout=3000ms src-address=${assignedIp} \\
-  comment="HotBando FreeRADIUS"
+  comment="Meshline WiFi FreeRADIUS"
 /radius incoming set accept=yes port=1700
 
-/ip hotspot user profile remove [find comment~"HotBando"]
-/ip hotspot user profile add name="hotbando-free" rate-limit="3M/3M 512K/512K 2000/2000" idle-timeout=30m session-timeout=2h comment="HotBando free"
-/ip hotspot user profile add name="hotbando-paid" rate-limit="12M/12M 1M/1M 5000/5000" idle-timeout=1h session-timeout=24h comment="HotBando paid"
-/ip hotspot user profile add name="hotbando-vip" rate-limit="50M/50M 5M/5M 10000/10000" idle-timeout=2h session-timeout=168h comment="HotBando VIP"
+/ip hotspot user profile remove [find comment~"Meshline WiFi"]
+/ip hotspot user profile add name="hotbando-free" rate-limit="3M/3M 512K/512K 2000/2000" idle-timeout=30m session-timeout=2h comment="Meshline WiFi free"
+/ip hotspot user profile add name="hotbando-paid" rate-limit="12M/12M 1M/1M 5000/5000" idle-timeout=1h session-timeout=24h comment="Meshline WiFi paid"
+/ip hotspot user profile add name="hotbando-vip" rate-limit="50M/50M 5M/5M 10000/10000" idle-timeout=2h session-timeout=168h comment="Meshline WiFi VIP"
 
-/ip hotspot user remove [find comment~"HotBando"]
-/ip hotspot user add name="admin" password="hotbando2024" profile=hotbando-vip server=hotbando-server comment="HotBando admin"
+/ip hotspot user remove [find comment~"Meshline WiFi"]
+/ip hotspot user add name="admin" password="meshline2024" profile=hotbando-vip server=hotbando-server comment="Meshline WiFi admin"
 
-/ip hotspot ip-binding remove [find comment~"HotBando"]
+/ip hotspot ip-binding remove [find comment~"Meshline WiFi"]
 
-/system scheduler remove [find name="hotbando-watchdog"]
-/system scheduler add name="hotbando-watchdog" interval=2m on-event={
+/system scheduler remove [find name="meshline-watchdog"]
+/system scheduler add name="meshline-watchdog" interval=2m on-event={
   :do { /ip hotspot set [find name="hotbando-server"] disabled=no } on-error={}
   :do { /radius enable [find service=hotspot] } on-error={}
-  :do { /interface wireguard set [find name="wg-hotbando"] disabled=no } on-error={}
+  :do { /interface wireguard set [find name="wg-meshline"] disabled=no } on-error={}
   :do { /ip service set api disabled=no address=${wireguardService.networkCidr} } on-error={}
   :do { /radius set [find service=hotspot] address=${wireguardService.serverIp} src-address=${assignedIp} timeout=3000ms } on-error={}
-} comment="HotBando watchdog"
+} comment="Meshline WiFi watchdog"
 
 # ----------------------------------------------------------------------------
 # 4. WIFI SSID
@@ -775,28 +775,28 @@ ${serverWalledGardenRules()}
 #    /api/zero-touch/provision endpoint when router settings change.
 # ----------------------------------------------------------------------------
 # Stop the approval poller — config is now applied
-/system scheduler remove [find name="hotbando-poll"]
+/system scheduler remove [find name="meshline-poll"]
 :global hbPollUrl ""
 
-/system scheduler remove [find name="hotbando-heartbeat"]
-/system scheduler add name="hotbando-heartbeat" interval=2m start-time=startup on-event={
+/system scheduler remove [find name="meshline-heartbeat"]
+/system scheduler add name="meshline-heartbeat" interval=2m start-time=startup on-event={
   :do { /tool fetch url=("${PUBLIC_BASE_URL}/api/zero-touch/heartbeat?router_id=${routerID}&secret=${ROUTER_REGISTRATION_SECRET}") mode=${PUBLIC_FETCH_MODE} keep-result=no check-certificate=yes } on-error={}
-} comment="HotBando heartbeat"
+} comment="Meshline WiFi heartbeat"
 
 # ----------------------------------------------------------------------------
 # 6. CAPTIVE PORTAL REDIRECT PAGE
 #    Replaces the stock MikroTik login page. It immediately sends the client
-#    to the HotBando portal (which handles registration/payment), with a
+#    to the Meshline WiFi portal (which handles registration/payment), with a
 #    visible button as a fallback if the meta refresh is blocked.
 # ----------------------------------------------------------------------------
 :delay 1
 /file remove hotspot/login.html
 :local portalUrl "${PUBLIC_BASE_URL}/hotspot?router_id=${routerID}&mac=\\$(mac)&ip=\\$(ip)"
-:local loginHtml "<!-- HotBando -->\\n<html>\\n<head>\\n<meta charset='utf-8'>\\n<meta http-equiv='refresh' content='0;url=$portalUrl'>\\n<meta name='viewport' content='width=device-width,initial-scale=1'>\\n<title>HotBando WiFi</title>\\n</head>\\n<body style='margin:0;font-family:system-ui,Arial,sans-serif;background:#0b0b12;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh'>\\n<div style='text-align:center;padding:24px;max-width:340px'>\\n<div style='font-size:42px;margin-bottom:12px'>&#128246;</div>\\n<h2 style='margin:0 0 8px'>HotBando WiFi</h2>\\n<p style='color:#9ca3af;margin:0 0 18px'>Inafungua HotBando portal...</p>\\n<a href='$portalUrl' style='display:inline-block;background:#FF7A30;color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:700'>Open HotBando</a>\\n</div>\\n<script>window.location.href='$portalUrl';</script>\\n</body>\\n</html>\\n"
+:local loginHtml "<!-- Meshline WiFi -->\\n<html>\\n<head>\\n<meta charset='utf-8'>\\n<meta http-equiv='refresh' content='0;url=$portalUrl'>\\n<meta name='viewport' content='width=device-width,initial-scale=1'>\\n<title>Meshline WiFi</title>\\n</head>\\n<body style='margin:0;font-family:system-ui,Arial,sans-serif;background:#0b0b12;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh'>\\n<div style='text-align:center;padding:24px;max-width:340px'>\\n<div style='font-size:42px;margin-bottom:12px'>&#128246;</div>\\n<h2 style='margin:0 0 8px'>Meshline WiFi</h2>\\n<p style='color:#9ca3af;margin:0 0 18px'>Inafungua Meshline WiFi portal...</p>\\n<a href='$portalUrl' style='display:inline-block;background:#FF7A30;color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:700'>Open Meshline WiFi</a>\\n</div>\\n<script>window.location.href='$portalUrl';</script>\\n</body>\\n</html>\\n"
 /file add name="hotspot/login.html" contents=$loginHtml
 
 :put "============================================="
-:put "HotBando router provisioned successfully!"
+:put "Meshline WiFi router provisioned successfully!"
 :put "Router: ${routerID}  WG IP: ${assignedIp}"
 :put "SSID: ${sanitize(ssid)}"
 :put "============================================="

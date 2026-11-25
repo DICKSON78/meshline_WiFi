@@ -66,7 +66,7 @@ onMounted(async () => {
   // Swap manifest for PWA installability of reseller app
   const link = document.querySelector('link[rel="manifest"]')
   if (link) link.href = '/reseller-manifest.json'
-  document.title = 'HotBando Reseller'
+  document.title = 'Meshline WiFi Reseller'
 
   // Auto-prompt PWA install when available
   window.addEventListener('beforeinstallprompt', (e) => {

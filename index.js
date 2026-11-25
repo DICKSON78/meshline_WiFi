@@ -105,7 +105,7 @@ const sessionStore = new MySQLStore({
 // that case, so only force Secure when both relevant env flags allow it.
 const forceSecureCookies = process.env.COOKIE_SECURE === 'true' && process.env.SESSION_SECURE !== 'false';
 app.use(session({
-    key: 'hotbando_session',
+    key: 'meshline_session',
     secret: process.env.SESSION_SECRET || require('crypto').randomBytes(64).toString('hex'),
     store: sessionStore,
     resave: false,
@@ -129,7 +129,7 @@ app.use('/api/', rateLimit({
     max: 1200,
     key: (req) => {
         const session = req.session || {};
-        const account = session.hotbando_user || session.admin_user || session.sponsor_user ||
+        const account = session.meshline_user || session.admin_user || session.sponsor_user ||
             session.bank_user || session.franchise_user || session.reseller_user || session.investor_user;
         return account?.id ? `account:${account.role || 'customer'}:${account.id}` : '';
     }
@@ -298,7 +298,7 @@ function currentSessionUser(req) {
         ['franchise_user', 'franchise_owner'],
         ['reseller_user', 'reseller'],
         ['investor_user', 'investor'],
-        ['hotbando_user', 'customer']
+        ['meshline_user', 'customer']
     ];
     for (const [field, role] of map) {
         const u = req.session[field];
@@ -514,7 +514,7 @@ const PORT = process.env.PORT || 3000;
 connectRedis().then(() => {
     httpServer.listen(PORT, () => {
         const logger = require('./utils/logger');
-        logger.info(`HotBando server started on http://localhost:${PORT}`);
+        logger.info(`Meshline WiFi server started on http://localhost:${PORT}`);
         logger.info(`Hotspot: http://localhost:${PORT}/hotspot`);
         logger.info(`Admin: http://localhost:${PORT}/admin`);
         logger.info(`Collector tunnel: ws://localhost:${PORT}/api/collector/ws`);
@@ -530,7 +530,7 @@ connectRedis().then(() => {
     httpServer.listen(PORT, () => {
         const logger = require('./utils/logger');
         logger.warn('Starting without Redis');
-        logger.info(`HotBando server started on http://localhost:${PORT}`);
+        logger.info(`Meshline WiFi server started on http://localhost:${PORT}`);
 
         const expiryScheduler = require('./utils/expiryScheduler');
         expiryScheduler.start(60000);

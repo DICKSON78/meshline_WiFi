@@ -70,7 +70,7 @@ async function seed() {
 
     console.log('\nDone!');
     console.log('\nCredentials:');
-    console.log('  Admin:      admin@hotbando.com / Admin@123');
+    console.log('  Admin:      admin@meshline.com / Admin@123');
     console.log('  Sponsor:    john@example.com / password123');
     console.log('  Bank:       jane@bank.co.tz / password123');
     console.log('  Franchise:  peter@franchise.com / password123');

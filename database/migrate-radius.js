@@ -4,7 +4,7 @@
  * Run: node database/migrate-radius.js
  *
  * This must be run BEFORE starting FreeRADIUS.
- * The views map HotBando's schema to FreeRADIUS-compatible format.
+ * The views map Meshline WiFi's schema to FreeRADIUS-compatible format.
  */
 
 const db = require('../config/database');
@@ -100,7 +100,7 @@ async function migrateRadius() {
         console.log('\n✅ FreeRADIUS integration ready!');
         console.log('\n📋 Next steps:');
         console.log('   1. Create DB user: CREATE USER IF NOT EXISTS freeradius@localhost ...');
-        console.log('   2. Grant access:   GRANT SELECT, INSERT, UPDATE ON hotbando.* TO freeradius@localhost');
+        console.log('   2. Grant access:   GRANT SELECT, INSERT, UPDATE ON meshline.* TO freeradius@localhost');
         console.log('   3. Install FR:     sudo bash freeradius/deploy.sh');
         console.log('   4. Test auth:      radtest 0712345678 <password> localhost 0 testing123\n');
 

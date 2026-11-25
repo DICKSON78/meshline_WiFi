@@ -1,4 +1,4 @@
-# Uhamisho wa Node → Laravel (HotBando / meshline)
+# Uhamisho wa Node → Laravel (Meshline WiFi / meshline)
 
 Mradi huu sasa una sehemu mbili:
 

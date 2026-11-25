@@ -5,7 +5,7 @@
       <div class="flex items-center gap-3">
         <div class="tile-icon" style="background:rgba(18,188,0,0.1);color:#12BC00"><i class="fa-solid fa-mobile-screen"></i></div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-semibold text-white">Install HotBando App</p>
+          <p class="text-sm font-semibold text-white">Install Meshline WiFi App</p>
           <p class="text-xs text-white/50">Fungua kama app kila unapo-join WiFi</p>
         </div>
       </div>
@@ -26,13 +26,13 @@
       <div class="bg-[#111118] border border-[#1e1e2a] rounded-2xl w-full max-w-sm p-5 relative">
         <button class="absolute top-3 right-3 text-white/50 hover:text-white" @click="closePopup"><i class="fa-solid fa-xmark"></i></button>
         <div class="flex items-center gap-3 mb-4">
-          <img src="/logo.png" class="h-12 w-12 rounded-xl" alt="HotBando">
+          <img src="/logo.png" class="h-12 w-12 rounded-xl" alt="Meshline WiFi">
           <div>
-            <p class="text-base font-bold text-white">Install HotBando App</p>
+            <p class="text-base font-bold text-white">Install Meshline WiFi App</p>
             <p class="text-xs text-white/50">Kwa matumizi haraka na rahisi</p>
           </div>
         </div>
-        <p class="text-sm text-white/70 mb-4">Sakinisha app ya HotBando ili ufungue haraka bila browser na upate uzoefu bora.</p>
+        <p class="text-sm text-white/70 mb-4">Sakinisha app ya Meshline WiFi ili ufungue haraka bila browser na upate uzoefu bora.</p>
         <button v-if="canInstall" @click="installFromPopup" :disabled="installing" class="ig-btn ig-btn-primary w-full mb-2 disabled:opacity-60">
           <i class="fa-solid fa-download mr-2"></i>{{ installing ? 'Inasakinisha...' : 'Install Now' }}
         </button>

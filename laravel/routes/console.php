@@ -1,6 +1,6 @@
 <?php
 
-use App\Console\Commands\HotbandoTickJob;
+use App\Console\Commands\MeshlineTickJob;
 use App\Console\Commands\MetricsRefreshJob;
 use App\Console\Commands\StaleRouterJob;
 use Illuminate\Foundation\Inspiring;
@@ -20,7 +20,7 @@ Artisan::command('inspire', function () {
  * Run `php artisan schedule:work` (or schedule:run from cron) once, next to
  * the web process. withoutOverlapping() mirrors the legacy `running` guard.
  */
-Schedule::command(HotbandoTickJob::class)
+Schedule::command(MeshlineTickJob::class)
     ->everyMinute()
     ->withoutOverlapping(5)
     ->runInBackground();

@@ -63,7 +63,7 @@
         <div class="section-body space-y-3">
           <p class="text-xs" style="color: #6b7280">LAN Detect runs <b>on this cloud server</b>. It cannot see a router you plugged in at 192.168.88.1. For a new site router, use <b>Site Setup</b> and paste the script in WebFig.</p>
           <button @click="activeTab = 'sitesetup'" class="btn btn-primary btn-sm"><i class="fas fa-location-dot mr-1"></i> Go to Site Setup</button>
-          <p class="text-xs" style="color: #6b7280">Use Auto-Detect only if this HotBando server is on the same LAN as the MikroTik (HQ install), or the router already has a WireGuard tunnel.</p>
+          <p class="text-xs" style="color: #6b7280">Use Auto-Detect only if this Meshline WiFi server is on the same LAN as the MikroTik (HQ install), or the router already has a WireGuard tunnel.</p>
           <div class="flex gap-2 flex-wrap">
             <button @click="autoDetect()" :disabled="autoDetecting || configRunning" class="btn btn-primary">
               <i class="fas mr-1" :class="autoDetecting ? 'fa-spinner fa-spin' : 'fa-radar'"></i>
@@ -165,7 +165,7 @@
             <p class="text-xs" style="color: #6b7280">Configure the router's basic settings. These will be applied during the WireGuard setup.</p>
             <div class="grid grid-cols-2 gap-3">
               <div><label class="input-label">Router Name *</label><input v-model="configForm.routerName" class="form-input" placeholder="Dar Office Router"></div>
-              <div><label class="input-label">SSID</label><input v-model="configForm.ssid" class="form-input" placeholder="HotBando-Free-WiFi"></div>
+              <div><label class="input-label">SSID</label><input v-model="configForm.ssid" class="form-input" placeholder="Meshline WiFi-Free-WiFi"></div>
             </div>
             <div>
               <label class="input-label">Location</label>
@@ -493,7 +493,7 @@
             <div><label class="input-label">Password *</label><input v-model="form.password" type="password" class="form-input"></div>
           </div>
           <div class="grid grid-cols-2 gap-3">
-            <div><label class="input-label">SSID</label><input v-model="form.ssid" class="form-input" placeholder="HotBando-WiFi"></div>
+            <div><label class="input-label">SSID</label><input v-model="form.ssid" class="form-input" placeholder="Meshline WiFi-WiFi"></div>
             <div><label class="input-label">Location</label>
               <select v-model="form.location_id" class="form-input">
                 <option :value="null">-- None --</option>
@@ -556,7 +556,7 @@ const scanning = ref(false)
 const scanResults = ref([])
 
 // Configure
-const configForm = ref({ routerName: '', ssid: 'HotBando-Free-WiFi', locationId: null, latitude: null, longitude: null })
+const configForm = ref({ routerName: '', ssid: 'Meshline WiFi-Free-WiFi', locationId: null, latitude: null, longitude: null })
 const configRunning = ref(false)
 const configProgress = ref(null)
 const configSteps = [
@@ -566,7 +566,7 @@ const configSteps = [
   { title: 'Generate WireGuard keys', desc: 'Create keypairs for server and router' },
   { title: 'Push config to router', desc: 'Create WG interface, peer, IP, routes, firewall' },
   { title: 'Register in database', desc: 'Save router details and WireGuard info' },
-  { title: 'Update server peers', desc: 'Add router as peer on the HotBando server' },
+  { title: 'Update server peers', desc: 'Add router as peer on the Meshline WiFi server' },
   { title: 'Verify tunnel', desc: 'Test WireGuard connectivity' }
 ]
 
@@ -742,7 +742,7 @@ async function autoDetect() {
         detectResult.value = {
           isMikrotik: false,
           useSiteSetup: true,
-          message: `Auto-Detect only found ${registered.length} router(s) already in HotBando — not the one you just plugged in. Those are existing fleet devices. For a new router at 192.168.88.1, use Site Setup (paste the script), not Detect.`
+          message: `Auto-Detect only found ${registered.length} router(s) already in Meshline WiFi — not the one you just plugged in. Those are existing fleet devices. For a new router at 192.168.88.1, use Site Setup (paste the script), not Detect.`
         }
       }
       return
@@ -764,7 +764,7 @@ async function autoDetect() {
 // ── One-button auto configure with sensible defaults ──
 async function quickConfigure() {
   configForm.value.routerName = detectResult.value?.identity || ('Router-' + detectForm.value.ip.replace(/\./g, '-'))
-  configForm.value.ssid = 'HotBando-Free-WiFi'
+  configForm.value.ssid = 'Meshline WiFi-Free-WiFi'
   configForm.value.locationId = null
   configForm.value.latitude = null
   configForm.value.longitude = null
@@ -804,7 +804,7 @@ function startWireGuardConfig() {
   showTerminal.value = true
   configRunning.value = true
 
-  const token = document.cookie.match(/hotbando_session=([^;]+)/)?.[1] || ''
+  const token = document.cookie.match(/meshline_session=([^;]+)/)?.[1] || ''
 
   fetch('/api/admin/mikrotik-setup/configure', {
     method: 'POST',
@@ -914,7 +914,7 @@ function downloadBootstrap() {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = 'hotbando-zero-touch.rsc'
+  a.download = 'meshline-zero-touch.rsc'
   a.click()
   URL.revokeObjectURL(url)
 }

@@ -298,7 +298,7 @@
           </div>
           <div>
             <label class="form-label">Email *</label>
-            <input v-model="staffForm.email" type="email" class="form-input" placeholder="john@hotbando.com">
+            <input v-model="staffForm.email" type="email" class="form-input" placeholder="john@meshline.com">
           </div>
           <div>
             <label class="form-label">Phone *</label>

@@ -80,7 +80,7 @@ When Stanslaus logs in, the `/api/hotspot/dashboard` endpoint will return:
 │                                                             │
 │ Karibu                                                      │
 │ Stanslaus Emmanuel                                          │
-│ 0776126464                      🔔      [📶] HotBando     │
+│ 0776126464                      🔔      [📶] Meshline WiFi     │
 │                                                             │
 │ ┌───────────────────────────────────────────────────────┐  │
 │ │ Time Remaining                                 📶      │  │
@@ -98,7 +98,7 @@ When Stanslaus logs in, the `/api/hotspot/dashboard` endpoint will return:
 │                                                             │
 │ ┌───────────────────────────────────────────────────────┐  │
 │ │ ✅ Connected                                          │  │
-│ │ Unganishwa kwenye HotBando WiFi                      │  │
+│ │ Unganishwa kwenye Meshline WiFi                      │  │
 │ │ Rate: 10 Mbps (Paid tier)                           │  │
 │ └───────────────────────────────────────────────────────┘  │
 │                                                             │

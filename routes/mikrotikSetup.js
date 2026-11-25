@@ -121,7 +121,7 @@ router.get('/detect', async (req, res) => {
             } else if (result.authFailed) {
                 result.message = `A MikroTik responded at ${ip} but the credentials were rejected and no default credentials worked. Enter the correct admin password (Manual connect).`;
             } else if (isPrivateLanIp(ip)) {
-                result.message = `This HotBando server cannot reach ${ip}:${parseInt(port)} — that address lives on the technician laptop/router LAN, not on the cloud. Auto-Detect and Detect-by-IP will never see a factory router at 192.168.88.1. Open Site Setup, copy the site script, paste it in WebFig Terminal at http://192.168.88.1 (WAN must have internet), then wait for PENDING and press Connect.`;
+                result.message = `This Meshline WiFi server cannot reach ${ip}:${parseInt(port)} — that address lives on the technician laptop/router LAN, not on the cloud. Auto-Detect and Detect-by-IP will never see a factory router at 192.168.88.1. Open Site Setup, copy the site script, paste it in WebFig Terminal at http://192.168.88.1 (WAN must have internet), then wait for PENDING and press Connect.`;
                 result.useSiteSetup = true;
             } else {
                 result.message = `Nothing responding at ${ip}:${parseInt(port)}. Check power, cable/WiFi, and that the router API (port ${parseInt(port)}) is reachable from this server. For a plugged-in factory router, use Site Setup (zero-touch script) instead of Detect-by-IP.`;
@@ -191,7 +191,7 @@ router.post('/configure', async (req, res) => {
 
     const {
         ip, port = 8728, user = 'admin', password = '',
-        routerName, locationId, ssid = 'HotBando-Free-WiFi',
+        routerName, locationId, ssid = 'Meshline WiFi-Free-WiFi',
         latitude, longitude
     } = req.body;
 
@@ -253,21 +253,21 @@ router.post('/configure', async (req, res) => {
                 log('WireGuard package found', 'success');
             }
 
-            // Check for existing wg-hotbando interface
+            // Check for existing wg-meshline interface
             let wgExists = false;
             try {
                 const [wgIfaces] = await conn.write('/interface/wireguard/print');
-                wgExists = wgIfaces.some(w => w.name === 'wg-hotbando');
+                wgExists = wgIfaces.some(w => w.name === 'wg-meshline');
             } catch (e) { /* wireguard not available as sub-command */ }
 
             if (wgExists) {
-                log('WireGuard interface wg-hotbando already exists — will reconfigure', 'warn');
+                log('WireGuard interface wg-meshline already exists — will reconfigure', 'warn');
                 // Remove old interface to reconfigure
                 try {
-                    const [oldIface] = await conn.write('/interface/wireguard/print', ['?name=wg-hotbando']);
+                    const [oldIface] = await conn.write('/interface/wireguard/print', ['?name=wg-meshline']);
                     if (oldIface && oldIface['.id']) {
                         await conn.write('/interface/wireguard/remove', [`=.id=${oldIface['.id']}`]);
-                        log('Removed existing wg-hotbando interface');
+                        log('Removed existing wg-meshline interface');
                     }
                 } catch (e) { /* ignore */ }
             }
@@ -307,12 +307,12 @@ router.post('/configure', async (req, res) => {
             // 5a. Create WireGuard interface
             try {
                 await conn.write('/interface/wireguard/add', [
-                    `=name=wg-hotbando`,
+                    `=name=wg-meshline`,
                     `=listen-port=13231`,
                     `=private-key="${routerKeys.privateKey}"`
                 ]);
-                wgCommands.push('Created interface wg-hotbando');
-                log('Created WireGuard interface wg-hotbando', 'success');
+                wgCommands.push('Created interface wg-meshline');
+                log('Created WireGuard interface wg-meshline', 'success');
             } catch (e) {
                 log('Interface create: ' + e.message, 'warn');
                 wgCommands.push('Interface create failed (may exist): ' + e.message);
@@ -321,7 +321,7 @@ router.post('/configure', async (req, res) => {
             // 5b. Add server as peer
             try {
                 await conn.write('/interface/wireguard/peers/add', [
-                    `=interface=wg-hotbando`,
+                    `=interface=wg-meshline`,
                     `=public-key="${serverKeys.publicKey}"`,
                     `=endpoint-address=${wireguardService.serverPublicIp}`,
                     `=endpoint-port=${wireguardService.listenPort}`,
@@ -339,10 +339,10 @@ router.post('/configure', async (req, res) => {
             try {
                 await conn.write('/ip/address/add', [
                     `=address=${assignedIp}/24`,
-                    `=interface=wg-hotbando`
+                    `=interface=wg-meshline`
                 ]);
                 wgCommands.push('Assigned IP ' + assignedIp);
-                log('Assigned IP ' + assignedIp + ' to wg-hotbando', 'success');
+                log('Assigned IP ' + assignedIp + ' to wg-meshline', 'success');
             } catch (e) {
                 log('IP assign: ' + e.message, 'warn');
                 wgCommands.push('IP assign failed: ' + e.message);
@@ -352,7 +352,7 @@ router.post('/configure', async (req, res) => {
             try {
                 await conn.write('/ip/route/add', [
                     `=dst-address=${wireguardService.networkCidr}`,
-                    `=gateway=wg-hotbando`
+                    `=gateway=wg-meshline`
                 ]);
                 wgCommands.push('Added route to server network');
                 log('Added route to ' + wireguardService.networkCidr, 'success');
@@ -367,10 +367,10 @@ router.post('/configure', async (req, res) => {
                     `=chain=input`, `=protocol=udp`, `=dst-port=13231`, `=action=accept`, `=comment=WireGuard`
                 ]);
                 await conn.write('/ip/firewall/filter/add', [
-                    `=chain=forward`, `=in-interface=wg-hotbando`, `=action=accept`, `=comment="WG Fwd In"`
+                    `=chain=forward`, `=in-interface=wg-meshline`, `=action=accept`, `=comment="WG Fwd In"`
                 ]);
                 await conn.write('/ip/firewall/filter/add', [
-                    `=chain=forward`, `=out-interface=wg-hotbando`, `=action=accept`, `=comment="WG Fwd Out"`
+                    `=chain=forward`, `=out-interface=wg-meshline`, `=action=accept`, `=comment="WG Fwd Out"`
                 ]);
                 wgCommands.push('Added firewall rules');
                 log('Firewall rules added', 'success');

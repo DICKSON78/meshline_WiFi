@@ -1,5 +1,5 @@
 /**
- * HotBando Collector Tunnel
+ * Meshline WiFi Collector Tunnel
  * -------------------------
  * Cloud-side WebSocket tunnel for remote router collectors.
  *
@@ -21,7 +21,7 @@ const wsToKey = new Map();
 // collectorKey -> latest heartbeat { at, routers[], collector }
 const heartbeatData = new Map();
 
-// Auto-register a router discovered by a collector into the HotBando DB.
+// Auto-register a router discovered by a collector into the Meshline WiFi DB.
 async function autoRegisterRouter(r, collectorKey) {
     const db = require('../config/database');
     const routerID = r.identity ? `router-${r.identity.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}` : null;

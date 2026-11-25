@@ -1,7 +1,7 @@
 -- ============================================================================
--- HotBando migration 001 — business-model fixes
+-- Meshline WiFi migration 001 — business-model fixes
 -- Applies to: fresh installs (mirrored in database/schema.sql) + live DBs
--- Run: mysql hotbando < database/migrations/001-business-fixes.sql
+-- Run: mysql meshline < database/migrations/001-business-fixes.sql
 -- Safe to re-run: each ALTER is guarded by a column-existence check.
 -- ============================================================================
 

@@ -1,11 +1,11 @@
 # ============================================================================
-# HotBando Captive Portal Repair Script
+# Meshline Captive Portal Repair Script
 # ============================================================================
-# Use this on a MikroTik that is already running HotBando but has stopped
+# Use this on a MikroTik that is already running Meshline but has stopped
 # showing the captive portal (clients connect and get internet immediately).
 #
 # Paste into WinBox Terminal (or SSH) after replacing the 4 placeholders:
-#   HB-D5A30DD733CD       router id shown in HotBando admin (e.g. HB-D5A30DD733CD)
+#   HB-D5A30DD733CD       router id shown in Meshline admin (e.g. HB-D5A30DD733CD)
 #   hotbandowifi.online   portal hostname, e.g. hotbandowifi.online
 #   67.205.179.122     portal server IP,  e.g. 67.205.179.122
 #   d75158fa554f26306ea6b4c5b732e0a4743f2cda96d56d7782d1352e95c76cd6   the RADIUS_SECRET from the server .env
@@ -46,8 +46,8 @@
 
 # If there is no hotspot at all, use a bridge that exists on the router.
 :if ([:len $hsIface] = 0) do={
-  :if ([:len [/interface bridge find name="bridge-hotbando"]] > 0) do={
-    :set hsIface "bridge-hotbando"
+  :if ([:len [/interface bridge find name="bridge-Meshline"]] > 0) do={
+    :set hsIface "bridge-Meshline"
   } else={
     :foreach b in=[/interface bridge find] do={ :set hsIface [/interface bridge get $b name] }
   }
@@ -81,7 +81,7 @@
 # Make sure the bridge actually carries the gateway address.
 :if ([:len $hsIface] > 0) do={
   :if ([:len [/ip address find interface=$hsIface]] = 0) do={
-    :do { /ip address add address=$hsCidr interface=$hsIface comment="HotBando hotspot gateway" } on-error={}
+    :do { /ip address add address=$hsCidr interface=$hsIface comment="Meshline hotspot gateway" } on-error={}
   }
 }
 
@@ -100,20 +100,20 @@
         # Keep this command to properties every RouterOS 6/7 build accepts.
         # "comment" is NOT a hotspot-profile property on RouterOS 6 and made
         # the whole import fail with "expected end of command".
-        /ip hotspot profile add name="hotbando-profile" login-by=http-pap,http-chap,mac html-directory=hotspot use-radius=yes radius-accounting=yes radius-interim-update=30s radius-mac-format=XX:XX:XX:XX:XX:XX hotspot-address=$hsIp dns-name="hotspot.hotbando.local"
+        /ip hotspot profile add name="hotbando-profile" login-by=http-pap,http-chap,mac html-directory=hotspot use-radius=yes radius-accounting=yes radius-interim-update=30s radius-mac-format=XX:XX:XX:XX:XX:XX hotspot-address=$hsIp dns-name="hotspot.Meshline.local"
         :set prof "hotbando-profile"
       } on-error={}
     }
     :if ([:len $hsProfile] = 0) do={ :set hsProfile $prof }
     :if ([:len [/ip pool find name="hotbando-pool"]] > 0) do={
-      :do { /ip hotspot add name="hotbando-server" interface=$hsIface address-pool=hotbando-pool profile=$prof disabled=no comment="HotBando hotspot server" } on-error={}
+      :do { /ip hotspot add name="hotbando-server" interface=$hsIface address-pool=hotbando-pool profile=$prof disabled=no comment="Meshline hotspot server" } on-error={}
     } else={
-      :do { /ip hotspot add name="hotbando-server" interface=$hsIface profile=$prof disabled=no comment="HotBando hotspot server" } on-error={}
+      :do { /ip hotspot add name="hotbando-server" interface=$hsIface profile=$prof disabled=no comment="Meshline hotspot server" } on-error={}
     }
   }
 }
 
-:put ("HotBando repair: interface = " . $hsIface . ", gateway = " . $hsIp . ", subnet = " . $hsCidr)
+:put ("Meshline repair: interface = " . $hsIface . ", gateway = " . $hsIp . ", subnet = " . $hsCidr)
 
 # Never hand out a free trial period: that lets clients browse without login.
 # Property names differ between RouterOS versions, so try both.
@@ -143,44 +143,44 @@
 :foreach r in=[/ip hotspot walled-garden ip find] do={
   :local dh [/ip hotspot walled-garden ip get $r dst-host]
   :local c [/ip hotspot walled-garden ip get $r comment]
-  :if ($dh = "connectivitycheck.gstatic.com" || $dh = "connectivitycheck.android.com" || $dh = "captive.apple.com" || $dh = "msftconnecttest.com" || $dh = "www.msftconnecttest.com" || $dh = "msftncsi.com" || $dh = "www.msftncsi.com" || $dh = "www.google.com" || $dh = "generate_204" || $dh = "detectportal.firefox.com" || $dh = "nmcheck.gnome.org" || $c = "captive" || $c = "HotBando captive") do={
+  :if ($dh = "connectivitycheck.gstatic.com" || $dh = "connectivitycheck.android.com" || $dh = "captive.apple.com" || $dh = "msftconnecttest.com" || $dh = "www.msftconnecttest.com" || $dh = "msftncsi.com" || $dh = "www.msftncsi.com" || $dh = "www.google.com" || $dh = "generate_204" || $dh = "detectportal.firefox.com" || $dh = "nmcheck.gnome.org" || $c = "captive" || $c = "Meshline captive") do={
     /ip hotspot walled-garden ip remove $r
   }
 }
 
 # Allow the portal itself before login (hostname, www alias, bare IP).
 :if ([:len [/ip hotspot walled-garden find dst-host="hotbandowifi.online"]] = 0) do={
-  /ip hotspot walled-garden add action=allow dst-host="hotbandowifi.online" comment="HotBando portal"
+  /ip hotspot walled-garden add action=allow dst-host="hotbandowifi.online" comment="Meshline portal"
 }
 :if ([:len [/ip hotspot walled-garden find dst-host="www.hotbandowifi.online"]] = 0) do={
-  /ip hotspot walled-garden add action=allow dst-host="www.hotbandowifi.online" comment="HotBando portal"
+  /ip hotspot walled-garden add action=allow dst-host="www.hotbandowifi.online" comment="Meshline portal"
 }
 # IP-based rules use the separate "ip" submenu with action=accept.
 :if ([:len [/ip hotspot walled-garden ip find dst-address="67.205.179.122"]] > 0) do={
   /ip hotspot walled-garden ip remove [find dst-address="67.205.179.122"]
 }
-/ip hotspot walled-garden ip add action=accept dst-address=67.205.179.122 comment="HotBando portal IP"
+/ip hotspot walled-garden ip add action=accept dst-address=67.205.179.122 comment="Meshline portal IP"
 :if ([:len [/ip hotspot walled-garden ip find protocol=udp dst-port=53]] = 0) do={
-  /ip hotspot walled-garden ip add action=accept protocol=udp dst-port=53 comment="HotBando DNS"
+  /ip hotspot walled-garden ip add action=accept protocol=udp dst-port=53 comment="Meshline DNS"
 }
 :if ([:len [/ip hotspot walled-garden ip find protocol=tcp dst-port=53]] = 0) do={
-  /ip hotspot walled-garden ip add action=accept protocol=tcp dst-port=53 comment="HotBando DNS"
+  /ip hotspot walled-garden ip add action=accept protocol=tcp dst-port=53 comment="Meshline DNS"
 }
 
 # ----------------------------------------------------------------------------
 # 2. Resolve probe names to the hotspot gateway and hand the router out as DNS
 # ----------------------------------------------------------------------------
 /ip dns set allow-remote-requests=yes
-/ip dns static remove [find comment="HotBando captive"]
-/ip dns static add name="connectivitycheck.gstatic.com" address=$hsIp ttl=1m comment="HotBando captive"
-/ip dns static add name="connectivitycheck.android.com" address=$hsIp ttl=1m comment="HotBando captive"
-/ip dns static add name="captive.apple.com" address=$hsIp ttl=1m comment="HotBando captive"
-/ip dns static add name="msftconnecttest.com" address=$hsIp ttl=1m comment="HotBando captive"
-/ip dns static add name="www.msftconnecttest.com" address=$hsIp ttl=1m comment="HotBando captive"
-/ip dns static add name="msftncsi.com" address=$hsIp ttl=1m comment="HotBando captive"
-/ip dns static add name="www.msftncsi.com" address=$hsIp ttl=1m comment="HotBando captive"
-/ip dns static add name="detectportal.firefox.com" address=$hsIp ttl=1m comment="HotBando captive"
-/ip dns static add name="nmcheck.gnome.org" address=$hsIp ttl=1m comment="HotBando captive"
+/ip dns static remove [find comment="Meshline captive"]
+/ip dns static add name="connectivitycheck.gstatic.com" address=$hsIp ttl=1m comment="Meshline captive"
+/ip dns static add name="connectivitycheck.android.com" address=$hsIp ttl=1m comment="Meshline captive"
+/ip dns static add name="captive.apple.com" address=$hsIp ttl=1m comment="Meshline captive"
+/ip dns static add name="msftconnecttest.com" address=$hsIp ttl=1m comment="Meshline captive"
+/ip dns static add name="www.msftconnecttest.com" address=$hsIp ttl=1m comment="Meshline captive"
+/ip dns static add name="msftncsi.com" address=$hsIp ttl=1m comment="Meshline captive"
+/ip dns static add name="www.msftncsi.com" address=$hsIp ttl=1m comment="Meshline captive"
+/ip dns static add name="detectportal.firefox.com" address=$hsIp ttl=1m comment="Meshline captive"
+/ip dns static add name="nmcheck.gnome.org" address=$hsIp ttl=1m comment="Meshline captive"
 
 # Point every DHCP network on the hotspot gateway at the router as DNS.
 :foreach n in=[/ip dhcp-server network find] do={
@@ -199,26 +199,26 @@
 # ----------------------------------------------------------------------------
 # 3. Remove the old WAN->hotspot dstnat hijacks, force client DNS to the router
 # ----------------------------------------------------------------------------
-/ip firewall nat remove [find comment="HotBando http"]
-/ip firewall nat remove [find comment="HotBando https"]
+/ip firewall nat remove [find comment="Meshline http"]
+/ip firewall nat remove [find comment="Meshline https"]
 /ip firewall nat remove [find comment="HTTP redirect to hotspot"]
 /ip firewall nat remove [find comment="HTTPS redirect to hotspot"]
-/ip firewall nat remove [find comment="HotBando dns"]
-/ip firewall nat add chain=dstnat protocol=udp dst-port=53 in-interface=$hsIface action=redirect to-ports=53 comment="HotBando dns"
-/ip firewall nat add chain=dstnat protocol=tcp dst-port=53 in-interface=$hsIface action=redirect to-ports=53 comment="HotBando dns"
+/ip firewall nat remove [find comment="Meshline dns"]
+/ip firewall nat add chain=dstnat protocol=udp dst-port=53 in-interface=$hsIface action=redirect to-ports=53 comment="Meshline dns"
+/ip firewall nat add chain=dstnat protocol=tcp dst-port=53 in-interface=$hsIface action=redirect to-ports=53 comment="Meshline dns"
 
 # DNS from unauthorized clients must reach the router itself.
-/ip firewall filter remove [find comment="HotBando DNS"]
+/ip firewall filter remove [find comment="Meshline DNS"]
 :do {
-  /ip firewall filter add chain=input protocol=udp dst-port=53 in-interface=$hsIface action=accept place-before=0 comment="HotBando DNS"
-  /ip firewall filter add chain=input protocol=tcp dst-port=53 in-interface=$hsIface action=accept place-before=0 comment="HotBando DNS"
+  /ip firewall filter add chain=input protocol=udp dst-port=53 in-interface=$hsIface action=accept place-before=0 comment="Meshline DNS"
+  /ip firewall filter add chain=input protocol=tcp dst-port=53 in-interface=$hsIface action=accept place-before=0 comment="Meshline DNS"
 } on-error={}
 
 # Re-create masquerade bound to the hotspot subnet. The old script pinned it to
 # out-interface=ether1, which breaks on PPPoE/LTE/uplink-on-another-port setups.
-/ip firewall nat remove [find comment="HotBando masquerade"]
+/ip firewall nat remove [find comment="Meshline masquerade"]
 :if ([:len [/ip firewall nat find chain=srcnat action=masquerade]] = 0) do={
-  /ip firewall nat add chain=srcnat src-address=$hsCidr action=masquerade comment="HotBando masquerade"
+  /ip firewall nat add chain=srcnat src-address=$hsCidr action=masquerade comment="Meshline masquerade"
 }
 
 # ----------------------------------------------------------------------------
@@ -245,7 +245,7 @@
 # 5. Re-apply the RADIUS secret (a stale secret silently rejects every login)
 # ----------------------------------------------------------------------------
 :if ([:len [/radius find service=hotspot]] = 0) do={
-  /radius add service=hotspot address=10.7.0.1 secret="d75158fa554f26306ea6b4c5b732e0a4743f2cda96d56d7782d1352e95c76cd6" authentication-port=1812 accounting-port=1813 timeout=3000ms src-address=10.7.0.5 comment="HotBando FreeRADIUS"
+  /radius add service=hotspot address=10.7.0.1 secret="d75158fa554f26306ea6b4c5b732e0a4743f2cda96d56d7782d1352e95c76cd6" authentication-port=1812 accounting-port=1813 timeout=3000ms src-address=10.7.0.5 comment="Meshline FreeRADIUS"
 } else={
   /radius set [find service=hotspot] address=10.7.0.1 secret="d75158fa554f26306ea6b4c5b732e0a4743f2cda96d56d7782d1352e95c76cd6" authentication-port=1812 accounting-port=1813 timeout=3000ms src-address=10.7.0.5
 }
@@ -258,7 +258,7 @@
 # ----------------------------------------------------------------------------
 :do { /ip hotspot ip-binding remove [find type=bypassed] } on-error={}
 :foreach u in=[/ip hotspot user find name="admin"] do={
-  :if ([/ip hotspot user get $u password] = "hotbando2024") do={
+  :if ([/ip hotspot user get $u password] = "Meshline2024") do={
     /ip hotspot user remove $u
   }
 }
@@ -266,24 +266,24 @@
 # ----------------------------------------------------------------------------
 # 6. Re-enable the hotspot and restore the redirect page
 # ----------------------------------------------------------------------------
-/system scheduler remove [find name="hotbando-watchdog"]
+/system scheduler remove [find name="Meshline-watchdog"]
 # Full app watchdog (same as provisioning): keeps hotspot, RADIUS, WireGuard
 # and the RouterOS API alive. Do NOT restrict the api service address here —
 # the server manages this router through the WireGuard tunnel.
-/system scheduler add name="hotbando-watchdog" interval=2m on-event={
+/system scheduler add name="Meshline-watchdog" interval=2m on-event={
   :do { /ip hotspot enable [find] } on-error={}
   :do { /radius enable [find service=hotspot] } on-error={}
-  :do { /interface wireguard set [find name="wg-hotbando"] disabled=no } on-error={}
+  :do { /interface wireguard set [find name="wg-Meshline"] disabled=no } on-error={}
   :do { /ip service set api disabled=no } on-error={}
   :do { /radius set [find service=hotspot] address=10.7.0.1 src-address=10.7.0.5 timeout=3000ms } on-error={}
-} comment="HotBando watchdog"
+} comment="Meshline watchdog"
 
 :do { /file remove hotspot/login.html } on-error={}
 :local portalUrl "https://hotbandowifi.online/hotspot?router_id=HB-D5A30DD733CD&mac=\$(mac)&ip=\$(ip)"
-:local loginHtml "<!-- HotBando -->\n<html>\n<head>\n<meta charset='utf-8'>\n<meta name='viewport' content='width=device-width,initial-scale=1'>\n<title>HotBando WiFi</title>\n</head>\n<body style='margin:0;font-family:system-ui,Arial,sans-serif;background:#0b0b12;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh'>\n<div style='text-align:center;padding:24px;max-width:340px'>\n<h2 style='margin:0 0 8px'>HotBando WiFi</h2>\n<p style='color:#9ca3af;margin:0 0 18px'>Tap below to open your HotBando portal.</p>\n<a href='$portalUrl' style='display:inline-block;background:#FF7A30;color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:700'>Open HotBando</a>\n</div>\n</body>\n</html>\n"
+:local loginHtml "<!-- Meshline -->\n<html>\n<head>\n<meta charset='utf-8'>\n<meta name='viewport' content='width=device-width,initial-scale=1'>\n<title>Meshline WiFi</title>\n</head>\n<body style='margin:0;font-family:system-ui,Arial,sans-serif;background:#0b0b12;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh'>\n<div style='text-align:center;padding:24px;max-width:340px'>\n<h2 style='margin:0 0 8px'>Meshline WiFi</h2>\n<p style='color:#9ca3af;margin:0 0 18px'>Tap below to open your Meshline portal.</p>\n<a href='$portalUrl' style='display:inline-block;background:#FF7A30;color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:700'>Open Meshline</a>\n</div>\n</body>\n</html>\n"
 /file add name="hotspot/login.html" contents=$loginHtml
 
 :put "============================================="
-:put "HotBando captive portal repair applied."
+:put "Meshline captive portal repair applied."
 :put "Disconnect/reconnect a phone and open a browser."
 :put "============================================="

@@ -119,7 +119,7 @@ router.post('/mikrotik', async (req, res) => {
     }
 });
 
-// Register a discovered router into the HotBando DB.
+// Register a discovered router into the Meshline WiFi DB.
 router.post('/register', async (req, res) => {
     try {
         const {

@@ -12,7 +12,7 @@
  * Returns true if user has valid session
  */
 const isAuthenticated = (req) => {
-  return req.session && req.session.hotbando_user && req.session.hotbando_user.id;
+  return req.session && req.session.meshline_user && req.session.meshline_user.id;
 };
 
 /**

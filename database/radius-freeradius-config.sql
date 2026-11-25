@@ -1,6 +1,6 @@
 -- ============================================================================
--- HotBando FreeRADIUS SQL Views
--- Maps HotBando's application schema to FreeRADIUS-compatible format
+-- Meshline WiFi FreeRADIUS SQL Views
+-- Maps Meshline WiFi's application schema to FreeRADIUS-compatible format
 -- ============================================================================
 
 -- View: RADIUS check items (user authentication)

@@ -23,7 +23,7 @@ This error appears when the dashboard fails to load data from the API. It happen
 
 **Steps:**
 1. Look at WiFi icon on device
-2. Verify it shows "HotBando" network name
+2. Verify it shows "Meshline WiFi" network name
 3. Check if WiFi icon shows 3-4 bars (strong signal)
 4. If disconnected, tap WiFi and reconnect
 
@@ -74,7 +74,7 @@ This error appears when the dashboard fails to load data from the API. It happen
 2. Close browser completely
 3. Wait 5 seconds
 4. Open browser again
-5. Connect to HotBando WiFi
+5. Connect to Meshline WiFi
 6. Access portal again
 
 **Why this matters:**
@@ -88,10 +88,10 @@ This error appears when the dashboard fails to load data from the API. It happen
 
 **Steps:**
 1. Go to WiFi settings
-2. "Forget" or "Remove" HotBando network
+2. "Forget" or "Remove" Meshline WiFi network
 3. Turn WiFi off for 5 seconds
 4. Turn WiFi back on
-5. Search for HotBando network
+5. Search for Meshline WiFi network
 6. Connect again
 7. Wait 5 seconds for connection to establish
 8. Try dashboard again
@@ -111,7 +111,7 @@ Check these to understand the problem better:
 
 - [ ] **WiFi Connected?**
   - Open WiFi settings
-  - Look for "HotBando" in network list
+  - Look for "Meshline WiFi" in network list
   - Check if connected (should show checkmark or "Connected")
 
 - [ ] **WiFi Signal Strong?**
@@ -157,12 +157,12 @@ Check these to understand the problem better:
 
 ### Issue: "Tafadhali unganisha kwenye WiFi"
 
-**This means:** "Please connect to HotBando WiFi"
+**This means:** "Please connect to Meshline WiFi"
 
 **Fix:**
 1. You're NOT connected to WiFi
 2. Go to WiFi settings
-3. Find and connect to "HotBando" network
+3. Find and connect to "Meshline WiFi" network
 4. Enter password if prompted
 5. Wait 5 seconds for connection
 6. Try again

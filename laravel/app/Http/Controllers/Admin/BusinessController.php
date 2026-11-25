@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Support\ApiResponse;
-use App\Support\Hotbando;
+use App\Support\Meshline;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -171,7 +171,7 @@ class BusinessController extends BaseController
             } elseif ($action === 'grant_data') {
                 $mb = (int) ($request->input('data_mb', 100)) ?: 100;
                 DB::table('users')->where('id', $id)->update([
-                    'free_bytes' => DB::raw('COALESCE(free_bytes,0) + '.($mb * Hotbando::MIB)),
+                    'free_bytes' => DB::raw('COALESCE(free_bytes,0) + '.($mb * Meshline::MIB)),
                 ]);
             } elseif ($action === 'change_package') {
                 DB::table('users')->where('id', $id)->update(['package' => $request->input('package_name', '')]);

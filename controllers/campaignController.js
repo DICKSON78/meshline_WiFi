@@ -395,7 +395,7 @@ const campaignController = {
     async completeCampaign(req, res) {
         try {
             const { campaign_id } = req.params;
-            const user = req.session.hotbando_user;
+            const user = req.session.meshline_user;
 
             if (!user) {
                 return res.status(401).json({ error: 'Please login first' });
@@ -414,7 +414,7 @@ const campaignController = {
             const result = await Campaign.completeCampaign(campaign_id, user.id, completionData);
 
             // Update session with new data balance
-            req.session.hotbando_user.free_bytes = user.free_bytes + result.campaign.reward_bytes;
+            req.session.meshline_user.free_bytes = user.free_bytes + result.campaign.reward_bytes;
 
             res.json({
                 success: true,

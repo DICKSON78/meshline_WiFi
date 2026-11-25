@@ -18,7 +18,7 @@
     </div>
     <div class="rounded-2xl shadow-2xl p-8 w-full max-w-md relative" style="background: #111118; border: 1px solid #1e1e2a">
       <div class="text-center mb-6">
-        <img src="/logo.png" class="h-16 mx-auto mb-4" alt="HotBando">
+        <img src="/logo.png" class="h-16 mx-auto mb-4" alt="Meshline WiFi">
         <h1 class="text-xl font-bold text-white mb-2">Login</h1>
         <p class="text-white/50 text-sm">Sign in to your portal</p>
       </div>

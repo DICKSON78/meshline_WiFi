@@ -10,7 +10,7 @@ The `requireWifi` middleware in `routes/hotspotApi.js` was querying the database
 // BEFORE (problematic)
 const [routers] = await db.execute(
     'SELECT router_id FROM mikrotiks WHERE router_id = ? AND is_active = 1',
-    [req.session.hotbando_user.last_router_id]
+    [req.session.meshline_user.last_router_id]
 );
 // ↑ This could hang for 30+ seconds if DB is slow
 ```
@@ -97,11 +97,11 @@ Ctrl+F5 (hard refresh)
 
 ### Step 3: Apply Database Indexes (Optional but Recommended)
 ```bash
-mysql -h localhost -u hotbando -p < /tmp/add-indexes.sql
+mysql -h localhost -u meshline -p < /tmp/add-indexes.sql
 ```
 
 ### Step 4: Test Portal
-- Connect device to WiFi HotBando
+- Connect device to WiFi Meshline WiFi
 - Dashboard should load in 2-3 seconds
 - "Inapakia taarifa..." should disappear quickly
 

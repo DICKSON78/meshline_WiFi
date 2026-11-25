@@ -91,7 +91,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#12BC00] to-[#0B8A00] text-center py-16 px-6">
           <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">Ready to Get Connected?</h2>
-          <p class="text-lg text-white/90 mb-8 max-w-2xl mx-auto">Join thousands of happy users today. Get fast, affordable internet with HotBando.</p>
+          <p class="text-lg text-white/90 mb-8 max-w-2xl mx-auto">Join thousands of happy users today. Get fast, affordable internet with Meshline WiFi.</p>
           <div class="flex flex-col sm:flex-row justify-center gap-4">
             <router-link to="/hotspot" class="bg-white text-[#0B8A00] hover:bg-white/90 px-8 py-3.5 rounded-full text-lg font-semibold transition-all inline-flex items-center justify-center gap-2">
               <i class="fas fa-wifi"></i> Get Started
@@ -153,7 +153,7 @@ const services = [
 ]
 
 const steps = [
-  { title: 'Connect', desc: 'Connect your phone or computer to the nearest HotBando WiFi network.' },
+  { title: 'Connect', desc: 'Connect your phone or computer to the nearest Meshline WiFi network.' },
   { title: 'Sign Up', desc: 'Register with your phone number in seconds — no complicated steps.' },
   { title: 'Buy a Plan', desc: 'Choose the plan that suits you and pay via ClickPesa, voucher, or an agent.' },
   { title: 'Enjoy the Internet', desc: 'Start using fast internet right away with your voucher.' }
@@ -170,7 +170,7 @@ const faqs = [
   },
   {
     q: 'What devices do I need?',
-    a: 'You only need a smartphone, laptop, or tablet with WiFi, and to be within range of a HotBando hotspot. No extra equipment is required for users.'
+    a: 'You only need a smartphone, laptop, or tablet with WiFi, and to be within range of a Meshline WiFi hotspot. No extra equipment is required for users.'
   },
   {
     q: 'What is the internet speed?',
@@ -178,7 +178,7 @@ const faqs = [
   },
   {
     q: 'How can I get support?',
-    a: 'Our support team is available 24/7. You can reach us on WhatsApp (+255 712 345 678), by phone, email (info@hotbando.co.tz), or via the contact form.'
+    a: 'Our support team is available 24/7. You can reach us on WhatsApp (+255 712 345 678), by phone, email (info@meshline.co.tz), or via the contact form.'
   },
   {
     q: 'Can I change my plan?',

@@ -202,7 +202,7 @@ async function createAccount(app) {
       return existing[0].id;
     }
 
-    const email = app.email || `${app.phone}@hotbando.co.tz`;
+    const email = app.email || `${app.phone}@meshline.co.tz`;
     const [result] = await db.execute(
       `INSERT INTO users (name, email, phone_number, password, role, is_active, created_at)
        VALUES (?, ?, ?, ?, ?, 1, NOW())`,
@@ -228,11 +228,11 @@ async function createAccount(app) {
 
 function getDescription(role) {
   const descs = {
-    franchise_owner: 'Ununua sehemu na uendeshe HotBando WiFi. Pata mapato kutoka kwa wateja.',
-    sponsor: 'Tangaza bidhaa yako kwenye HotBando WiFi. Fikia maelfu ya wateja.',
-    bank_partner: 'Ushirikiano wa benki kupitia HotBando WiFi platform.',
-    investor: 'Wekeza kwenye HotBando WiFi na upate faida ya kila mwezi.',
-    reseller: 'uuze voucher za HotBando WiFi na upate kamisheni.',
+    franchise_owner: 'Ununua sehemu na uendeshe Meshline WiFi. Pata mapato kutoka kwa wateja.',
+    sponsor: 'Tangaza bidhaa yako kwenye Meshline WiFi. Fikia maelfu ya wateja.',
+    bank_partner: 'Ushirikiano wa benki kupitia Meshline WiFi platform.',
+    investor: 'Wekeza kwenye Meshline WiFi na upate faida ya kila mwezi.',
+    reseller: 'uuze voucher za Meshline WiFi na upate kamisheni.',
   };
   return descs[role] || '';
 }

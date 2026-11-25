@@ -5,7 +5,7 @@ namespace App\Services\Routers;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Port of utils/wireguard.js.  The HotBando server is the WireGuard hub; the
+ * Port of utils/wireguard.js.  The Meshline WiFi server is the WireGuard hub; the
  * app only publishes peer descriptors for a host-side watcher and never needs
  * the server private key (except when explicitly mounted).
  */
@@ -37,9 +37,9 @@ class WireGuardService
         $this->hostDir = (string) (env('WG_HOST_DIR') ?: (is_dir('/host-wireguard') ? '/host-wireguard' : '/etc/wireguard'));
         $this->peersDir = (string) (env('WG_PEERS_DIR') ?: (is_dir('/host-wireguard-peers')
             ? '/host-wireguard-peers'
-            : $this->hostDir.'/hotbando-peers'));
-        $this->statusFile = (string) (env('WG_STATUS_FILE') ?: (is_file('/var/run/hotbando/wg-status-result')
-            ? '/var/run/hotbando/wg-status-result'
+            : $this->hostDir.'/meshline-peers'));
+        $this->statusFile = (string) (env('WG_STATUS_FILE') ?: (is_file('/var/run/meshline/wg-status-result')
+            ? '/var/run/meshline/wg-status-result'
             : $this->hostDir.'/.wg-status-result'));
     }
 
@@ -68,7 +68,7 @@ class WireGuardService
         if ($configured !== '') {
             return ['publicKey' => $configured, 'privateKey' => null];
         }
-        $keysDir = $this->hostDir.'/hotbando-keys';
+        $keysDir = $this->hostDir.'/meshline-keys';
         $pub = $keysDir.'/server.key.pub';
         $priv = $keysDir.'/server.key';
         if (is_file($pub)) {
@@ -358,7 +358,7 @@ class WireGuardService
 
     public function generateServerConfig(array $peers = []): string
     {
-        $config = "# HotBando WireGuard Server\n[Interface]\nAddress = {$this->serverIp}/24\nListenPort = {$this->listenPort}\nPrivateKey = <SERVER_PRIVATE_KEY>\n";
+        $config = "# Meshline WiFi WireGuard Server\n[Interface]\nAddress = {$this->serverIp}/24\nListenPort = {$this->listenPort}\nPrivateKey = <SERVER_PRIVATE_KEY>\n";
         foreach ($peers as $peer) {
             $config .= "\n[Peer]\nPublicKey = ".($peer['publicKey'] ?? '')."\nAllowedIPs = ".($peer['allowedIp'] ?? '')."/32\n";
         }
@@ -375,13 +375,13 @@ class WireGuardService
 
         return <<<RSC
 # WireGuard Configuration — {$options['routerName']}
-/interface wireguard add name=wg-hotbando listen-port=13231 private-key="{$private}"
-/interface wireguard peers add interface=wg-hotbando public-key="{$serverPublic}" endpoint-address={$endpoint} endpoint-port={$this->listenPort} allowed-address={$this->serverIp}/32 persistent-keepalive=25s
-/ip address add address={$ip}/32 interface=wg-hotbando
-/ip route add dst-address={$this->serverIp}/32 gateway=wg-hotbando
+/interface wireguard add name=wg-meshline listen-port=13231 private-key="{$private}"
+/interface wireguard peers add interface=wg-meshline public-key="{$serverPublic}" endpoint-address={$endpoint} endpoint-port={$this->listenPort} allowed-address={$this->serverIp}/32 persistent-keepalive=25s
+/ip address add address={$ip}/32 interface=wg-meshline
+/ip route add dst-address={$this->serverIp}/32 gateway=wg-meshline
 /ip firewall filter add chain=input protocol=udp dst-port=13231 action=accept comment="WireGuard Input"
-/ip firewall filter add chain=forward in-interface=wg-hotbando action=accept comment="WireGuard Fwd In"
-/ip firewall filter add chain=forward out-interface=wg-hotbando action=accept comment="WireGuard Fwd Out"
+/ip firewall filter add chain=forward in-interface=wg-meshline action=accept comment="WireGuard Fwd In"
+/ip firewall filter add chain=forward out-interface=wg-meshline action=accept comment="WireGuard Fwd Out"
 /ip service set api address={$this->networkCidr}
 RSC;
     }

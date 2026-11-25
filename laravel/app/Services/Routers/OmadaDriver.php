@@ -106,7 +106,7 @@ class OmadaDriver implements RouterDriver
         $executed = [];
         $failed = [];
         $client = $this->client($session);
-        $ssid = (string) ($config['ssid'] ?? env('DEFAULT_SSID', 'HotBando-Free-WiFi'));
+        $ssid = (string) ($config['ssid'] ?? env('DEFAULT_SSID', 'Meshline WiFi-Free-WiFi'));
 
         $wlans = $client->wlans();
         if ($wlans) {
@@ -121,7 +121,7 @@ class OmadaDriver implements RouterDriver
             $failed[] = ['label' => 'Configure SSID', 'error' => 'No WLAN found'];
         }
 
-        $portalName = $config['portalName'] ?? 'HotBando';
+        $portalName = $config['portalName'] ?? 'Meshline WiFi';
         $portal = null;
         foreach ($client->portals() as $existing) {
             if (($existing['name'] ?? '') === $portalName) {
@@ -144,7 +144,7 @@ class OmadaDriver implements RouterDriver
 
         if (! empty($config['radiusSecret'])) {
             if ($client->configureRadius([
-                'name' => 'HotBando',
+                'name' => 'Meshline WiFi',
                 'server' => $config['serverIP'] ?? $this->publicHost(),
                 'port' => 1812,
                 'secret' => $config['radiusSecret'],
@@ -168,7 +168,7 @@ class OmadaDriver implements RouterDriver
     public function configureRadius(RouterSession $session, array $config): bool
     {
         return $this->client($session)->configureRadius([
-            'name' => 'HotBando',
+            'name' => 'Meshline WiFi',
             'server' => $config['serverIP'] ?? $config['address'] ?? $this->publicHost(),
             'port' => (int) ($config['port'] ?? 1812),
             'secret' => (string) ($config['radiusSecret'] ?? $config['secret'] ?? env('RADIUS_SECRET', '')),
@@ -310,11 +310,11 @@ class OmadaDriver implements RouterDriver
 
     public function bootstrapInstructions(array $config): string
     {
-        $ssid = $config['ssid'] ?? env('DEFAULT_SSID', 'HotBando-Free-WiFi');
+        $ssid = $config['ssid'] ?? env('DEFAULT_SSID', 'Meshline WiFi-Free-WiFi');
         $secret = ProvisioningService::registrationSecret();
 
         return implode("\n", [
-            'HotBando Omada setup checklist (no RouterOS .rsc script is available)',
+            'Meshline WiFi Omada setup checklist (no RouterOS .rsc script is available)',
             '-------------------------------------------------------------',
             '1. Log in to the Omada controller: '.($config['host'] ?? 'https://<controller>:8043').'',
             '2. Create/verify a site and note its Site ID (or set OMADA_SITE_ID).',

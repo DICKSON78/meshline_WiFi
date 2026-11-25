@@ -19,7 +19,7 @@
           <i class="fas fa-wifi text-sm"></i>
         </div>
         <div>
-          <p class="text-white font-bold text-sm tracking-wide">HOTBANDO</p>
+          <p class="text-white font-bold text-sm tracking-wide">MESHLINE</p>
           <p class="text-orange-300/60 text-[11px]">{{ title }}</p>
         </div>
         <button @click="sidebarOpen = false" class="ml-auto lg:hidden text-white/50 hover:text-white">

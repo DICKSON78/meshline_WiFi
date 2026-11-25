@@ -3,7 +3,7 @@
 namespace App\Services\Payment;
 
 use App\Services\Routers\RouterManager;
-use App\Support\Hotbando;
+use App\Support\Meshline;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -44,7 +44,7 @@ class PaymentFulfillment
             // no prior activated payment for the same package.
             if (! empty($result['alreadyProcessed']) && $tx->user_id && $tx->purpose === 'package_purchase') {
                 try {
-                    $extra = Hotbando::decode($tx->extra_data ?? null, []);
+                    $extra = Meshline::decode($tx->extra_data ?? null, []);
                     if (! empty($extra['package_id'])) {
                         $user = DB::table('users')->where('id', $tx->user_id)->lockForUpdate()->first();
                         $now = now();
@@ -119,7 +119,7 @@ class PaymentFulfillment
 
         $purpose = (string) ($tx->purpose ?? 'payment');
         $userId = $tx->user_id ? (int) $tx->user_id : null;
-        $extra = Hotbando::decode($tx->extra_data ?? null, []);
+        $extra = Meshline::decode($tx->extra_data ?? null, []);
         if (! is_array($extra)) {
             $extra = [];
         }
@@ -146,7 +146,7 @@ class PaymentFulfillment
                 self::giftToUser($db, (int) $extra['recipient_user_id'], (int) $packageId, $orderReference, $tx->phone, $orderAmount);
                 $result = [
                     'gifted' => true,
-                    'message' => 'Kifurushi kimetumwa kwa mpokeaji. Kitaanza kuhesabu mara atakapounganishwa WiFi ya HotBando.',
+                    'message' => 'Kifurushi kimetumwa kwa mpokeaji. Kitaanza kuhesabu mara atakapounganishwa WiFi ya Meshline WiFi.',
                 ];
             } elseif ($isGift) {
                 $result = self::issueVoucher($db, $orderReference, $packageId, $extra, $tx, $orderAmount);
@@ -164,7 +164,7 @@ class PaymentFulfillment
             self::giftToUser($db, (int) $extra['recipient_user_id'], (int) $extra['package_id'], $orderReference, $tx->phone, $orderAmount);
             $result = [
                 'gifted' => true,
-                'message' => 'Kifurushi kimetumwa kwa mpokeaji. Kitaanza kuhesabu mara atakapounganishwa WiFi ya HotBando.',
+                'message' => 'Kifurushi kimetumwa kwa mpokeaji. Kitaanza kuhesabu mara atakapounganishwa WiFi ya Meshline WiFi.',
             ];
         } elseif ($purpose === 'package_purchase' && ! empty($extra['gift']) && ! $userId) {
             if (empty($extra['package_id'])) {
@@ -224,7 +224,7 @@ class PaymentFulfillment
                 'provider' => 'clickpesa',
                 'provider_ref' => $payment['providerRef'] ?? null,
                 'description' => $purpose,
-                'metadata' => Hotbando::encode(['extra' => $extra]),
+                'metadata' => Meshline::encode(['extra' => $extra]),
             ]);
         } catch (\Throwable $e) {
             Log::warning('Failed to insert into payments ledger', ['error' => $e->getMessage()]);
@@ -233,7 +233,7 @@ class PaymentFulfillment
         if (! empty($result['voucher'])) {
             try {
                 $stored = $db->table('clickpesa_transactions')->where('order_reference', $orderReference)->first(['extra_data']);
-                $storedExtra = Hotbando::decode($stored->extra_data ?? null, []);
+                $storedExtra = Meshline::decode($stored->extra_data ?? null, []);
                 if (! empty($storedExtra['voucher_code'])) {
                     $result['voucher'] = $storedExtra['voucher_code'];
                 }
@@ -326,7 +326,7 @@ class PaymentFulfillment
             'user_id' => $recipientId,
             'notification_type' => 'success',
             'title' => 'Umepewa kifurushi',
-            'message' => 'Umepewa kifurushi chenye thamani ya TSh '.number_format($amount).'. Kitaanza kuhesabu ukiunganishwa WiFi ya HotBando.',
+            'message' => 'Umepewa kifurushi chenye thamani ya TSh '.number_format($amount).'. Kitaanza kuhesabu ukiunganishwa WiFi ya Meshline WiFi.',
             'action_url' => '/hotspot/dashboard',
             'action_text' => 'Fungua dashboard',
             'created_at' => DB::raw('NOW()'),
@@ -349,7 +349,7 @@ class PaymentFulfillment
         ]);
         $extra['voucher_code'] = $code;
         $db->table('clickpesa_transactions')->where('order_reference', $orderReference)
-            ->update(['extra_data' => Hotbando::encode($extra)]);
+            ->update(['extra_data' => Meshline::encode($extra)]);
 
         return ['voucher' => $code, 'message' => 'Voucher imegeneratiwa!'];
     }
@@ -478,7 +478,7 @@ class PaymentFulfillment
                 }
                 DB::table('clickpesa_transactions')->where('order_reference', $ref)->update([
                     'status' => $status,
-                    'clickpesa_response' => Hotbando::encode($result),
+                    'clickpesa_response' => Meshline::encode($result),
                 ]);
                 if (in_array($status, self::PAID_STATUSES, true)) {
                     self::processAndActivate($ref);

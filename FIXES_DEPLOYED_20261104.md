@@ -36,7 +36,7 @@ if (e.response?.status === 401) {
     loadError.value = 'Muda wa kulogeza umemalizika. Tafadhali ingia tena.'
     setTimeout(() => router.push('/hotspot/login'), 2000)
 } else if (e.response?.status === 403) {
-    loadError.value = 'Tafadhali unganisha kwenye WiFi ya HotBando.'
+    loadError.value = 'Tafadhali unganisha kwenye WiFi ya Meshline WiFi.'
 } else if (e.response?.status === 503) {
     loadError.value = 'Router iko offline. Tafadhali jaribu baadaye.'
 } else if (e.code === 'ECONNABORTED' || e.message?.includes('timeout')) {
@@ -95,7 +95,7 @@ async function requireWifi(req, res, next) {
     // NEW: Check router.status in addition to existence
     const [routers] = await db.execute(
         'SELECT router_id, status FROM mikrotiks WHERE router_id = ? AND is_active = 1 LIMIT 1',
-        [req.session.hotbando_user.last_router_id]
+        [req.session.meshline_user.last_router_id]
     );
     
     if (routers && routers.length > 0) {
@@ -107,7 +107,7 @@ async function requireWifi(req, res, next) {
             console.log(`[WiFi] ✗ Router is offline (status: ${router.status})`);
             // NEW: Return 503 Service Unavailable if router is offline
             return res.status(503).json({
-                error: 'HotBando router is offline. Please try again later.',
+                error: 'Meshline WiFi router is offline. Please try again later.',
                 routerStatus: 'offline'
             });
         }
@@ -116,12 +116,12 @@ async function requireWifi(req, res, next) {
     if (!req.session.onWifi) {
         console.log(`[WiFi] ✗ User not on WiFi`);
         return res.status(403).json({
-            error: 'Please connect to HotBando WiFi first.',
+            error: 'Please connect to Meshline WiFi first.',
             onWifi: false,
             redirectTo: '/hotspot',
             debug: {
-                hasSession: !!req.session.hotbando_user,
-                hasRouter: !!req.session.hotbando_user?.last_router_id
+                hasSession: !!req.session.meshline_user,
+                hasRouter: !!req.session.meshline_user?.last_router_id
             }
         });
     }
@@ -143,7 +143,7 @@ async function requireWifi(req, res, next) {
 
 | Error Type | Status Code | Message | Action |
 |-----------|-------------|---------|--------|
-| Not on WiFi | 403 | "Tafadhali unganisha kwenye WiFi ya HotBando." | Connect to WiFi |
+| Not on WiFi | 403 | "Tafadhali unganisha kwenye WiFi ya Meshline WiFi." | Connect to WiFi |
 | Session expired | 401 | "Muda wa kulogeza umemalizika. Tafadhali ingia tena." | Redirect to login (2s) |
 | Router offline | 503 | "Router iko offline. Tafadhali jaribu baadaye." | Try again later |
 | Timeout (8s) | TIMEOUT | "Omli linachukua muda mrefu. Hakikisha unganishwa kwenye WiFi." | Check WiFi connection |
@@ -179,7 +179,7 @@ Router offline: {status: 'offline', router_id: 'HB-D5A30DD733CD'}
 1. User logged in
 2. Disconnects from WiFi
 3. Opens dashboard
-4. Expected: "Tafadhali unganisha kwenye WiFi ya HotBando."
+4. Expected: "Tafadhali unganisha kwenye WiFi ya Meshline WiFi."
 Result: ✅ PASS
 ```
 
@@ -250,7 +250,7 @@ Result: ✅ PASS (with new message)
 - `routes/hotspotApi.js` (33 lines changed)
 
 **Docker Status:**
-- Container: hotbando-app-1 (healthy)
+- Container: meshline-app-1 (healthy)
 - Database: Connected ✅
 - Redis: Connected ✅
 - API: Responding ✅
@@ -339,5 +339,5 @@ Result: Clear resolution
 
 **Status:** 🟢 **LIVE & READY FOR TESTING**
 
-Users connecting to HotBando WiFi will now see clear, specific error messages that help them understand exactly what's wrong and how to fix it.
+Users connecting to Meshline WiFi will now see clear, specific error messages that help them understand exactly what's wrong and how to fix it.
 

@@ -1,4 +1,4 @@
-# HotBando FreeRADIUS Perl Authentication Module
+# Meshline WiFi FreeRADIUS Perl Authentication Module
 # Supports two auth methods used by the MikroTik hotspot:
 #
 #   1. MAC auth (mac-auth-mode=mac-as-username-and-password):
@@ -20,7 +20,7 @@ my $db_host = $ENV{DB_HOST} || 'db';
 my $db_port = $ENV{DB_PORT} || '3306';
 my $db_name = $ENV{DB_NAME} || 'hotbando';
 my $db_user = $ENV{DB_USER} || 'hotbando';
-my $db_pass = $ENV{DB_PASSWORD} || 'hotbando_pass';
+my $db_pass = $ENV{DB_PASSWORD} || 'meshline_pass';
 
 use constant {
     RLM_MODULE_REJECT  => 0,
@@ -263,7 +263,7 @@ sub accounting {
     } or do {
         my $error = $@ || 'RADIUS accounting failed';
         eval { $dbh->rollback(); };
-        warn "HotBando RADIUS usage accounting failed: $error";
+        warn "Meshline WiFi RADIUS usage accounting failed: $error";
     };
     $dbh->disconnect();
     return RLM_MODULE_OK;

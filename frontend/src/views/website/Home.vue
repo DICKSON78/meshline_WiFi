@@ -26,7 +26,7 @@
               Fast, <span class="text-[#12BC00]">Affordable &amp; Accessible</span> Internet
             </h1>
             <p class="text-lg lg:text-xl text-white/60 mb-8 max-w-xl mx-auto lg:mx-0">
-              HotBando delivers high-speed internet for students, families, and businesses.
+              Meshline WiFi delivers high-speed internet for students, families, and businesses.
               Buy an affordable voucher and get online instantly.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -63,7 +63,7 @@
                   <div class="w-10 h-10 rounded-full bg-[#12BC00]/15 text-[#12BC00] flex items-center justify-center"><i class="fas fa-wifi"></i></div>
                   <div>
                     <p class="text-xs text-white/50">Connected to</p>
-                    <p class="text-sm font-bold text-white">HotBando WiFi</p>
+                    <p class="text-sm font-bold text-white">Meshline WiFi</p>
                   </div>
                 </div>
               </div>
@@ -118,7 +118,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12 lg:mb-16">
           <span class="text-[#12BC00] font-semibold tracking-wider uppercase text-sm">Why Choose Us</span>
-          <h2 class="text-3xl lg:text-4xl font-bold text-white mt-2 mb-4">The HotBando Advantage</h2>
+          <h2 class="text-3xl lg:text-4xl font-bold text-white mt-2 mb-4">The Meshline WiFi Advantage</h2>
           <div class="w-20 h-1 bg-[#12BC00] mx-auto mt-4 rounded-full"></div>
         </div>
 
@@ -218,7 +218,7 @@
                 </div>
                 <div class="flex items-start gap-4">
                   <div class="w-11 h-11 rounded-xl bg-[#12BC00]/15 text-[#12BC00] flex items-center justify-center flex-shrink-0"><i class="fas fa-envelope"></i></div>
-                  <div><p class="font-medium text-white">Email</p><p class="text-white/60 text-sm">info@hotbando.co.tz</p></div>
+                  <div><p class="font-medium text-white">Email</p><p class="text-white/60 text-sm">info@meshline.co.tz</p></div>
                 </div>
                 <div class="flex items-start gap-4">
                   <div class="w-11 h-11 rounded-xl bg-[#12BC00]/15 text-[#12BC00] flex items-center justify-center flex-shrink-0"><i class="fas fa-map-marker-alt"></i></div>

@@ -1,10 +1,10 @@
-# HotBando MikroTik Router RADIUS Configuration
+# Meshline MikroTik Router RADIUS Configuration
 # ============================================================================
 # Run these commands on each MikroTik router via WinBox/WebFig/SSH
 #
 # This configures the router to use FreeRADIUS for hotspot authentication
 # instead of the local user database. The router sends the username (phone number)
-# and password to FreeRADIUS, which checks against the HotBando DB.
+# and password to FreeRADIUS, which checks against the Meshline DB.
 # ============================================================================
 
 # --- 1. Add RADIUS server ---------------------------------------------------
@@ -43,5 +43,5 @@
 #   Username: 0712345678
 #   Password: <user's password>
 #
-# If RADIUS is working, the user authenticates against the HotBando DB.
+# If RADIUS is working, the user authenticates against the Meshline DB.
 # If RADIUS is down, fallback: (none — users will fail to authenticate).

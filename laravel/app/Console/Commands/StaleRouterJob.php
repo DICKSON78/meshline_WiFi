@@ -12,10 +12,10 @@ use Symfony\Component\Console\Attribute\AsCommand;
  * Ports utils/routerStatusMonitor.js: warn (never mutate) when a configured
  * router has not been seen for 10 minutes.
  */
-#[AsCommand(name: 'hotbando:jobs:stale-routers', description: 'Log a warning for configured routers unseen for 10 minutes')]
+#[AsCommand(name: 'meshline:jobs:stale-routers', description: 'Log a warning for configured routers unseen for 10 minutes')]
 class StaleRouterJob extends Command
 {
-    protected $signature = 'hotbando:jobs:stale-routers {--threshold=10 : Minutes without a heartbeat before a router is stale}';
+    protected $signature = 'meshline:jobs:stale-routers {--threshold=10 : Minutes without a heartbeat before a router is stale}';
 
     public const STALE_THRESHOLD_MINUTES = 10;
 

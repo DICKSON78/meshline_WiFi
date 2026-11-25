@@ -69,10 +69,10 @@ async function seedComprehensive() {
         // ========================================
         console.log('\n🔌 Seeding mikrotiks...');
         const routers = [
-            { router_id: 'ROUTER_DAR_001', router_name: 'Dar es Salaam - Mlimani', host: '192.168.1.1', port: 8728, user: 'admin', password: 'admin123', location_name: 'Dar es Salaam - Mlimani City', ssid: 'HotBando-Mlimani', status: 'online' },
-            { router_id: 'ROUTER_MWANZA_001', router_name: 'Mwanza - City Center', host: '192.168.2.1', port: 8728, user: 'admin', password: 'admin123', location_name: 'Mwanza - Rock City Mall', ssid: 'HotBando-Mwanza', status: 'online' },
-            { router_id: 'ROUTER_ARUSHA_001', router_name: 'Arusha - Safari', host: '192.168.3.1', port: 8728, user: 'admin', password: 'admin123', location_name: 'Arusha - Clock Tower', ssid: 'HotBando-Arusha', status: 'online' },
-            { router_id: 'ROUTER_DODOMA_001', router_name: 'Dodoma - Central', host: '192.168.4.1', port: 8728, user: 'admin', password: 'admin123', location_name: 'Dodoma - Univ of Dodoma', ssid: 'HotBando-Dodoma', status: 'offline' }
+            { router_id: 'ROUTER_DAR_001', router_name: 'Dar es Salaam - Mlimani', host: '192.168.1.1', port: 8728, user: 'admin', password: 'admin123', location_name: 'Dar es Salaam - Mlimani City', ssid: 'Meshline WiFi-Mlimani', status: 'online' },
+            { router_id: 'ROUTER_MWANZA_001', router_name: 'Mwanza - City Center', host: '192.168.2.1', port: 8728, user: 'admin', password: 'admin123', location_name: 'Mwanza - Rock City Mall', ssid: 'Meshline WiFi-Mwanza', status: 'online' },
+            { router_id: 'ROUTER_ARUSHA_001', router_name: 'Arusha - Safari', host: '192.168.3.1', port: 8728, user: 'admin', password: 'admin123', location_name: 'Arusha - Clock Tower', ssid: 'Meshline WiFi-Arusha', status: 'online' },
+            { router_id: 'ROUTER_DODOMA_001', router_name: 'Dodoma - Central', host: '192.168.4.1', port: 8728, user: 'admin', password: 'admin123', location_name: 'Dodoma - Univ of Dodoma', ssid: 'Meshline WiFi-Dodoma', status: 'offline' }
         ];
 
         for (const router of routers) {
@@ -235,7 +235,7 @@ async function seedComprehensive() {
         console.log('\n🔔 Seeding notifications...');
         if (allUsers.length > 0) {
             const notifications = [
-                { title: 'Karibu HotBando', message: 'Karibu kwenye huduma yetu ya intaneti. Furahia data yako!', type: 'info' },
+                { title: 'Karibu Meshline WiFi', message: 'Karibu kwenye huduma yetu ya intaneti. Furahia data yako!', type: 'info' },
                 { title: 'Pakiti Imeisha', message: 'Pakiti yako ya intaneti imeisha. Nunua pakiti mpya kuendelea.', type: 'warning' },
                 { title: 'Malipo Yamekamilika', message: 'Malipo yako ya TZS 10,000 yamekamilika kikamilifu.', type: 'success' },
                 { title: 'Ofa Maalum', message: 'Pata 50% off kwenye pakiti za wiki hii. Hakikisha unanunua leo!', type: 'promotion' }
@@ -264,7 +264,7 @@ async function seedComprehensive() {
         // ========================================
         console.log('\n⚙️  Seeding system settings...');
         const settings = [
-            { setting_key: 'site_name', setting_value: 'HotBando WiFi', description: 'Site name' },
+            { setting_key: 'site_name', setting_value: 'Meshline WiFi', description: 'Site name' },
             { setting_key: 'currency', setting_value: 'TZS', description: 'Default currency' },
             { setting_key: 'default_data_reward', setting_value: '50', description: 'Default data reward in MB' },
             { setting_key: 'min_ad_watch_percentage', setting_value: '80', description: 'Minimum ad watch percentage for reward' },

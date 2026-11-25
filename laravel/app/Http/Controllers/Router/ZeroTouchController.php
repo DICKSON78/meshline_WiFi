@@ -77,9 +77,9 @@ class ZeroTouchController extends Controller
             }
 
             return $this->script($script, [
-                'X-HotBando-Router-ID' => $result['router']['router_id'] ?? '',
-                'X-HotBando-WG-IP' => $result['assignedIp'] ?? '',
-                'X-HotBando-Status' => $status,
+                'X-Meshline WiFi-Router-ID' => $result['router']['router_id'] ?? '',
+                'X-Meshline WiFi-WG-IP' => $result['assignedIp'] ?? '',
+                'X-Meshline WiFi-Status' => $status,
             ]);
         } catch (\Throwable $e) {
             return ApiResponse::error($e->getMessage());
@@ -89,7 +89,7 @@ class ZeroTouchController extends Controller
     public function bootstrap(): Response|JsonResponse
     {
         try {
-            return $this->script(ProvisioningService::generateBootstrapScript(), ['X-HotBando-Script' => 'bootstrap']);
+            return $this->script(ProvisioningService::generateBootstrapScript(), ['X-Meshline WiFi-Script' => 'bootstrap']);
         } catch (\Throwable $e) {
             return ApiResponse::error($e->getMessage());
         }
@@ -133,11 +133,11 @@ class ZeroTouchController extends Controller
                 'ssid' => $request->input('ssid'),
             ]);
             $headers = [
-                'X-HotBando-Router-ID' => $routerID,
-                'X-HotBando-Status' => ! empty($result['pending']) ? 'pending' : 'ready',
+                'X-Meshline WiFi-Router-ID' => $routerID,
+                'X-Meshline WiFi-Status' => ! empty($result['pending']) ? 'pending' : 'ready',
             ];
             if (! empty($result['assignedIp'])) {
-                $headers['X-HotBando-WG-IP'] = $result['assignedIp'];
+                $headers['X-Meshline WiFi-WG-IP'] = $result['assignedIp'];
             }
 
             return $this->script($result['script'], $headers);

@@ -1,7 +1,7 @@
 <template>
   <div v-if="!store.initialized" class="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
     <div class="text-center">
-      <img src="/logo.png" class="h-14 mx-auto mb-4" alt="HotBando">
+      <img src="/logo.png" class="h-14 mx-auto mb-4" alt="Meshline WiFi">
       <div class="w-8 h-8 border-2 border-brand-500/30 border-t-brand-500 rounded-full animate-spin mx-auto"></div>
     </div>
   </div>

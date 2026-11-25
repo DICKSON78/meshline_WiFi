@@ -5,7 +5,7 @@
       <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#12BC00]/10 rounded-full blur-3xl pointer-events-none"></div>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center py-16 lg:py-24">
         <span class="text-[#12BC00] font-semibold tracking-wider uppercase text-sm">About Us</span>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-3 mb-5">About HotBando</h1>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-3 mb-5">About Meshline WiFi</h1>
         <p class="text-lg lg:text-xl text-white/60 max-w-2xl mx-auto">
           We believe every Tanzanian deserves fast, affordable, and accessible internet — wherever you are.
         </p>
@@ -47,13 +47,13 @@
             <span class="text-[#12BC00] font-semibold tracking-wider uppercase text-sm">Our Story</span>
             <h2 class="text-3xl lg:text-4xl font-bold text-white mt-2 mb-6">Built by BlackScience Technologies</h2>
             <p class="text-white/60 mb-4 leading-relaxed">
-              HotBando is a product of <span class="text-white font-medium">BlackScience Technologies</span>, a Tanzanian technology company created to solve the country's biggest internet access challenge. We saw students unable to do research, families spending large amounts on data, and small businesses lacking reliable connectivity.
+              Meshline WiFi is a product of <span class="text-white font-medium">BlackScience Technologies</span>, a Tanzanian technology company created to solve the country's biggest internet access challenge. We saw students unable to do research, families spending large amounts on data, and small businesses lacking reliable connectivity.
             </p>
             <p class="text-white/60 mb-4 leading-relaxed">
-              So we built the HotBando platform — a hotspot system that unites community WiFi networks under one technology umbrella, allowing users to pay for just the time they need with simple vouchers.
+              So we built the Meshline WiFi platform — a hotspot system that unites community WiFi networks under one technology umbrella, allowing users to pay for just the time they need with simple vouchers.
             </p>
             <p class="text-white/60 leading-relaxed">
-              Today, HotBando continues to grow from a few locations to many cities across Tanzania — every hotspot being an income opportunity for our resellers and a gateway to the internet for communities.
+              Today, Meshline WiFi continues to grow from a few locations to many cities across Tanzania — every hotspot being an income opportunity for our resellers and a gateway to the internet for communities.
             </p>
           </div>
         </div>
@@ -86,7 +86,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12 lg:mb-16">
           <span class="text-[#12BC00] font-semibold tracking-wider uppercase text-sm">Our Team</span>
-          <h2 class="text-3xl lg:text-4xl font-bold text-white mt-2 mb-4">The People Behind HotBando</h2>
+          <h2 class="text-3xl lg:text-4xl font-bold text-white mt-2 mb-4">The People Behind Meshline WiFi</h2>
           <div class="w-20 h-1 bg-[#12BC00] mx-auto mt-4 rounded-full"></div>
         </div>
 
@@ -126,7 +126,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#12BC00] to-[#0B8A00] text-center py-16 px-6">
           <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">Join Us on the Journey</h2>
-          <p class="text-lg text-white/90 mb-8 max-w-2xl mx-auto">Whether you are a student, a reseller, or an HQ operator — there is a place for you in HotBando.</p>
+          <p class="text-lg text-white/90 mb-8 max-w-2xl mx-auto">Whether you are a student, a reseller, or an HQ operator — there is a place for you in Meshline WiFi.</p>
           <div class="flex flex-col sm:flex-row justify-center gap-4">
             <router-link to="/hotspot" class="bg-white text-[#0B8A00] hover:bg-white/90 px-8 py-3.5 rounded-full text-lg font-semibold transition-all inline-flex items-center justify-center gap-2">
               <i class="fas fa-wifi"></i> Get Started
@@ -160,8 +160,8 @@ const team = [
 
 const milestones = [
   { year: '2023', title: 'BlackScience Technologies Founded', desc: 'BlackScience Technologies was established with a goal to solve internet access challenges across Tanzania.' },
-  { year: '2024', title: 'First Hotspot in Dar es Salaam', desc: 'HotBando\'s first hotspot was launched in Dar es Salaam, providing internet access to students and community members.' },
-  { year: '2025', title: '50+ Locations & Reseller Network', desc: 'HotBando expanded to over 50 locations and grew a reseller network selling internet vouchers.' },
+  { year: '2024', title: 'First Hotspot in Dar es Salaam', desc: 'Meshline WiFi\'s first hotspot was launched in Dar es Salaam, providing internet access to students and community members.' },
+  { year: '2025', title: '50+ Locations & Reseller Network', desc: 'Meshline WiFi expanded to over 50 locations and grew a reseller network selling internet vouchers.' },
   { year: '2026', title: 'Nationwide Expansion', desc: 'Our goal this year: over 100 locations across the country, more resellers, and better services for our users.' }
 ]
 </script>

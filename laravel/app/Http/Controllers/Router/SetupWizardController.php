@@ -103,7 +103,7 @@ class SetupWizardController extends Controller
     public function quickSetup(Request $request, string $routerID): JsonResponse
     {
         $body = $request->all();
-        $ssid = $body['ssid'] ?? env('DEFAULT_SSID', 'HotBando-Free-WiFi');
+        $ssid = $body['ssid'] ?? env('DEFAULT_SSID', 'Meshline WiFi-Free-WiFi');
         $added = $this->provisioning->addRouter([
             'routerID' => $routerID, 'routerName' => $body['routerName'] ?? "Router-{$routerID}",
             'host' => $body['host'] ?? '10.7.0.4', 'port' => 8728,
@@ -179,7 +179,7 @@ class SetupWizardController extends Controller
             'host' => $config['host'] ?? '192.168.88.1',
             'user' => $config['user'] ?? 'admin',
             'password' => $config['password'] ?? env('MIKROTIK_DEFAULT_PASSWORD', 'admin'),
-            'ssid' => $config['ssid'] ?? env('DEFAULT_SSID', 'HotBando-Free-WiFi'),
+            'ssid' => $config['ssid'] ?? env('DEFAULT_SSID', 'Meshline WiFi-Free-WiFi'),
         ]);
 
         return [
@@ -217,7 +217,7 @@ class SetupWizardController extends Controller
             'hotspotInterface' => $config['hotspotInterface'] ?? 'wlan1',
             'hotspotIP' => $config['hotspotIP'] ?? env('HOTSPOT_IP', '10.5.50.1'),
             'hotspotNet' => $config['hotspotNet'] ?? env('HOTSPOT_SUBNET', '10.5.50.0'),
-            'ssid' => $config['ssid'] ?? env('DEFAULT_SSID', 'HotBando-Free-WiFi'),
+            'ssid' => $config['ssid'] ?? env('DEFAULT_SSID', 'Meshline WiFi-Free-WiFi'),
         ]);
 
         return [
@@ -232,7 +232,7 @@ class SetupWizardController extends Controller
 
     private function stepWifi(string $id, array $config): array
     {
-        $ssid = $config['ssid'] ?? env('DEFAULT_SSID', 'HotBando-Free-WiFi');
+        $ssid = $config['ssid'] ?? env('DEFAULT_SSID', 'Meshline WiFi-Free-WiFi');
         $iface = $config['interfaceName'] ?? 'wlan1';
         $session = null;
         try {
@@ -286,7 +286,7 @@ class SetupWizardController extends Controller
     {
         $serverIP = $config['serverIP'] ?? null;
         if (! $serverIP) {
-            return ['success' => false, 'message' => 'Server IP haijatolewa. Weka IP ya HotBando server kwenye Hatua ya 3.',
+            return ['success' => false, 'message' => 'Server IP haijatolewa. Weka IP ya Meshline WiFi server kwenye Hatua ya 3.',
                 'instructions' => self::stepInstructions(6, $id)];
         }
         $verify = $this->provisioning->verifyConfiguration($id);
@@ -299,7 +299,7 @@ class SetupWizardController extends Controller
             'hotspotInterface' => $config['hotspotInterface'] ?? 'wlan1',
             'hotspotIP' => $config['hotspotIP'] ?? env('HOTSPOT_IP', '10.5.50.1'),
             'hotspotNet' => $config['hotspotNet'] ?? env('HOTSPOT_SUBNET', '10.5.50.0'),
-            'ssid' => $config['ssid'] ?? env('DEFAULT_SSID', 'HotBando-Free-WiFi'),
+            'ssid' => $config['ssid'] ?? env('DEFAULT_SSID', 'Meshline WiFi-Free-WiFi'),
         ]);
 
         return ['success' => $result['success'],

@@ -1,5 +1,5 @@
 # ============================================================================
-# HotBando — RADIUS / MAC-login fix for router HB-D5A30DD733CD
+# Meshline — RADIUS / MAC-login fix for router HB-D5A30DD733CD
 # ============================================================================
 # WHY: The router sends RADIUS accounting packets with a stale shared secret.
 # FreeRADIUS drops every packet ("Shared secret is incorrect"), so customers
@@ -53,9 +53,9 @@
 :if ($hbUpdated = 0) do={
     :put "  No hotspot RADIUS entry found, creating new one..."
     :do {
-        /radius add service=hotspot address=$hbServer secret=$hbSecret authentication-port=1812 accounting-port=1813 timeout=3000ms comment="HotBando FreeRADIUS"
+        /radius add service=hotspot address=$hbServer secret=$hbSecret authentication-port=1812 accounting-port=1813 timeout=3000ms comment="Meshline FreeRADIUS"
         :set hbUpdated 1
-        :put "  Created new HotBando RADIUS entry"
+        :put "  Created new Meshline RADIUS entry"
     } on-error={
         :put "  ERROR: failed to create RADIUS entry"
         :put "  Check if RADIUS package is installed: /system package print"
@@ -64,7 +64,7 @@
 
 # 2. Make every hotspot profile use RADIUS and accept MAC login.
 #    MAC login is what lets a paid phone reconnect by itself, even when the
-#    HotBando server cannot reach the router API.
+#    Meshline server cannot reach the router API.
 :put "Step 2: Configuring hotspot profiles..."
 
 # Enable RADIUS on all profiles
@@ -99,7 +99,7 @@
     }
 }
 
-# 3. Optional but recommended: let the HotBando server manage this router over
+# 3. Optional but recommended: let the Meshline server manage this router over
 #    WireGuard (the router's public management ports are closed, which is why
 #    the app cannot provision users right now).
 :put "Step 3: Configuring API access..."
@@ -146,13 +146,13 @@
     :if ([:len $wgName] > 0) do={
         :global fwCount 0
         :do {
-            :set fwCount [:len [/ip firewall filter find comment="HotBando WG management"]]
+            :set fwCount [:len [/ip firewall filter find comment="Meshline WG management"]]
         } on-error={
             :set fwCount 0
         }
         :if ($fwCount = 0) do={
             :do {
-                /ip firewall filter add chain=input in-interface=$wgName protocol=tcp dst-port=8728 action=accept place-before=0 comment="HotBando WG management"
+                /ip firewall filter add chain=input in-interface=$wgName protocol=tcp dst-port=8728 action=accept place-before=0 comment="Meshline WG management"
                 :put "  Added firewall rule for WG management on " . $wgName
             } on-error={
                 :put "  WARN: could not add firewall rule"
@@ -167,7 +167,7 @@
 
 # 4. Verification output
 :put "============================================="
-:put "HotBando RADIUS fix applied."
+:put "Meshline RADIUS fix applied."
 :put "============================================="
 :put "--- RADIUS entries ---"
 /radius print

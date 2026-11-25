@@ -50,8 +50,8 @@ User reported: "Imeshindikana kupakia taarifa. Jaribu tena."
 
 ### If NOT on WiFi:
 ```
-"Tafadhali unganisha kwenye WiFi ya HotBando."
-(Please connect to HotBando WiFi)
+"Tafadhali unganisha kwenye WiFi ya Meshline WiFi."
+(Please connect to Meshline WiFi)
 ```
 
 ### If Session Expired:
@@ -104,7 +104,7 @@ User reported: "Imeshindikana kupakia taarifa. Jaribu tena."
    ```
 
 2. **Make sure connected to WiFi**
-   - Check WiFi icon shows "HotBando"
+   - Check WiFi icon shows "Meshline WiFi"
    - Check signal strength (3-4 bars)
 
 3. **Open dashboard again**
@@ -181,7 +181,7 @@ All changes:
    - Should resolve issue quickly
 
 4. **If still problems:**
-   - Check server logs: `docker logs hotbando-app-1`
+   - Check server logs: `docker logs meshline-app-1`
    - Look for [WiFi] prefix messages
    - Check if database/Redis connected
 

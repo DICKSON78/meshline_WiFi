@@ -1,6 +1,6 @@
-# HotBando Cloud Deployment (Docker on a VPS)
+# Meshline WiFi Cloud Deployment (Docker on a VPS)
 
-This guide deploys the full HotBando stack to a **public VPS** so the platform is
+This guide deploys the full Meshline WiFi stack to a **public VPS** so the platform is
 reachable from the internet (admin portal, hotspot portal, and RADIUS).
 
 ## Architecture
@@ -40,8 +40,8 @@ Everything runs in Docker on one VPS:
 
 ```bash
 cd /opt
-sudo git clone https://github.com/DICKSON78/hotbando.git
-cd hotbando
+sudo git clone https://github.com/DICKSON78/meshline.git
+cd meshline
 sudo chown -R "$USER":"$USER" .
 ```
 
@@ -60,18 +60,18 @@ Values you **must** change for production (never commit real secrets):
 # Server
 PORT=3000
 NODE_ENV=production
-APP_URL=https://hotbando.example.com      # your public domain/IP
+APP_URL=https://meshline.example.com      # your public domain/IP
 SESSION_SECRET=<random-64-hex>
 JWT_SECRET=<random-64-hex>
 CSRF_SECRET=<random-64-hex>
 ENCRYPTION_KEY=<random-64-hex>            # node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 TRUST_PROXY=true                          # behind reverse proxy
 COOKIE_SECURE=true                        # HTTPS only
-ALLOWED_ORIGINS=https://hotbando.example.com
+ALLOWED_ORIGINS=https://meshline.example.com
 
 # Database (MUST match docker-compose.yml db service!)
-DB_USER=hotbando
-DB_PASSWORD=hotbando_pass                 # keep in sync with MYSQL_PASSWORD below
+DB_USER=meshline
+DB_PASSWORD=meshline_pass                 # keep in sync with MYSQL_PASSWORD below
 DB_HOST=db
 DB_PORT=3306
 
@@ -90,12 +90,12 @@ HOTSPOT_SUBNET=10.5.50.0
 
 # Pesapal (production keys when ready)
 PESAPAL_ENV=sandbox
-PESAPAL_CALLBACK_URL=https://hotbando.example.com/api/payments/callback
-PESAPAL_IPN_URL=https://hotbando.example.com/api/payments/ipn
+PESAPAL_CALLBACK_URL=https://meshline.example.com/api/payments/callback
+PESAPAL_IPN_URL=https://meshline.example.com/api/payments/ipn
 ```
 
 > **Gotcha — DB password consistency:** the MySQL container is created with
-> `MYSQL_USER=hotbando` / `MYSQL_PASSWORD=hotbando_pass` (hard-coded in
+> `MYSQL_USER=meshline` / `MYSQL_PASSWORD=meshline_pass` (hard-coded in
 > `docker-compose.yml`), and FreeRADIUS' entrypoint substitutes this password
 > into its SQL config. If you change `DB_PASSWORD` in `.env`, also update the
 > `MYSQL_PASSWORD` value in `docker-compose.yml`.
@@ -161,12 +161,12 @@ Test from a router later with:
 ## Step 7 — Add an admin account
 
 The `database/schema.sql` seeds the initial admin
-(`admin@hotbando.com` / `Admin@123`). **Change this password immediately** after
+(`admin@meshline.com` / `Admin@123`). **Change this password immediately** after
 first login. To create another admin, either use the portal or insert a row with
 a bcrypt hash:
 
 ```bash
-docker compose exec -T db mysql -uroot -p"$DB_ROOT_PASSWORD" hotbando \
+docker compose exec -T db mysql -uroot -p"$DB_ROOT_PASSWORD" meshline \
   -e "SELECT id,email FROM admins;"
 ```
 
@@ -177,7 +177,7 @@ Terminate TLS in front of the app with **Caddy** (auto HTTPS + easy config):
 ```bash
 sudo apt-get install -y caddy
 sudo tee /etc/caddy/Caddyfile > /dev/null <<'EOF'
-hotbando.example.com {
+meshline.example.com {
     reverse_proxy localhost:3000
     encode gzip
 }
@@ -217,11 +217,11 @@ Backups run automatically every 24h into the `backup_data` volume
 # List backups
 docker compose exec backup ls -lh /backups
 
-# Restore latest backup (drops and recreates the hotbando DB)
-LATEST=$(docker compose exec -T backup sh -c 'ls -t /backups/hotbando_*.sql.gz | head -1' | tr -d '\r\n')
-docker compose exec -T db mysql -uroot -p"$DB_ROOT_PASSWORD" -e "DROP DATABASE hotbando; CREATE DATABASE hotbando;"
+# Restore latest backup (drops and recreates the meshline DB)
+LATEST=$(docker compose exec -T backup sh -c 'ls -t /backups/meshline_*.sql.gz | head -1' | tr -d '\r\n')
+docker compose exec -T db mysql -uroot -p"$DB_ROOT_PASSWORD" -e "DROP DATABASE meshline; CREATE DATABASE meshline;"
 docker compose exec -T backup sh -c "cat $LATEST" | \
-  docker compose exec -T db sh -c "gunzip | mysql -uroot -p\"$DB_ROOT_PASSWORD\" hotbando"
+  docker compose exec -T db sh -c "gunzip | mysql -uroot -p\"$DB_ROOT_PASSWORD\" meshline"
 ```
 
 ## Troubleshooting

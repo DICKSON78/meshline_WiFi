@@ -1,4 +1,4 @@
-# HotBando Session & WiFi Flow Diagram
+# Meshline WiFi Session & WiFi Flow Diagram
 
 ## 🔄 User Authentication Flow
 
@@ -6,7 +6,7 @@
 ┌─────────────────────────────────────────────────────────────┐
 │ 1. USER CONNECTS TO WIFI                                    │
 ├─────────────────────────────────────────────────────────────┤
-│ Device joins HotBando WiFi network                          │
+│ Device joins Meshline WiFi network                          │
 │ Gets IP from DHCP: 192.168.x.x                             │
 │ Captures gateway: 192.168.1.1                              │
 └─────────────────────────────────────────────────────────────┘
@@ -32,7 +32,7 @@
 ├─────────────────────────────────────────────────────────────┤
 │ req.session.regenerate() - security measure                │
 │                                                             │
-│ req.session.hotbando_user = {                              │
+│ req.session.meshline_user = {                              │
 │     id: 34,                                                 │
 │     name: 'Stanslaus Emmanuel',                             │
 │     phone_number: '0776126464',                             │
@@ -50,7 +50,7 @@
 │ req.session.location = 'Tanzania'                           │
 │                                                             │
 │ SAVE to MySQL session store:                               │
-│ → sessions table (hotbando_session cookie)                 │
+│ → sessions table (meshline_session cookie)                 │
 └─────────────────────────────────────────────────────────────┘
                           ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -83,9 +83,9 @@
 │ Cookie: hotbando.sid=xxx (browser sends this)              │
 │                                                             │
 │ Step 1: Load session from MySQL session store              │
-│   ├─ If session expired → req.session.hotbando_user = null │
+│   ├─ If session expired → req.session.meshline_user = null │
 │   ├─ If session valid → load user data                     │
-│   └─ If session not found → req.session.hotbando_user = undefined
+│   └─ If session not found → req.session.meshline_user = undefined
 │                                                             │
 │ Step 2: requireWifi middleware check                       │
 │   ├─ Is req.session.onWifi = true? (from login)            │
@@ -96,7 +96,7 @@
 │   └─ If not onWifi → return 403 (Forbidden)                │
 │                                                             │
 │ Step 3: Check authentication                               │
-│   ├─ If req.session.hotbando_user = null → return 401      │
+│   ├─ If req.session.meshline_user = null → return 401      │
 │   └─ If defined → proceed with dashboard                   │
 └─────────────────────────────────────────────────────────────┘
                           ↓
@@ -159,10 +159,10 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ User NOT connected to HotBando WiFi                        │
+│ User NOT connected to Meshline WiFi                        │
 ├─────────────────────────────────────────────────────────────┤
 │ req.session.onWifi = false (from login)                    │
-│ req.session.hotbando_user?.last_router_id = 'HB-D5A30DD' │
+│ req.session.meshline_user?.last_router_id = 'HB-D5A30DD' │
 └─────────────────────────────────────────────────────────────┘
                           ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -172,7 +172,7 @@
 ├─────────────────────────────────────────────────────────────┤
 │ req.session.onWifi remains false                           │
 │ Return: 403 {                                               │
-│   error: 'Please connect to HotBando WiFi first.',         │
+│   error: 'Please connect to Meshline WiFi first.',         │
 │   onWifi: false                                             │
 │ }                                                           │
 └─────────────────────────────────────────────────────────────┘
@@ -181,7 +181,7 @@
 │ Frontend catch block:                                       │
 │ if (e.response?.status === 403) {                          │
 │   loadError.value =                                         │
-│     'Tafadhali unganisha kwenye WiFi ya HotBando.'        │
+│     'Tafadhali unganisha kwenye WiFi ya Meshline WiFi.'        │
 │ }                                                           │
 ├─────────────────────────────────────────────────────────────┤
 │ User sees: Clear message to connect to WiFi               │
@@ -197,12 +197,12 @@
 ├─────────────────────────────────────────────────────────────┤
 │ MySQL session store clears expired sessions every 15 min   │
 │ When request comes in, session not found                   │
-│ req.session.hotbando_user = undefined                      │
+│ req.session.meshline_user = undefined                      │
 └─────────────────────────────────────────────────────────────┘
                           ↓
 ┌─────────────────────────────────────────────────────────────┐
 │ Dashboard endpoint checks:                                  │
-│ if (!req.session.hotbando_user) {                          │
+│ if (!req.session.meshline_user) {                          │
 │   return 401 { error: 'Umelazimika kuingia...' }           │
 │ }                                                           │
 ├─────────────────────────────────────────────────────────────┤
@@ -350,7 +350,7 @@ Browser sends:    Cookie: hotbando.sid=abc123
 
 ## 🎯 Summary
 
-HotBando uses a **session-based authentication** system:
+Meshline WiFi uses a **session-based authentication** system:
 
 1. **Login** → Session created with user data
 2. **API Calls** → Browser sends session cookie

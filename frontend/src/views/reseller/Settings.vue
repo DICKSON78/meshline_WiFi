@@ -84,7 +84,7 @@
         <h3 class="section-title"><i class="fas fa-mobile-alt" style="color: #12BC00"></i> Install App</h3>
       </div>
       <div class="section-body">
-        <p class="text-sm" style="color: #6b7280; margin-bottom: 12px">Install the HotBando Reseller app on your phone for quick access.</p>
+        <p class="text-sm" style="color: #6b7280; margin-bottom: 12px">Install the Meshline WiFi Reseller app on your phone for quick access.</p>
         <button @click="installApp" class="btn btn-primary">
           <i class="fas fa-download mr-2"></i> Install Reseller App
         </button>

@@ -84,7 +84,7 @@
         <div class="text-center mb-12 lg:mb-16">
           <span class="text-[#12BC00] font-semibold tracking-wider uppercase text-sm">Payments</span>
           <h2 class="text-3xl lg:text-4xl font-bold text-white mt-2 mb-4">How to Buy</h2>
-          <p class="text-lg text-white/60 max-w-2xl mx-auto">Three easy ways to get HotBando internet instantly.</p>
+          <p class="text-lg text-white/60 max-w-2xl mx-auto">Three easy ways to get Meshline WiFi internet instantly.</p>
           <div class="w-20 h-1 bg-[#12BC00] mx-auto mt-4 rounded-full"></div>
         </div>
 
@@ -171,7 +171,7 @@ const methods = [
   {
     icon: 'fa-money-bill-wave',
     title: 'Cash at an Agent',
-    desc: 'Visit your nearest HotBando agent, pay in cash, and get your plan instantly. Our agents are ready to help you.'
+    desc: 'Visit your nearest Meshline WiFi agent, pay in cash, and get your plan instantly. Our agents are ready to help you.'
   }
 ]
 </script>

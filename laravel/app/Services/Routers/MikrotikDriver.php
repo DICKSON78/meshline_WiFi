@@ -132,7 +132,7 @@ class MikrotikDriver implements RouterDriver
         $hotspotInterface = (string) ($config['hotspotInterface'] ?? env('HOTSPOT_INTERFACE', 'wlan1'));
         $hotspotIP = (string) ($config['hotspotIP'] ?? env('HOTSPOT_IP', '10.5.50.1'));
         $hotspotNet = (string) ($config['hotspotNet'] ?? env('HOTSPOT_SUBNET', '10.5.50.0'));
-        $ssid = (string) ($config['ssid'] ?? env('DEFAULT_SSID', 'HotBando-Free-WiFi'));
+        $ssid = (string) ($config['ssid'] ?? env('DEFAULT_SSID', 'Meshline WiFi-Free-WiFi'));
         $hotspotCidr = str_contains($hotspotNet, '/') ? $hotspotNet : $hotspotNet.'/24';
         [$netBase, $prefixLen] = array_pad(explode('/', $hotspotCidr, 2), 2, '24');
         $netPrefix = preg_replace('/\.\d+$/', '', $netBase);
@@ -165,35 +165,35 @@ class MikrotikDriver implements RouterDriver
         if (! empty($config['routerName'])) {
             $run('Set identity', '/system/identity/set', ['name' => $config['routerName']]);
         }
-        $client->removeByComment('/ip/address', 'hotbando-hotspot');
+        $client->removeByComment('/ip/address', 'meshline-hotspot');
         $run('Add hotspot IP address', '/ip/address/add', [
-            'address' => "{$hotspotIP}/{$prefixLen}", 'interface' => $iface, 'comment' => 'hotbando-hotspot',
+            'address' => "{$hotspotIP}/{$prefixLen}", 'interface' => $iface, 'comment' => 'meshline-hotspot',
         ]);
         $run('Add DHCP pool', '/ip/pool/add', ['name' => 'hotbando-pool', 'ranges' => "{$netPrefix}.100-{$netPrefix}.200"]);
         $run('Add DHCP network', '/ip/dhcp-server/network/add', [
             'address' => $hotspotCidr, 'gateway' => $hotspotIP, 'dns-server' => $hotspotIP,
         ]);
         $run('Add DHCP server', '/ip/dhcp-server/add', [
-            'name' => 'hotbando-dhcp', 'interface' => $iface, 'address-pool' => 'hotbando-pool', 'disabled' => 'no',
+            'name' => 'meshline-dhcp', 'interface' => $iface, 'address-pool' => 'hotbando-pool', 'disabled' => 'no',
         ]);
         $run('Set DNS servers', '/ip/dns/set', ['servers' => env('HOTSPOT_DNS', '1.1.1.1,8.8.8.8'), 'allow-remote-requests' => 'yes']);
 
         // Captive-portal probes must be intercepted, never whitelisted.
-        $client->removeByComment('/ip/dns/static', 'HotBando captive');
+        $client->removeByComment('/ip/dns/static', 'Meshline WiFi captive');
         foreach (self::captiveHosts() as $host) {
             $run("Add captive DNS {$host}", '/ip/dns/static/add', [
-                'name' => $host, 'address' => $hotspotIP, 'ttl' => '1m', 'comment' => 'HotBando captive',
+                'name' => $host, 'address' => $hotspotIP, 'ttl' => '1m', 'comment' => 'Meshline WiFi captive',
             ]);
         }
-        $client->removeByComment('/ip/firewall/nat', 'HotBando dns');
+        $client->removeByComment('/ip/firewall/nat', 'Meshline WiFi dns');
         foreach (['udp', 'tcp'] as $proto) {
             $run("Redirect DNS ($proto)", '/ip/firewall/nat/add', [
                 'chain' => 'dstnat', 'protocol' => $proto, 'dst-port' => '53',
-                'in-interface' => $iface, 'action' => 'redirect', 'to-ports' => '53', 'comment' => 'HotBando dns',
+                'in-interface' => $iface, 'action' => 'redirect', 'to-ports' => '53', 'comment' => 'Meshline WiFi dns',
             ]);
             $run("Accept DNS ($proto)", '/ip/firewall/filter/add', [
                 'chain' => 'input', 'protocol' => $proto, 'dst-port' => '53',
-                'in-interface' => $iface, 'action' => 'accept', 'place-before' => '0', 'comment' => 'HotBando DNS',
+                'in-interface' => $iface, 'action' => 'accept', 'place-before' => '0', 'comment' => 'Meshline WiFi DNS',
             ]);
         }
 
@@ -218,7 +218,7 @@ class MikrotikDriver implements RouterDriver
                 if (! $existing) {
                     $client->command('/ip/hotspot/user/profile/add', [
                         'name' => $name, 'rate-limit' => $rate, 'idle-timeout' => $idle,
-                        'session-timeout' => $session, 'comment' => 'HotBando '.substr($name, 9),
+                        'session-timeout' => $session, 'comment' => 'Meshline WiFi '.substr($name, 9),
                     ]);
                 }
             } catch (\Throwable $e) {
@@ -261,12 +261,12 @@ class MikrotikDriver implements RouterDriver
             return false;
         }
         try {
-            $client->removeByComment('/radius', 'HotBando FreeRADIUS');
+            $client->removeByComment('/radius', 'Meshline WiFi FreeRADIUS');
             $client->command('/radius/add', [
                 'service' => 'hotspot', 'address' => $address, 'secret' => $secret,
                 'src-address' => $config['routerIp'] ?? '0.0.0.0', 'timeout' => '3000ms',
                 'authentication-port' => '1812', 'accounting-port' => '1813',
-                'comment' => 'HotBando FreeRADIUS',
+                'comment' => 'Meshline WiFi FreeRADIUS',
             ]);
             $client->command('/radius/incoming/set', ['accept' => 'yes', 'port' => '1700']);
             $client->setByQuery('/ip/hotspot/profile', ['name' => 'hotbando-profile'], ['use-radius' => 'yes']);
@@ -283,7 +283,7 @@ class MikrotikDriver implements RouterDriver
         try {
             foreach (['/ip/hotspot/walled-garden', '/ip/hotspot/walled-garden/ip'] as $menu) {
                 foreach ($client->printRows($menu) as $row) {
-                    if (str_starts_with((string) ($row['comment'] ?? ''), 'HotBando')) {
+                    if (str_starts_with((string) ($row['comment'] ?? ''), 'Meshline WiFi')) {
                         $client->command($menu.'/remove', ['.id' => $row['.id']]);
                     }
                 }
@@ -293,7 +293,7 @@ class MikrotikDriver implements RouterDriver
                     continue;
                 }
                 $client->command('/ip/hotspot/walled-garden/add', [
-                    'action' => 'allow', 'dst-host' => $host, 'comment' => 'HotBando portal',
+                    'action' => 'allow', 'dst-host' => $host, 'comment' => 'Meshline WiFi portal',
                 ]);
             }
             foreach ($ips as $ip) {
@@ -301,12 +301,12 @@ class MikrotikDriver implements RouterDriver
                     continue;
                 }
                 $client->command('/ip/hotspot/walled-garden/ip/add', [
-                    'action' => 'accept', 'dst-address' => $ip, 'comment' => 'HotBando portal',
+                    'action' => 'accept', 'dst-address' => $ip, 'comment' => 'Meshline WiFi portal',
                 ]);
             }
             foreach (['udp', 'tcp'] as $proto) {
                 $client->command('/ip/hotspot/walled-garden/ip/add', [
-                    'protocol' => $proto, 'dst-port' => '53', 'action' => 'accept', 'comment' => 'HotBando DNS',
+                    'protocol' => $proto, 'dst-port' => '53', 'action' => 'accept', 'comment' => 'Meshline WiFi DNS',
                 ]);
             }
         } catch (\Throwable $e) {
@@ -455,7 +455,7 @@ class MikrotikDriver implements RouterDriver
                 $args[$key] = $value;
             }
         }
-        $args['comment'] ??= 'HotBando voucher';
+        $args['comment'] ??= 'Meshline WiFi voucher';
         $this->client($session)->command('/ip/hotspot/user/add', $args);
 
         return ['success' => true, 'voucher' => $args, 'name' => $args['name'] ?? ''];
@@ -495,7 +495,7 @@ class MikrotikDriver implements RouterDriver
             }
         };
 
-        $ssid = (string) ($config['ssid'] ?? env('DEFAULT_SSID', 'HotBando-Free-WiFi'));
+        $ssid = (string) ($config['ssid'] ?? env('DEFAULT_SSID', 'Meshline WiFi-Free-WiFi'));
         $routerId = (string) ($config['router_id'] ?? $session->routerId());
         $hotspotIp = (string) ($config['hotspot_ip'] ?? env('HOTSPOT_IP', '10.5.50.1'));
         $hotspotNet = (string) ($config['hotspot_net'] ?? env('HOTSPOT_SUBNET', '10.5.50.0'));
@@ -504,10 +504,10 @@ class MikrotikDriver implements RouterDriver
         $prefix3 = preg_replace('/\.\d+$/', '', $base);
 
         $run('Set identity', '/system/identity/set', ['name' => $config['router_name'] ?? $routerId]);
-        $bridge = 'bridge-hotbando';
+        $bridge = 'bridge-meshline';
         $bridges = $this->safeRows($session, '/interface/bridge');
         if (! array_filter($bridges, fn ($b) => ($b['name'] ?? '') === $bridge)) {
-            $run('Create hotspot bridge', '/interface/bridge/add', ['name' => $bridge, 'disabled' => 'no', 'comment' => 'HotBando hotspot bridge']);
+            $run('Create hotspot bridge', '/interface/bridge/add', ['name' => $bridge, 'disabled' => 'no', 'comment' => 'Meshline WiFi hotspot bridge']);
         }
         foreach (['/interface/wireless', '/interface/wifi'] as $menu) {
             foreach ($this->safeRows($session, $menu) as $radio) {
@@ -526,27 +526,27 @@ class MikrotikDriver implements RouterDriver
         // WireGuard tunnel (only when the server supplied keys).
         if (! empty($config['wireguard'])) {
             $wg = $config['wireguard'];
-            foreach ($this->safeRows($session, '/interface/wireguard', ['name' => 'wg-hotbando']) as $old) {
+            foreach ($this->safeRows($session, '/interface/wireguard', ['name' => 'wg-meshline']) as $old) {
                 if (isset($old['.id'])) {
                     $run('Remove old WG interface', '/interface/wireguard/remove', ['.id' => $old['.id']]);
                 }
             }
             $run('Add WG interface', '/interface/wireguard/add', [
-                'name' => 'wg-hotbando', 'listen-port' => '13231', 'private-key' => $wg['routerPrivateKey'] ?? '',
+                'name' => 'wg-meshline', 'listen-port' => '13231', 'private-key' => $wg['routerPrivateKey'] ?? '',
             ]);
             $run('Add WG peer', '/interface/wireguard/peers/add', [
-                'interface' => 'wg-hotbando', 'public-key' => $wg['serverPublicKey'] ?? '',
+                'interface' => 'wg-meshline', 'public-key' => $wg['serverPublicKey'] ?? '',
                 'endpoint-address' => $wg['serverPublicIp'] ?? $this->serverHost(),
                 'endpoint-port' => (string) ($wg['port'] ?? env('WG_PORT', '51820')),
                 'allowed-address' => ($wg['serverIp'] ?? env('WG_SERVER_IP', '10.7.0.1')).'/32',
                 'persistent-keepalive' => '25s',
             ]);
-            $run('Add WG address', '/ip/address/add', ['address' => ($config['wireguard_ip'] ?? '').'/32', 'interface' => 'wg-hotbando']);
+            $run('Add WG address', '/ip/address/add', ['address' => ($config['wireguard_ip'] ?? '').'/32', 'interface' => 'wg-meshline']);
             $run('Add WG route', '/ip/route/add', [
-                'dst-address' => ($wg['serverIp'] ?? env('WG_SERVER_IP', '10.7.0.1')).'/32', 'gateway' => 'wg-hotbando',
+                'dst-address' => ($wg['serverIp'] ?? env('WG_SERVER_IP', '10.7.0.1')).'/32', 'gateway' => 'wg-meshline',
             ]);
             $run('Allow WG input', '/ip/firewall/filter/add', [
-                'chain' => 'input', 'protocol' => 'udp', 'dst-port' => '13231', 'action' => 'accept', 'comment' => 'HotBando WG',
+                'chain' => 'input', 'protocol' => 'udp', 'dst-port' => '13231', 'action' => 'accept', 'comment' => 'Meshline WiFi WG',
             ]);
         }
 
@@ -557,11 +557,11 @@ class MikrotikDriver implements RouterDriver
             }
         }
         $run('Hotspot address', '/ip/address/add', [
-            'address' => "{$hotspotIp}/{$prefix}", 'interface' => $bridge, 'comment' => 'HotBando hotspot gateway',
+            'address' => "{$hotspotIp}/{$prefix}", 'interface' => $bridge, 'comment' => 'Meshline WiFi hotspot gateway',
         ]);
         $run('DHCP pool', '/ip/pool/add', ['name' => 'hotbando-pool', 'ranges' => "{$prefix3}.100-{$prefix3}.200"]);
         $run('DHCP server', '/ip/dhcp-server/add', [
-            'name' => 'hotbando-dhcp', 'interface' => $bridge, 'address-pool' => 'hotbando-pool', 'disabled' => 'no',
+            'name' => 'meshline-dhcp', 'interface' => $bridge, 'address-pool' => 'hotbando-pool', 'disabled' => 'no',
         ]);
         $run('DHCP network', '/ip/dhcp-server/network/add', [
             'address' => $cidr, 'gateway' => $hotspotIp, 'dns-server' => $hotspotIp,
@@ -569,14 +569,14 @@ class MikrotikDriver implements RouterDriver
         $run('DNS', '/ip/dns/set', ['allow-remote-requests' => 'yes', 'servers' => env('HOTSPOT_DNS', '8.8.8.8')]);
         foreach (self::captiveHosts() as $host) {
             $run("Captive DNS {$host}", '/ip/dns/static/add', [
-                'name' => $host, 'address' => $hotspotIp, 'ttl' => '1m', 'comment' => 'HotBando captive',
+                'name' => $host, 'address' => $hotspotIp, 'ttl' => '1m', 'comment' => 'Meshline WiFi captive',
             ]);
         }
         $run('Masquerade', '/ip/firewall/nat/add', ['chain' => 'srcnat', 'src-address' => $cidr, 'action' => 'masquerade']);
         foreach (['udp', 'tcp'] as $proto) {
             $run("DNS redirect ($proto)", '/ip/firewall/nat/add', [
                 'chain' => 'dstnat', 'protocol' => $proto, 'dst-port' => '53',
-                'in-interface' => $bridge, 'action' => 'redirect', 'to-ports' => '53', 'comment' => 'HotBando dns',
+                'in-interface' => $bridge, 'action' => 'redirect', 'to-ports' => '53', 'comment' => 'Meshline WiFi dns',
             ]);
         }
         foreach ($this->safeRows($session, '/ip/hotspot') as $row) {
@@ -610,7 +610,7 @@ class MikrotikDriver implements RouterDriver
             ]);
         }
         // Heartbeat scheduler + poll script removal.
-        foreach ($this->safeRows($session, '/system/scheduler', ['name' => 'hotbando-poll']) as $row) {
+        foreach ($this->safeRows($session, '/system/scheduler', ['name' => 'meshline-poll']) as $row) {
             if (isset($row['.id'])) {
                 $run('Remove approval poller', '/system/scheduler/remove', ['.id' => $row['.id']]);
             }
@@ -619,8 +619,8 @@ class MikrotikDriver implements RouterDriver
         $secret = ProvisioningService::registrationSecret();
         $onEvent = ':do { /tool fetch url="'.$base.'/api/zero-touch/heartbeat?router_id='.$routerId.'&secret='.$secret.'" mode=https keep-result=no check-certificate=yes } on-error={}';
         $run('Heartbeat scheduler', '/system/scheduler/add', [
-            'name' => 'hotbando-heartbeat', 'interval' => '2m', 'start-time' => 'startup',
-            'on-event' => $onEvent, 'comment' => 'HotBando heartbeat',
+            'name' => 'meshline-heartbeat', 'interval' => '2m', 'start-time' => 'startup',
+            'on-event' => $onEvent, 'comment' => 'Meshline WiFi heartbeat',
         ]);
 
         return [
@@ -636,7 +636,7 @@ class MikrotikDriver implements RouterDriver
             return ProvisioningService::generateProvisionScript($config);
         }
 
-        return "# HotBando provisioning script for ".($config['router_id'] ?? 'router')."\n";
+        return "# Meshline WiFi provisioning script for ".($config['router_id'] ?? 'router')."\n";
     }
 
     public function fetchAndImportScript(RouterSession $session, string $url, string $filename): bool
@@ -739,7 +739,7 @@ class MikrotikDriver implements RouterDriver
         return $this->safeRows($session, '/interface/wireguard/peers');
     }
 
-    public function applyRouterScript(RouterSession $session, string $source, string $name = 'hotbando-repair'): bool
+    public function applyRouterScript(RouterSession $session, string $source, string $name = 'meshline-repair'): bool
     {
         $client = $this->client($session);
         try {
@@ -934,7 +934,7 @@ class MikrotikDriver implements RouterDriver
         try {
             foreach ($client->printRows('/ip/hotspot/profile') as $profile) {
                 $name = (string) ($profile['name'] ?? '');
-                if ($name !== 'default' && ! preg_match('/^(hotbando|hb-)/i', $name)) {
+                if ($name !== 'default' && ! preg_match('/^(meshline|hb-)/i', $name)) {
                     continue;
                 }
                 $loginBy = array_filter(explode(',', (string) ($profile['login-by'] ?? '')), 'strlen');

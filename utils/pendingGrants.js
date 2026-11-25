@@ -1,6 +1,6 @@
 // Packages bought for another registered customer. The package is attached
 // to the friend's account at payment time and the countdown starts when the
-// friend first connects to a HotBando router (see claimPendingGrants).
+// friend first connects to a Meshline WiFi router (see claimPendingGrants).
 const { extendUserPackage } = require('./packageEntitlement');
 
 function phoneVariants(normalized255) {

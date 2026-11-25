@@ -25,8 +25,8 @@ module.exports = function(app) {
 
     // Session middleware
     app.use(session({
-        key: 'hotbando_session',
-        secret: process.env.SESSION_SECRET || 'hotbando-secret-key-2025',
+        key: 'meshline_session',
+        secret: process.env.SESSION_SECRET || 'meshline-secret-key-2025',
         store: sessionStore,
         resave: false,
         saveUninitialized: false,
@@ -53,7 +53,7 @@ module.exports = function(app) {
             req.session.mac = generateRandomMAC();
             req.session.location = getRandomLocation();
             req.session.routerID = `router-sim-001`;
-            req.session.ssidshow = 'HotBando WiFi';
+            req.session.ssidshow = 'Meshline WiFi';
             
             console.log('🎮 Simulation Mode - Generated Device:', {
                 mac: req.session.mac,
@@ -67,7 +67,7 @@ module.exports = function(app) {
 
     // Make user data available to all views
     app.use((req, res, next) => {
-        res.locals.user = req.session.hotbando_user;
+        res.locals.user = req.session.meshline_user;
         res.locals.mac = req.session.mac;
         res.locals.location = req.session.location;
         next();

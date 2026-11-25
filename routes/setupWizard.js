@@ -173,7 +173,7 @@ router.post('/quick-setup/:routerID', async (req, res) => {
             hotspotInterface = 'wlan1',
             hotspotIP = process.env.HOTSPOT_IP || '10.5.50.1',
             hotspotNet = process.env.HOTSPOT_SUBNET || '10.5.50.0',
-            ssid = 'HotBando-Free-WiFi'
+            ssid = 'Meshline WiFi-Free-WiFi'
         } = req.body;
 
         logger.info(`🚀 Starting quick setup for router ${routerID}...`);
@@ -401,7 +401,7 @@ function getStep1Instructions(routerID) {
             '1. Open WinBox/WebFig',
             '2. Connect na IP ya router (default: 192.168.88.1)',
             '3. Run script: /import file-name=mikrotik-auto-register.rsc',
-            '4. Replace HOTBANDO_SERVER na IP ya server yako'
+            '4. Replace MESHLINE_SERVER na IP ya server yako'
         ],
         expectedResult: 'Router inaonekana kwenye dashboard na status "online"',
         troubleshooting: [
@@ -539,7 +539,7 @@ async function executeStep1_Register(routerID, config) {
             host,
             user,
             password,
-            ssid: ssid || 'HotBando-Free-WiFi'
+            ssid: ssid || 'Meshline WiFi-Free-WiFi'
         });
 
         if (result.success) {
@@ -608,7 +608,7 @@ async function executeStep3_ConfigureHotspot(routerID, config) {
             hotspotInterface = 'wlan1',
             hotspotIP = process.env.HOTSPOT_IP || '10.5.50.1',
             hotspotNet = process.env.HOTSPOT_SUBNET || '10.5.50.0',
-            ssid = 'HotBando-Free-WiFi'
+            ssid = 'Meshline WiFi-Free-WiFi'
         } = config;
 
         const result = await routerManager.configureRouter(routerID, {
@@ -649,7 +649,7 @@ async function executeStep3_ConfigureHotspot(routerID, config) {
 
 async function executeStep4_ConfigureWiFi(routerID, config) {
     try {
-        const { ssid = 'HotBando-Free-WiFi', interfaceName = 'wlan1' } = config;
+        const { ssid = 'Meshline WiFi-Free-WiFi', interfaceName = 'wlan1' } = config;
 
         // WiFi is configured as part of hotspot setup
         // This step just verifies and applies SSID
@@ -783,7 +783,7 @@ async function executeStep6_ConfigureRADIUS(routerID, config) {
             );
             return {
                 success: false,
-                message: 'Server IP haijatolewa. Weka IP ya HotBando server kwenye Hatua ya 3.',
+                message: 'Server IP haijatolewa. Weka IP ya Meshline WiFi server kwenye Hatua ya 3.',
                 instructions: getStep6Instructions(routerID)
             };
         }
@@ -812,7 +812,7 @@ async function executeStep6_ConfigureRADIUS(routerID, config) {
             hotspotInterface: config.hotspotInterface || 'wlan1',
             hotspotIP: config.hotspotIP || process.env.HOTSPOT_IP || '10.5.50.1',
             hotspotNet: config.hotspotNet || process.env.HOTSPOT_SUBNET || '10.5.50.0',
-            ssid: config.ssid || 'HotBando-Free-WiFi'
+            ssid: config.ssid || 'Meshline WiFi-Free-WiFi'
         });
 
         if (configResult.success) {
@@ -859,7 +859,7 @@ async function executeStep7_Verify(routerID) {
                         '2. Weka bei ya vouchers',
                         '3. Anza kuuza!',
                         '4. Fungua browser kwa URL: http://10.5.50.1',
-                        '5. Login na: admin/' + (process.env.HOTSPOT_ADMIN_PASSWORD || 'hotbando2024')
+                        '5. Login na: admin/' + (process.env.HOTSPOT_ADMIN_PASSWORD || 'meshline2024')
                     ]
                 }
             };

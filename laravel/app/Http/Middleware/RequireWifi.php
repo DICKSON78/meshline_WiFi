@@ -52,7 +52,7 @@ class RequireWifi
         if (! $onWifi) {
             if ($request->is('api/*')) {
                 return ApiResponse::json([
-                    'error' => 'Uko nje ya WiFi ya HotBando',
+                    'error' => 'Uko nje ya WiFi ya Meshline WiFi',
                     'onWifi' => false,
                     'redirectTo' => '/hotspot',
                 ], 403);

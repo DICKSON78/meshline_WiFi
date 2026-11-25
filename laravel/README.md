@@ -1,4 +1,4 @@
-# HotBando — Laravel 12 port
+# Meshline WiFi — Laravel 12 port
 
 This directory is the Laravel replacement for the Node/Express backend in the
 repository root. The Node code is the behavioural reference and is **not**
@@ -76,7 +76,7 @@ Quick checks:
 php artisan about
 php artisan route:list
 curl -i http://127.0.0.1:8000/health
-php -l app/Console/Commands/HotbandoTickJob.php
+php -l app/Console/Commands/meshlineTickJob.php
 php artisan test
 ```
 
@@ -101,9 +101,9 @@ php artisan schedule:list
 
 | Schedule | Command | Behaviour |
 |---|---|---|
-| Every minute | `hotbando:jobs:tick` | Expired-package disconnect, free-byte charging, `PaymentFulfillment::reconcile()` + `::processPayouts()` when that class exists. Each job has its own try/catch. |
-| Every 5 minutes | `hotbando:jobs:stale-routers` | Warn only when `setup_status='configured'` and `last_seen` is older than 10 minutes. |
-| Every 30 seconds (opt-in) | `hotbando:jobs:metrics` | Refresh gauges into cache and `storage/app/hotbando-metrics.prom`. Enable with `METRICS_REFRESH_ENABLED=true`. |
+| Every minute | `meshline:jobs:tick` | Expired-package disconnect, free-byte charging, `PaymentFulfillment::reconcile()` + `::processPayouts()` when that class exists. Each job has its own try/catch. |
+| Every 5 minutes | `meshline:jobs:stale-routers` | Warn only when `setup_status='configured'` and `last_seen` is older than 10 minutes. |
+| Every 30 seconds (opt-in) | `meshline:jobs:metrics` | Refresh gauges into cache and `storage/app/meshline-metrics.prom`. Enable with `METRICS_REFRESH_ENABLED=true`. |
 
 Ad purging is no longer part of the scheduler: the ads/ad_views feature has
 been removed from the product.
@@ -111,24 +111,24 @@ been removed from the product.
 Manual runs:
 
 ```bash
-php artisan hotbando:jobs:tick --only=expiry
-php artisan hotbando:jobs:tick --only=payments
-php artisan hotbando:jobs:stale-routers --threshold=30
-php artisan hotbando:jobs:metrics --force --show
+php artisan meshline:jobs:tick --only=expiry
+php artisan meshline:jobs:tick --only=payments
+php artisan meshline:jobs:stale-routers --threshold=30
+php artisan meshline:jobs:metrics --force --show
 ```
 
 ## nginx (optional reverse proxy)
 
-Save this as `/etc/nginx/conf.d/hotbando.conf`, adjust paths/ports, then run
+Save this as `/etc/nginx/conf.d/meshline.conf`, adjust paths/ports, then run
 `nginx -t && systemctl reload nginx`:
 
 ```nginx
 server {
     listen 80;
-    server_name hotbando.example.com;
+    server_name meshline.example.com;
     client_max_body_size 50m;
 
-    root /srv/hotbando/laravel/public;
+    root /srv/meshline/laravel/public;
     index index.php;
 
     # Laravel's collector:serve on port 8081 owns the tunnel WebSocket.
@@ -145,9 +145,9 @@ server {
         proxy_send_timeout 3600s;
     }
 
-    # Optional static gauges written by hotbando:jobs:metrics.
+    # Optional static gauges written by meshline:jobs:metrics.
     location = /metrics {
-        alias /srv/hotbando/laravel/storage/app/hotbando-metrics.prom;
+        alias /srv/meshline/laravel/storage/app/meshline-metrics.prom;
         default_type text/plain;
     }
 

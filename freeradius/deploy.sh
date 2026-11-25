@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================================
-# HotBando FreeRADIUS Deployment Script
+# Meshline WiFi FreeRADIUS Deployment Script
 # Run this on the FreeRADIUS server to install and configure everything.
 #
 # Usage:
@@ -9,11 +9,11 @@
 # Prerequisites:
 #   - Ubuntu/Debian server (tested on 22.04+)
 #   - MySQL root credentials (for creating the freeradius DB user)
-#   - HotBando database already running on localhost
+#   - Meshline WiFi database already running on localhost
 # ============================================================================
 set -euo pipefail
 
-echo "=== HotBando FreeRADIUS Deployment ==="
+echo "=== Meshline WiFi FreeRADIUS Deployment ==="
 echo ""
 
 # -- Config -----------------------------------------------------------------
@@ -32,7 +32,7 @@ apt-get install -y -qq freeradius freeradius-mysql
 echo "[2/8] Creating freeradius MySQL user..."
 mysql -e "
     CREATE USER IF EXISTS '$FR_USER'@'localhost' IDENTIFIED BY '$FR_PASS';
-    GRANT SELECT, INSERT, UPDATE ON hotbando.* TO '$FR_USER'@'localhost';
+    GRANT SELECT, INSERT, UPDATE ON meshline.* TO '$FR_USER'@'localhost';
     FLUSH PRIVILEGES;
 "
 echo "  User: $FR_USER / Password: $FR_PASS"
@@ -40,7 +40,7 @@ echo "  SAVE THIS PASSWORD — it goes into the sql module config"
 
 # -- 3. Run SQL views --------------------------------------------------------
 echo "[3/8] Creating SQL views and indexes..."
-mysql hotbando < "$PROJECT_DIR/freeradius/sql-views.sql"
+mysql meshline < "$PROJECT_DIR/freeradius/sql-views.sql"
 
 # -- 4. Copy configuration files --------------------------------------------
 echo "[4/8] Copying FreeRADIUS config files..."
@@ -65,14 +65,14 @@ fi
 cat "$PROJECT_DIR/freeradius/clients.conf" >> "$FR_CONF_DIR/clients.conf"
 
 # -- 5. Enable modules -------------------------------------------------------
-echo "[5/8] Enabling SQL module and hotbando site..."
+echo "[5/8] Enabling SQL module and meshline site..."
 
 # Enable SQL module
 ln -sf "$FR_CONF_DIR/mods-available/sql" "$FR_CONF_DIR/mods-enabled/sql"
 
-# Disable default site, enable hotbando
+# Disable default site, enable meshline
 rm -f "$FR_CONF_DIR/sites-enabled/default"
-ln -sf "$FR_CONF_DIR/sites-available/hotbando" "$FR_CONF_DIR/sites-enabled/hotbando"
+ln -sf "$FR_CONF_DIR/sites-available/hotbando" "$FR_CONF_DIR/sites-enabled/meshline"
 
 # -- 6. Tune FreeRADIUS for 1M users -----------------------------------------
 echo "[6/8] Tuning FreeRADIUS for scale..."

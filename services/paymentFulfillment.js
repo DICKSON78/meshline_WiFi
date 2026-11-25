@@ -9,7 +9,7 @@ async function notifyGiftRecipient(executor, recipientUserId, amount) {
   await executor.execute(
     `INSERT INTO notifications (user_id, notification_type, title, message, action_url, action_text, created_at)
      VALUES (?, 'success', 'Umepewa kifurushi', ?, '/hotspot/dashboard', 'Fungua dashboard', NOW())`,
-    [recipientUserId, `Umepewa kifurushi chenye thamani ya TSh ${Number(amount).toLocaleString()}. Kitaanza kuhesabu ukiunganishwa WiFi ya HotBando.`]
+    [recipientUserId, `Umepewa kifurushi chenye thamani ya TSh ${Number(amount).toLocaleString()}. Kitaanza kuhesabu ukiunganishwa WiFi ya Meshline WiFi.`]
   );
 }
 
@@ -156,7 +156,7 @@ async function fulfillClickPesaPayment({ orderReference, amount, currency, provi
     if (isGift && extra.recipient_user_id) {
       await createGiftGrant(executor, extra.recipient_user_id, packageId, orderReference, tx.phone || null);
       await notifyGiftRecipient(executor, extra.recipient_user_id, tx.amount);
-      result = { gifted: true, message: 'Kifurushi kimetumwa kwa mpokeaji. Kitaanza kuhesabu mara atakapounganishwa WiFi ya HotBando.' };
+      result = { gifted: true, message: 'Kifurushi kimetumwa kwa mpokeaji. Kitaanza kuhesabu mara atakapounganishwa WiFi ya Meshline WiFi.' };
     } else if (isGift) {
       const voucherCode = generateVoucherCode();
       const expiresAt = new Date(Date.now() + 30 * 24 * 3600 * 1000);
@@ -180,7 +180,7 @@ async function fulfillClickPesaPayment({ orderReference, amount, currency, provi
   } else if (purpose === 'package_purchase' && extra.gift && !userId && extra.recipient_user_id && extra.package_id) {
     await createGiftGrant(executor, extra.recipient_user_id, extra.package_id, orderReference, tx.phone || null);
     await notifyGiftRecipient(executor, extra.recipient_user_id, tx.amount);
-    result = { gifted: true, message: 'Kifurushi kimetumwa kwa mpokeaji. Kitaanza kuhesabu mara atakapounganishwa WiFi ya HotBando.' };
+    result = { gifted: true, message: 'Kifurushi kimetumwa kwa mpokeaji. Kitaanza kuhesabu mara atakapounganishwa WiFi ya Meshline WiFi.' };
   } else if (purpose === 'package_purchase' && extra.gift && !userId) {
     const packageId = extra.package_id;
     if (!packageId) throw new Error('Voucher purchase has no package');

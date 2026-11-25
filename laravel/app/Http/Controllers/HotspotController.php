@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Routers\RouterManager;
 use App\Support\ApiResponse;
-use App\Support\Hotbando;
+use App\Support\Meshline;
 use App\Support\LegacySession;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Hash;
  */
 class HotspotController extends Controller
 {
-    private const MIB = Hotbando::MIB; // 1048576 — used for the default free-data allowance
+    private const MIB = Meshline::MIB; // 1048576 — used for the default free-data allowance
     private const DUMMY_HASH = '$2a$12$HHmZsTRUdzYLIi3.d4hcG.1zFdGs0xpq8e6kSf/GEo80N5nUULjyC';
 
     // ------------------------------------------------------------------
@@ -338,7 +338,7 @@ class HotspotController extends Controller
             if (! $mac || ! $routerId) {
                 return ApiResponse::json([
                     'success' => false,
-                    'message' => 'Kifaa hiki hakionekani kwenye Mtandao wa HotBando. Tafadhali unganishe kwenye WiFi ya HotBando kisha ujaribu tena.',
+                    'message' => 'Kifaa hiki hakionekani kwenye Mtandao wa Meshline WiFi. Tafadhali unganishe kwenye WiFi ya Meshline WiFi kisha ujaribu tena.',
                 ]);
             }
 
@@ -563,7 +563,7 @@ class HotspotController extends Controller
                 'paidDataLimitBytes' => $paidDataLimitBytes,
                 'routerStatus' => $routerId ? 'registered' : 'registered',
                 'connectedUsers' => null,
-                'routerMessage' => 'Umeunganishwa kwenye mtandao wa HotBando.',
+                'routerMessage' => 'Umeunganishwa kwenye mtandao wa Meshline WiFi.',
             ]);
         } catch (\Throwable $e) {
             report($e);
@@ -912,7 +912,7 @@ class HotspotController extends Controller
         if (! $raw) {
             return null;
         }
-        $phone = Hotbando::normalizePhone((string) $raw);
+        $phone = Meshline::normalizePhone((string) $raw);
 
         return $phone !== '' ? $phone : null;
     }
@@ -1040,7 +1040,7 @@ class HotspotController extends Controller
     private function ssidFromRequest(Request $request): string
     {
         return (string) ($request->query('ssidshow') ?: $request->query('ssid')
-            ?: $request->header('X-SSID') ?: 'HotBando WiFi');
+            ?: $request->header('X-SSID') ?: 'Meshline WiFi');
     }
 
     private function sessionUser(Request $request): ?array

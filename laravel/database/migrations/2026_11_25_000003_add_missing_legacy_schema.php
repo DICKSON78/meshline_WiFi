@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Migration C: everything added by the Node JS migrations that is not already
  * present in the SQL dumps. Every change is guarded so it can run against both
- * a fresh Laravel database and an existing legacy HotBando database.
+ * a fresh Laravel database and an existing legacy Meshline WiFi database.
  */
 return new class extends Migration
 {

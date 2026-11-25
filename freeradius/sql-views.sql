@@ -1,7 +1,7 @@
 -- ============================================================================
--- HotBando FreeRADIUS SQL Views — Production (1M+ users)
--- Run this on the HotBando MySQL database BEFORE starting FreeRADIUS
--- Usage: mysql -u root hotbando < freeradius/sql-views.sql
+-- Meshline WiFi FreeRADIUS SQL Views — Production (1M+ users)
+-- Run this on the Meshline WiFi MySQL database BEFORE starting FreeRADIUS
+-- Usage: mysql -u root meshline < freeradius/sql-views.sql
 -- ============================================================================
 
 -- Required indexes for 1M user performance
@@ -136,7 +136,7 @@ SELECT
     COALESCE(l.bytes_downloaded, 0) AS acctoutputoctets,
     l.mac_address AS callingstationid,
     CONCAT('router-', l.router_id) AS nasipaddress,
-    'HotBando-WiFi' AS servicetype,
+    'Meshline WiFi-WiFi' AS servicetype,
     CONCAT('hb-', l.id) AS acctsessionid,
     CASE l.action
         WHEN 'connect' THEN ''
@@ -161,7 +161,7 @@ WHERE u.role = 'customer'
   AND ((u.usage_until > NOW() AND (u.paid_data_limit_bytes = 0 OR u.paid_bytes_remaining > 0)) OR u.free_bytes > 0);
 
 -- ============================================================================
--- VIEWS: For HotBando Node.js to read RADIUS session data
+-- VIEWS: For Meshline WiFi Node.js to read RADIUS session data
 -- ============================================================================
 
 -- Active sessions summary (for admin dashboard)

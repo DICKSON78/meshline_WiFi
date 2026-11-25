@@ -109,7 +109,7 @@ router.post('/quick-setup', async (req, res) => {
             routerName,
             serverIP,
             radiusSecret = process.env.RADIUS_SECRET || '',
-            ssid = 'HotBando-Free-WiFi',
+            ssid = 'Meshline WiFi-Free-WiFi',
             // Location data
             latitude,
             longitude,
@@ -256,7 +256,7 @@ router.post('/quick-setup', async (req, res) => {
             nextSteps: [
                 'Connect to WiFi: ' + ssid,
                 'Open browser: http://10.5.50.1',
-                'Login: admin / ' + (process.env.HOTSPOT_ADMIN_PASSWORD || 'hotbando2024'),
+                'Login: admin / ' + (process.env.HOTSPOT_ADMIN_PASSWORD || 'meshline2024'),
                 'Start selling vouchers!'
             ]
         });

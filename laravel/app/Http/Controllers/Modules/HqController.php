@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Support\ApiResponse;
-use App\Support\Hotbando;
+use App\Support\Meshline;
 use App\Support\LegacySession;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -72,8 +72,8 @@ class HqController extends Controller
                 'action' => $action,
                 'entity_type' => $entityType,
                 'entity_id' => $entityId,
-                'old_values' => $old === null ? null : Hotbando::encode($old),
-                'new_values' => $new === null ? null : Hotbando::encode($new),
+                'old_values' => $old === null ? null : Meshline::encode($old),
+                'new_values' => $new === null ? null : Meshline::encode($new),
                 'description' => $description,
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent() ? substr($request->userAgent(), 0, 500) : null,

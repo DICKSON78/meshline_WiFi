@@ -200,16 +200,16 @@ class MikrotikSetupController extends Controller
                 $commands = [];
                 try {
                     $client->command('/interface/wireguard/add', [
-                        'name' => 'wg-hotbando', 'listen-port' => '13231', 'private-key' => $keys['privateKey'],
+                        'name' => 'wg-meshline', 'listen-port' => '13231', 'private-key' => $keys['privateKey'],
                     ]);
-                    $commands[] = 'Created interface wg-hotbando';
-                    $log('Created WireGuard interface wg-hotbando', 'success');
+                    $commands[] = 'Created interface wg-meshline';
+                    $log('Created WireGuard interface wg-meshline', 'success');
                 } catch (\Throwable $e) {
                     $log('Interface create: '.$e->getMessage(), 'warn');
                 }
                 try {
                     $client->command('/interface/wireguard/peers/add', [
-                        'interface' => 'wg-hotbando', 'public-key' => $serverKeys['publicKey'],
+                        'interface' => 'wg-meshline', 'public-key' => $serverKeys['publicKey'],
                         'endpoint-address' => $this->wireguard->serverPublicIp,
                         'endpoint-port' => (string) $this->wireguard->listenPort,
                         'allowed-address' => $this->wireguard->networkCidr, 'persistent-keepalive' => '25s',
@@ -220,13 +220,13 @@ class MikrotikSetupController extends Controller
                     $log('Peer add: '.$e->getMessage(), 'warn');
                 }
                 try {
-                    $client->command('/ip/address/add', ['address' => $assignedIp.'/24', 'interface' => 'wg-hotbando']);
+                    $client->command('/ip/address/add', ['address' => $assignedIp.'/24', 'interface' => 'wg-meshline']);
                     $commands[] = 'Assigned IP '.$assignedIp;
                 } catch (\Throwable $e) {
                     $log('IP assign: '.$e->getMessage(), 'warn');
                 }
                 try {
-                    $client->command('/ip/route/add', ['dst-address' => $this->wireguard->networkCidr, 'gateway' => 'wg-hotbando']);
+                    $client->command('/ip/route/add', ['dst-address' => $this->wireguard->networkCidr, 'gateway' => 'wg-meshline']);
                     $commands[] = 'Added route to server network';
                 } catch (\Throwable $e) {
                     $log('Route: '.$e->getMessage(), 'warn');
@@ -246,7 +246,7 @@ class MikrotikSetupController extends Controller
                 $added = $this->provisioning->addRouter([
                     'routerID' => $routerID, 'routerName' => $name, 'host' => $ip, 'port' => $port,
                     'user' => $input['user'] ?? 'admin', 'password' => $input['password'] ?? '',
-                    'ssid' => $input['ssid'] ?? env('DEFAULT_SSID', 'HotBando-Free-WiFi'),
+                    'ssid' => $input['ssid'] ?? env('DEFAULT_SSID', 'Meshline WiFi-Free-WiFi'),
                 ]);
                 if (! $added['success']) {
                     $send('error', ['message' => 'Registration failed: '.$added['message'], 'step' => 'register']);

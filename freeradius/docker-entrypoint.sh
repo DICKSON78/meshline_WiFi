@@ -1,5 +1,5 @@
 #!/bin/sh
-# HotBando FreeRADIUS entrypoint
+# Meshline WiFi FreeRADIUS entrypoint
 # Substitutes environment variables in config files before starting
 
 # Substitute env vars in RADIUS config files
@@ -16,7 +16,7 @@ done
 
 # Also substitute in SQL module config
 if [ -f /etc/raddb/mods-enabled/sql ]; then
-    sed -i "s/hotbando_pass/$DB_PASSWORD/g" /etc/raddb/mods-enabled/sql
+    sed -i "s/meshline_pass/$DB_PASSWORD/g" /etc/raddb/mods-enabled/sql
 fi
 
 exec freeradius -f "$@"

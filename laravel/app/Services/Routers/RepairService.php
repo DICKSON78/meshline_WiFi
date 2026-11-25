@@ -223,7 +223,7 @@ class RepairService
             throw new \RuntimeException('Remote repair requires a MikroTik router');
         }
         $result = $driver->fetchAndImportScript(
-            $session, $url, 'hotbando-repair.rsc'
+            $session, $url, 'meshline-repair.rsc'
         );
         if ((microtime(true) - $started) * 1000 > self::APPLY_TIMEOUT_MS) {
             return 'timeout';

@@ -1,14 +1,14 @@
 # ============================================================================
-# HotBando MikroTik Complete Hotspot Bootstrap Script
+# Meshline MikroTik Complete Hotspot Bootstrap Script
 # ============================================================================
 # Run this script on a FRESH MikroTik router to fully configure it for
-# the HotBando WiFi hotspot platform.
+# the Meshline WiFi hotspot platform.
 #
 # Before running, replace the placeholders below:
-#   <HOTBANDO_SERVER_IP>   — WireGuard tunnel IP of the HotBando server (e.g. 10.7.0.1)
+#   <HOTBANDO_SERVER_IP>   — WireGuard tunnel IP of the Meshline server (e.g. 10.7.0.1)
 #                            Do NOT use the server's public IP here — ISPs often
 #                            block UDP 1812/1813. RADIUS must go through WireGuard.
-#   <ROUTER_ID>            — router_id shown in HotBando admin (e.g. HB-AA001122)
+#   <ROUTER_ID>            — router_id shown in Meshline admin (e.g. HB-AA001122)
 #   <RADIUS_SECRET>        — shared secret (same as RADIUS_SECRET in .env)
 #   <HOTSPOT_INTERFACE>    — interface clients connect to.
 #                            On hAP the wifi is bridged, so use bridge1
@@ -28,7 +28,7 @@
 # ============================================================================
 # 0. SYSTEM IDENTITY (set router name for easy identification)
 # ============================================================================
-/system identity set name="hotbando-router"
+/system identity set name="Meshline-router"
 
 # ============================================================================
 # 1. NETWORK INTERFACE SETUP
@@ -59,15 +59,15 @@
 /ip address remove [find interface=<HOTSPOT_INTERFACE>]
 
 # Set hotspot gateway IP
-/ip address add address=<HOTSPOT_IP>/24 interface=<HOTSPOT_INTERFACE> network=<HOTSPOT_NET> comment="HotBando hotspot gateway"
+/ip address add address=<HOTSPOT_IP>/24 interface=<HOTSPOT_INTERFACE> network=<HOTSPOT_NET> comment="Meshline hotspot gateway"
 
 # ============================================================================
 # 2. DHCP SERVER (auto-assign IPs to connected clients)
 # ============================================================================
 /ip pool remove [find name="hotbando-pool"]
-/ip pool add name="hotbando-pool" ranges=<HOTSPOT_POOL> comment="HotBando client pool"
-/ip dhcp-server remove [find name="hotbando-dhcp"]
-/ip dhcp-server add name="hotbando-dhcp" interface=<HOTSPOT_INTERFACE> address-pool=hotbando-pool lease-time=1h disabled=no comment="HotBando DHCP"
+/ip pool add name="hotbando-pool" ranges=<HOTSPOT_POOL> comment="Meshline client pool"
+/ip dhcp-server remove [find name="Meshline-dhcp"]
+/ip dhcp-server add name="Meshline-dhcp" interface=<HOTSPOT_INTERFACE> address-pool=hotbando-pool lease-time=1h disabled=no comment="Meshline DHCP"
 /ip dhcp-server network remove [find address=<HOTSPOT_CIDR>]
 /ip dhcp-server network add address=<HOTSPOT_CIDR> gateway=<HOTSPOT_IP> dns-server=<HOTSPOT_DNS>
 
@@ -98,20 +98,20 @@
 # ============================================================================
 # 4. FIREWALL NAT (masquerade only — the hotspot redirects clients itself)
 # ============================================================================
-/ip firewall nat remove [find comment="HotBando masquerade"]
-/ip firewall nat add chain=srcnat src-address=<HOTSPOT_CIDR> action=masquerade comment="HotBando masquerade"
+/ip firewall nat remove [find comment="Meshline masquerade"]
+/ip firewall nat add chain=srcnat src-address=<HOTSPOT_CIDR> action=masquerade comment="Meshline masquerade"
 
 # Old builds added dstnat 80/443 rules with in-interface=ether1.
 # Those hijack inbound web traffic and are not needed; remove them.
 /ip firewall nat remove [find comment="HTTP redirect to hotspot"]
 /ip firewall nat remove [find comment="HTTPS redirect to hotspot"]
-/ip firewall nat remove [find comment="HotBando http"]
-/ip firewall nat remove [find comment="HotBando https"]
+/ip firewall nat remove [find comment="Meshline http"]
+/ip firewall nat remove [find comment="Meshline https"]
 
 # Force client DNS through the router so captive detection is deterministic.
-/ip firewall nat remove [find comment="HotBando dns"]
-/ip firewall nat add chain=dstnat protocol=udp dst-port=53 in-interface=<HOTSPOT_INTERFACE> action=redirect to-ports=53 comment="HotBando dns"
-/ip firewall nat add chain=dstnat protocol=tcp dst-port=53 in-interface=<HOTSPOT_INTERFACE> action=redirect to-ports=53 comment="HotBando dns"
+/ip firewall nat remove [find comment="Meshline dns"]
+/ip firewall nat add chain=dstnat protocol=udp dst-port=53 in-interface=<HOTSPOT_INTERFACE> action=redirect to-ports=53 comment="Meshline dns"
+/ip firewall nat add chain=dstnat protocol=tcp dst-port=53 in-interface=<HOTSPOT_INTERFACE> action=redirect to-ports=53 comment="Meshline dns"
 
 # Allow hotspot DNS
 /ip firewall filter add chain=input protocol=udp dst-port=53 in-interface=<HOTSPOT_INTERFACE> action=accept comment="Allow hotspot DNS"
@@ -133,8 +133,8 @@
     radius-interim-update=30s \
     radius-mac-format=XX:XX:XX:XX:XX:XX \
     hotspot-address=<HOTSPOT_IP> \
-    dns-name="hotspot.hotbando.local" \
-    comment="HotBando hotspot profile"
+    dns-name="hotspot.Meshline.local" \
+    comment="Meshline hotspot profile"
 
 # mac-auth-mode is unavailable on very old RouterOS builds; set it separately
 # so the profile is still created (and the portal still works) if unsupported.
@@ -147,24 +147,24 @@
     address-pool=hotbando-pool \
     profile=hotbando-profile \
     disabled=no \
-    comment="HotBando hotspot server"
+    comment="Meshline hotspot server"
 
 # ============================================================================
 # 6. WALLED GARDEN (allow access to login page before authentication)
 # ============================================================================
 /ip hotspot walled-garden remove [find]
-/ip hotspot walled-garden ip remove [find comment~"HotBando"]
+/ip hotspot walled-garden ip remove [find comment~"Meshline"]
 
-# Allow access to the HotBando server (hostname + optional www alias)
-/ip hotspot walled-garden add action=allow dst-host="<HOTBANDO_SERVER_IP>" comment="Allow HotBando server"
-/ip hotspot walled-garden add action=allow dst-host="www.<HOTBANDO_SERVER_IP>" comment="Allow HotBando server (www)"
+# Allow access to the Meshline server (hostname + optional www alias)
+/ip hotspot walled-garden add action=allow dst-host="<HOTBANDO_SERVER_IP>" comment="Allow Meshline server"
+/ip hotspot walled-garden add action=allow dst-host="www.<HOTBANDO_SERVER_IP>" comment="Allow Meshline server (www)"
 # If you access the portal by bare IP, also add it as an IP-level rule:
-# /ip hotspot walled-garden ip add action=accept dst-address=<HOTBANDO_SERVER_IP> comment="Allow HotBando server IP"
+# /ip hotspot walled-garden ip add action=accept dst-address=<HOTBANDO_SERVER_IP> comment="Allow Meshline server IP"
 
 # Allow access to DNS (needed before login). IP rules use the "ip" submenu
 # and action=accept; dst-address/dst-port-53 are not HTTP-wallable.
-/ip hotspot walled-garden ip add action=accept protocol=udp dst-port=53 comment="HotBando DNS"
-/ip hotspot walled-garden ip add action=accept protocol=tcp dst-port=53 comment="HotBando DNS"
+/ip hotspot walled-garden ip add action=accept protocol=udp dst-port=53 comment="Meshline DNS"
+/ip hotspot walled-garden ip add action=accept protocol=tcp dst-port=53 comment="Meshline DNS"
 
 # NOTE: never whitelist captive-portal probe domains here
 # (connectivitycheck.gstatic.com, captive.apple.com, msftconnecttest.com,
@@ -173,12 +173,12 @@
 # They are resolved to the hotspot IP in section 3 instead.
 
 # Allow portal CDN so the login page renders fully in the captive browser
-/ip hotspot walled-garden add action=allow dst-host="cdn.tailwindcss.com" comment="HotBando portal CSS"
-/ip hotspot walled-garden add action=allow dst-host="fonts.googleapis.com" comment="HotBando portal fonts"
-/ip hotspot walled-garden add action=allow dst-host="fonts.gstatic.com" comment="HotBando portal fonts"
-/ip hotspot walled-garden add action=allow dst-host="cdnjs.cloudflare.com" comment="HotBando portal icons"
-/ip hotspot walled-garden add action=allow dst-host="unpkg.com" comment="HotBando portal libs"
-/ip hotspot walled-garden add action=allow dst-host="cdn.jsdelivr.net" comment="HotBando portal libs"
+/ip hotspot walled-garden add action=allow dst-host="cdn.tailwindcss.com" comment="Meshline portal CSS"
+/ip hotspot walled-garden add action=allow dst-host="fonts.googleapis.com" comment="Meshline portal fonts"
+/ip hotspot walled-garden add action=allow dst-host="fonts.gstatic.com" comment="Meshline portal fonts"
+/ip hotspot walled-garden add action=allow dst-host="cdnjs.cloudflare.com" comment="Meshline portal icons"
+/ip hotspot walled-garden add action=allow dst-host="unpkg.com" comment="Meshline portal libs"
+/ip hotspot walled-garden add action=allow dst-host="cdn.jsdelivr.net" comment="Meshline portal libs"
 
 # ============================================================================
 # 7. RADIUS CONFIGURATION
@@ -195,7 +195,7 @@
     accounting-port=1813 \
     timeout=3000ms \
     src-address=0.0.0.0 \
-    comment="HotBando FreeRADIUS"
+    comment="Meshline FreeRADIUS"
 
 # Enable RADIUS incoming (for CoA/DM - disconnect users remotely)
 /radius incoming set accept=yes port=1700
@@ -212,7 +212,7 @@
     session-timeout=2h \
     address-list="hotspot-free" \
     transparent-proxy=yes \
-    comment="HotBando free tier"
+    comment="Meshline free tier"
 
 # Paid tier (purchased vouchers)
 /ip hotspot user profile add name="hotbando-paid" \
@@ -221,7 +221,7 @@
     session-timeout=24h \
     address-list="hotspot-paid" \
     transparent-proxy=yes \
-    comment="HotBando paid tier"
+    comment="Meshline paid tier"
 
 # VIP tier (premium packages)
 /ip hotspot user profile add name="hotbando-vip" \
@@ -230,7 +230,7 @@
     session-timeout=168h \
     address-list="hotspot-vip" \
     transparent-proxy=yes \
-    comment="HotBando VIP tier"
+    comment="Meshline VIP tier"
 
 # ============================================================================
 # 9. HOTSPOT USERS (default admin accounts)
@@ -238,10 +238,10 @@
 /ip hotspot user remove [find]
 
 # Admin bypass account (for testing)
-/ip hotspot user add name="admin" password="hotbando2024" \
+/ip hotspot user add name="admin" password="Meshline2024" \
     profile=hotbando-vip \
     server=hotbando-server \
-    comment="HotBando admin (bypass)"
+    comment="Meshline admin (bypass)"
 
 # ============================================================================
 # 10. IP BINDINGS (bypass rules for admin devices)
@@ -254,37 +254,37 @@
 # ============================================================================
 # 11. SYSTEM SCHEDULER (auto-restart hotspot if it crashes)
 # ============================================================================
-/system scheduler remove [find name="hotbando-watchdog"]
-/system scheduler add name="hotbando-watchdog" \
+/system scheduler remove [find name="Meshline-watchdog"]
+/system scheduler add name="Meshline-watchdog" \
     interval=5m \
     on-event={/ip hotspot set [find name=hotbando-server] disabled=no} \
-    comment="HotBando hotspot watchdog"
+    comment="Meshline hotspot watchdog"
 
 # ============================================================================
 # 12. HOTSPOT HTML DIRECTORY (captive portal login page)
 # ============================================================================
 # MikroTik hotspot needs login.html in the hotspot directory.
-# This minimal page redirects every unauthenticated client to the HotBando
+# This minimal page redirects every unauthenticated client to the Meshline
 # portal, where they register and redeem/pay for a voucher. Once the client's
 # MAC is entitled, mac-auth lets them straight through (no portal shown).
 # Replace <HOTBANDO_SERVER_IP> below with your server IP or domain.
 /ip hotspot profile set hotbando-profile html-directory=hotspot
 :delay 1
 /file remove hotspot/login.html
-:local loginHtml "<!-- HotBando Hotspot -->\n<html>\n<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>HotBando</title></head>\n<body style=\"font-family:Arial;background:#0b0b12;color:#fff;padding:24px\">HotBando WiFi<br><a href=\"https://<HOTBANDO_SERVER_IP>/hotspot?router_id=<ROUTER_ID>&mac=\\$(mac)&ip=\\$(ip)\" style=\"color:#ff7a30\">Tap to open HotBando</a></body>\n</html>\n"
+:local loginHtml "<!-- Meshline Hotspot -->\n<html>\n<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>Meshline</title></head>\n<body style=\"font-family:Arial;background:#0b0b12;color:#fff;padding:24px\">Meshline WiFi<br><a href=\"https://<HOTBANDO_SERVER_IP>/hotspot?router_id=<ROUTER_ID>&mac=\\$(mac)&ip=\\$(ip)\" style=\"color:#ff7a30\">Tap to open Meshline</a></body>\n</html>\n"
 /file add name="hotspot/login.html" contents=$loginHtml
 
 # ============================================================================
 # 13. LOGGING
 # ============================================================================
-/system logging add topics=hotspot,!debug action=memory comment="HotBando hotspot log"
-/system logging add topics=radius,!debug action=memory comment="HotBando RADIUS log"
+/system logging add topics=hotspot,!debug action=memory comment="Meshline hotspot log"
+/system logging add topics=radius,!debug action=memory comment="Meshline RADIUS log"
 
 # ============================================================================
 # 14. FINAL VERIFICATION
 # ============================================================================
 :put "============================================="
-:put "HotBando Hotspot Bootstrap Complete!"
+:put "Meshline Hotspot Bootstrap Complete!"
 :put "============================================="
 :put ""
 :put "Hotspot Server: hotbando-server"
@@ -292,6 +292,6 @@
 :put "RADIUS Server: <HOTBANDO_SERVER_IP>"
 :put ""
 :put "Test by connecting to WiFi and opening a browser."
-:put "You should be redirected to the HotBando login page."
+:put "You should be redirected to the Meshline login page."
 :put ""
 :put "============================================="

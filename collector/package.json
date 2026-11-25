@@ -1,7 +1,7 @@
 {
-  "name": "hotbando-collector",
+  "name": "meshline-collector",
   "version": "1.0.0",
-  "description": "HotBando remote router auto-detection & MikroTik tunnel collector",
+  "description": "Meshline WiFi remote router auto-detection & MikroTik tunnel collector",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

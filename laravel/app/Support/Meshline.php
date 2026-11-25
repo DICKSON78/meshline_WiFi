@@ -4,7 +4,7 @@ namespace App\Support;
 
 use Illuminate\Support\Facades\DB;
 
-class Hotbando
+class Meshline
 {
     public const MIB = 1048576;
 

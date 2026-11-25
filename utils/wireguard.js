@@ -1,6 +1,6 @@
 /**
  * WireGuard Service — Self-contained (no external VPS dependency)
- * The HotBando server itself is the WireGuard hub.
+ * The Meshline WiFi server itself is the WireGuard hub.
  * MikroTik routers connect as peers over the public internet.
  */
 
@@ -20,7 +20,7 @@ const WG_PUBLIC_IFACE = process.env.WG_PUBLIC_IFACE || 'ens4';
 // Container paths: use shared volume for host-side WG management
 // /host-wireguard maps to /etc/wireguard on the host
 const WG_HOST_DIR = fs.existsSync('/host-wireguard') ? '/host-wireguard' : '/etc/wireguard';
-const WG_KEYS_DIR = path.join(WG_HOST_DIR, 'hotbando-keys');
+const WG_KEYS_DIR = path.join(WG_HOST_DIR, 'meshline-keys');
 const SERVER_PUBLIC_KEY_FILE = path.join(WG_KEYS_DIR, 'server.key.pub');
 const SERVER_PRIVATE_KEY_FILE = path.join(WG_KEYS_DIR, 'server.key');
 const WG_CONF = path.join(WG_HOST_DIR, `${WG_INTERFACE}.conf`);
@@ -31,11 +31,11 @@ const WG_SERVER_PUBLIC_KEY = (process.env.WG_SERVER_PUBLIC_KEY || '').trim();
 const WG_PEERS_DIR = process.env.WG_PEERS_DIR || (
     fs.existsSync('/host-wireguard-peers')
         ? '/host-wireguard-peers'
-        : path.join(WG_HOST_DIR, 'hotbando-peers')
+        : path.join(WG_HOST_DIR, 'meshline-peers')
 );
 const WG_STATUS_FILE = process.env.WG_STATUS_FILE || (
-    fs.existsSync('/var/run/hotbando/wg-status-result')
-        ? '/var/run/hotbando/wg-status-result'
+    fs.existsSync('/var/run/meshline/wg-status-result')
+        ? '/var/run/meshline/wg-status-result'
         : path.join(WG_HOST_DIR, '.wg-status-result')
 );
 
@@ -380,11 +380,11 @@ class WireGuardService {
 # Generated: ${new Date().toISOString()}
 
 # 1. Create WireGuard interface
-/interface wireguard add name=wg-hotbando listen-port=13231 private-key="${privateKey}"
+/interface wireguard add name=wg-meshline listen-port=13231 private-key="${privateKey}"
 
 # 2. Add server as peer
 /interface wireguard peers add \\
-    interface=wg-hotbando \\
+    interface=wg-meshline \\
     public-key="${serverPublicKey}" \\
     endpoint-address=${serverEndpoint} \\
     endpoint-port=${this.listenPort} \\
@@ -392,15 +392,15 @@ class WireGuardService {
     persistent-keepalive=25s
 
 # 3. Assign IP
-/ip address add address=${assignedIp}/32 interface=wg-hotbando
+/ip address add address=${assignedIp}/32 interface=wg-meshline
 
 # 4. Route to server network
-/ip route add dst-address=${this.serverIp}/32 gateway=wg-hotbando
+/ip route add dst-address=${this.serverIp}/32 gateway=wg-meshline
 
 # 5. Firewall: allow WG traffic
 /ip firewall filter add chain=input protocol=udp dst-port=13231 action=accept comment="WireGuard Input"
-/ip firewall filter add chain=forward in-interface=wg-hotbando action=accept comment="WireGuard Fwd In"
-/ip firewall filter add chain=forward out-interface=wg-hotbando action=accept comment="WireGuard Fwd Out"
+/ip firewall filter add chain=forward in-interface=wg-meshline action=accept comment="WireGuard Fwd In"
+/ip firewall filter add chain=forward out-interface=wg-meshline action=accept comment="WireGuard Fwd Out"
 
 # 6. Restrict API access to WG network
 /ip service set api address=${this.networkCidr}
@@ -476,7 +476,7 @@ class WireGuardService {
     // ── Legacy helpers (kept for backward compat) ──
 
     generateServerConfig(peers = []) {
-        let config = `# HotBando WireGuard Server\n[Interface]\nAddress = ${this.serverIp}/24\nListenPort = ${this.listenPort}\nPrivateKey = <SERVER_PRIVATE_KEY>\n`;
+        let config = `# Meshline WiFi WireGuard Server\n[Interface]\nAddress = ${this.serverIp}/24\nListenPort = ${this.listenPort}\nPrivateKey = <SERVER_PRIVATE_KEY>\n`;
         peers.forEach(peer => {
             config += `\n[Peer]\nPublicKey = ${peer.publicKey}\nAllowedIPs = ${peer.allowedIp}/32\n`;
         });

@@ -177,7 +177,7 @@ router.post('/applications/:id/schedule', async (req, res) => {
     if (!r.affectedRows) return res.status(409).json({ error: 'Approve the application first' });
     const [a] = await db.execute('SELECT name, phone, application_ref FROM reseller_applications WHERE id = ?', [id]);
     const base = process.env.APP_URL || 'https://hotbandowifi.online';
-    const message = `Habari ${a[0].name}, ombi lako la HotBando (${a[0].application_ref}) limeidhinishwa. Ufungaji wa vifaa umepangwa tarehe ${date} saa ${time}, fundi: ${tech}.` +
+    const message = `Habari ${a[0].name}, ombi lako la Meshline WiFi (${a[0].application_ref}) limeidhinishwa. Ufungaji wa vifaa umepangwa tarehe ${date} saa ${time}, fundi: ${tech}.` +
       (notes ? ` ${notes}.` : '') + ` Ingia kuona maelezo: ${base}/reseller/application`;
     res.json({ success: true, message, whatsapp_link: `https://wa.me/${a[0].phone}?text=${encodeURIComponent(message)}` });
   } catch (e) { fail(res, e, 'schedule'); }

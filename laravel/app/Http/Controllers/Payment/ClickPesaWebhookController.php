@@ -7,7 +7,7 @@ use App\Services\Payment\ClickPesaClient;
 use App\Services\Payment\ClickPesaException;
 use App\Services\Payment\PaymentFulfillment;
 use App\Support\ApiResponse;
-use App\Support\Hotbando;
+use App\Support\Meshline;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -81,7 +81,7 @@ class ClickPesaWebhookController extends Controller
                 'event_type' => $eventType,
                 'provider_ref' => $providerRef,
                 'order_reference' => $orderRef,
-                'raw_payload' => Hotbando::encode($payload),
+                'raw_payload' => Meshline::encode($payload),
                 'status' => 'received',
             ]);
         } catch (\Throwable $e) {

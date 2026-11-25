@@ -1,5 +1,5 @@
--- Seed data for HotBando HQ Management System
--- Run: docker exec hotbando-db-1 mysql -u hotbando -pL9ClXPF8coYdT-Uy hotbando < /tmp/seed-hq.sql
+-- Seed data for Meshline WiFi HQ Management System
+-- Run: docker exec meshline-db-1 mysql -u meshline -pL9ClXPF8coYdT-Uy meshline < /tmp/seed-hq.sql
 
 -- ==================== REGIONS (4 major regions of Tanzania) ====================
 INSERT INTO regions (name, code, description, is_active, created_at) VALUES
@@ -32,24 +32,24 @@ INSERT INTO districts (region_id, name, code, description, is_active, created_at
 -- ==================== BRANCHES (2 per district) ====================
 INSERT INTO branches (district_id, name, code, address, city, phone, email, latitude, longitude, is_active, created_at) VALUES
 -- Arusha
-(1, 'Arusha CBD Branch', 'ARB-001', 'Sokoine Road', 'Arusha', '+255754000001', 'arusha-cbd@hotbando.com', -3.3869, 36.6830, 1, NOW()),
-(1, 'Arusha Sakina Branch', 'ARB-002', 'Sakina Area', 'Arusha', '+255754000002', 'arusha-sakina@hotbando.com', -3.3700, 36.6900, 1, NOW()),
+(1, 'Arusha CBD Branch', 'ARB-001', 'Sokoine Road', 'Arusha', '+255754000001', 'arusha-cbd@meshline.com', -3.3869, 36.6830, 1, NOW()),
+(1, 'Arusha Sakina Branch', 'ARB-002', 'Sakina Area', 'Arusha', '+255754000002', 'arusha-sakina@meshline.com', -3.3700, 36.6900, 1, NOW()),
 -- Moshi
-(2, 'Moshi CBD Branch', 'MOS-001', 'Kenyatta Road', 'Moshi', '+255754000003', 'moshi-cbd@hotbando.com', -3.3340, 37.3390, 1, NOW()),
-(2, 'Moshi Soweto Branch', 'MOS-002', 'Soweto Area', 'Moshi', '+255754000004', 'moshi-soweto@hotbando.com', -3.3400, 37.3300, 1, NOW()),
+(2, 'Moshi CBD Branch', 'MOS-001', 'Kenyatta Road', 'Moshi', '+255754000003', 'moshi-cbd@meshline.com', -3.3340, 37.3390, 1, NOW()),
+(2, 'Moshi Soweto Branch', 'MOS-002', 'Soweto Area', 'Moshi', '+255754000004', 'moshi-soweto@meshline.com', -3.3400, 37.3300, 1, NOW()),
 -- Tanga
-(3, 'Tanga City Branch', 'TAN-001', 'Amboni Road', 'Tanga', '+255754000005', 'tanga-city@hotbando.com', -5.0689, 39.0986, 1, NOW()),
+(3, 'Tanga City Branch', 'TAN-001', 'Amboni Road', 'Tanga', '+255754000005', 'tanga-city@meshline.com', -5.0689, 39.0986, 1, NOW()),
 -- Dodoma
-(4, 'Dodoma CBD Branch', 'DOC-001', 'Nyerere Road', 'Dodoma', '+255754000006', 'dodoma-cbd@hotbando.com', -6.1630, 35.7516, 1, NOW()),
-(4, 'Dodoma Chang''ombe Branch', 'DOC-002', 'Chang''ombe Area', 'Dodoma', '+255754000007', 'dodoma-changombe@hotbando.com', -6.1700, 35.7400, 1, NOW()),
+(4, 'Dodoma CBD Branch', 'DOC-001', 'Nyerere Road', 'Dodoma', '+255754000006', 'dodoma-cbd@meshline.com', -6.1630, 35.7516, 1, NOW()),
+(4, 'Dodoma Chang''ombe Branch', 'DOC-002', 'Chang''ombe Area', 'Dodoma', '+255754000007', 'dodoma-changombe@meshline.com', -6.1700, 35.7400, 1, NOW()),
 -- Mwanza
-(8, 'Mwanza CBD Branch', 'MWC-001', 'Kenyatta Road', 'Mwanza', '+255754000008', 'mwanza-cbd@hotbando.com', -2.5164, 32.9175, 1, NOW()),
-(8, 'Mwanza Kirumba Branch', 'MWC-002', 'Kirumba Area', 'Mwanza', '+255754000009', 'mwanza-kirumba@hotbando.com', -2.5200, 32.9200, 1, NOW()),
+(8, 'Mwanza CBD Branch', 'MWC-001', 'Kenyatta Road', 'Mwanza', '+255754000008', 'mwanza-cbd@meshline.com', -2.5164, 32.9175, 1, NOW()),
+(8, 'Mwanza Kirumba Branch', 'MWC-002', 'Kirumba Area', 'Mwanza', '+255754000009', 'mwanza-kirumba@meshline.com', -2.5200, 32.9200, 1, NOW()),
 -- Dar es Salaam
-(10, 'Dar es Salaam CBD Branch', 'DAR-001', 'Garden Avenue', 'Dar es Salaam', '+255754000010', 'dar-cbd@hotbando.com', -6.7924, 39.2083, 1, NOW()),
-(10, 'Dar es Salaam Kariakoo Branch', 'DAR-002', 'Kariakoo Market Area', 'Dar es Salaam', '+255754000011', 'dar-kariakoo@hotbando.com', -6.8100, 39.2700, 1, NOW()),
-(11, 'Temeke Branch', 'TEM-001', 'Temeke Centre', 'Dar es Salaam', '+255754000012', 'temeke@hotbando.com', -6.8800, 39.2800, 1, NOW()),
-(12, 'Kinondoni Branch', 'KIN-001', 'Sinza Area', 'Dar es Salaam', '+255754000013', 'kinondoni@hotbando.com', -6.7700, 39.2300, 1, NOW());
+(10, 'Dar es Salaam CBD Branch', 'DAR-001', 'Garden Avenue', 'Dar es Salaam', '+255754000010', 'dar-cbd@meshline.com', -6.7924, 39.2083, 1, NOW()),
+(10, 'Dar es Salaam Kariakoo Branch', 'DAR-002', 'Kariakoo Market Area', 'Dar es Salaam', '+255754000011', 'dar-kariakoo@meshline.com', -6.8100, 39.2700, 1, NOW()),
+(11, 'Temeke Branch', 'TEM-001', 'Temeke Centre', 'Dar es Salaam', '+255754000012', 'temeke@meshline.com', -6.8800, 39.2800, 1, NOW()),
+(12, 'Kinondoni Branch', 'KIN-001', 'Sinza Area', 'Dar es Salaam', '+255754000013', 'kinondoni@meshline.com', -6.7700, 39.2300, 1, NOW());
 
 -- ==================== STAFF (admin user already exists as user_id=1) ====================
 -- Create staff entries (admin is user_id=1)
@@ -86,12 +86,12 @@ INSERT INTO asset_categories (name, description, created_at) VALUES
 -- ==================== SEED SOME USERS (various roles) ====================
 -- Passwords are bcrypt hashed 'Admin@123'
 INSERT INTO users (name, phone_number, email, password, role, is_active, created_at) VALUES
-('John Mwangi', '+255711000001', 'john.mwangi@hotbando.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 1, NOW()),
-('Fatima Hassan', '+255711000002', 'fatima.hassan@hotbando.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'sponsor', 1, NOW()),
-('Bank of Tanzania', '+255711000003', 'bof@hotbando.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'bank_partner', 1, NOW()),
-('Franchise Owner', '+255711000004', 'franchise@hotbando.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'franchise_owner', 1, NOW()),
-('Test Reseller', '+255711000005', 'reseller@hotbando.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'franchise_owner', 1, NOW()),
-('Test Investor', '+255711000006', 'investor@hotbando.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 1, NOW());
+('John Mwangi', '+255711000001', 'john.mwangi@meshline.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 1, NOW()),
+('Fatima Hassan', '+255711000002', 'fatima.hassan@meshline.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'sponsor', 1, NOW()),
+('Bank of Tanzania', '+255711000003', 'bof@meshline.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'bank_partner', 1, NOW()),
+('Franchise Owner', '+255711000004', 'franchise@meshline.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'franchise_owner', 1, NOW()),
+('Test Reseller', '+255711000005', 'reseller@meshline.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'franchise_owner', 1, NOW()),
+('Test Investor', '+255711000006', 'investor@meshline.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 1, NOW());
 
 -- Add staff for branches
 INSERT INTO staff (user_id, employee_id, branch_id, department, job_title, employment_type, hire_date, salary, status, created_at) VALUES
@@ -141,6 +141,6 @@ INSERT INTO contracts (contract_number, title, contract_type, party_name, party_
 -- ==================== SAMPLE LICENSES ====================
 INSERT INTO licenses_permits (license_number, title, license_type, branch_id, issuing_authority, issue_date, expiry_date, cost, status, created_at) VALUES
 ('TCRA/ISP/2025/0001', 'ISP License - Tanzania', 'telecom', NULL, 'TCRA', '2025-01-01', '2027-12-31', 5000000, 'active', NOW()),
-('BRELA/2024/HOTBANDO', 'Business Registration Certificate', 'business', NULL, 'BRELA', '2024-01-15', '2026-01-14', 150000, 'expired', NOW()),
+('BRELA/2024/MESHLINE', 'Business Registration Certificate', 'business', NULL, 'BRELA', '2024-01-15', '2026-01-14', 150000, 'expired', NOW()),
 ('Taxes/TIN/2024', 'Tax Identification Number', 'tax', NULL, 'TRA', '2024-01-01', '2099-12-31', 0, 'active', NOW()),
 ('TFDA/FW/2025/001', 'Fire Safety Certificate', 'safety', 10, 'TFDA', '2025-03-01', '2026-03-01', 200000, 'active', NOW());

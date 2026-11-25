@@ -1,6 +1,6 @@
 /**
  * Database Setup & Migration Utility
- * Run this to set up the complete Hotbando database schema
+ * Run this to set up the complete meshline database schema
  */
 
 const mysql = require('mysql2/promise');
@@ -20,7 +20,7 @@ async function setupDatabase() {
     let connection;
 
     try {
-        console.log('🚀 Starting Hotbando Database Setup...\n');
+        console.log('🚀 Starting meshline Database Setup...\n');
 
         // Connect to MySQL (without database first)
         const tempConfig = { ...dbConfig };
@@ -168,7 +168,7 @@ switch (command) {
         checkDatabase();
         break;
     default:
-        console.log('Hotbando Database Management');
+        console.log('meshline Database Management');
         console.log('Usage: node database/setup.js [command]\n');
         console.log('Commands:');
         console.log('  setup  - Set up database schema (safe, keeps existing data)');

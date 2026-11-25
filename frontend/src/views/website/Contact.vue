@@ -27,8 +27,8 @@
                   </div>
                   <div>
                     <p class="text-sm font-semibold text-white">Email</p>
-                    <a href="mailto:info@hotbando.co.tz" class="text-[#12BC00] text-sm hover:underline">info@hotbando.co.tz</a>
-                    <a href="mailto:support@hotbando.co.tz" class="text-[#12BC00] text-sm hover:underline block">support@hotbando.co.tz</a>
+                    <a href="mailto:info@meshline.co.tz" class="text-[#12BC00] text-sm hover:underline">info@meshline.co.tz</a>
+                    <a href="mailto:support@meshline.co.tz" class="text-[#12BC00] text-sm hover:underline block">support@meshline.co.tz</a>
                   </div>
                 </div>
                 <div class="flex items-start gap-4">
@@ -186,9 +186,9 @@ const form = reactive({ name: '', email: '', phone: '', subject: '', message: ''
 const faqs = reactive([
   { q: 'How do I buy a plan?', a: 'Go to the customer portal, choose the plan you want, and pay via M-Pesa, Tigo Pesa, Airtel Money, or Halo Pesa. After payment, your plan is activated instantly.', open: false },
   { q: 'How can I get free data?', a: 'New users get a small free data allowance at registration. Buy a voucher from the portal or any reseller for more data.', open: false },
-  { q: 'What if the internet is not working?', a: 'Contact us via WhatsApp at +255 712 345 678 or email support@hotbando.co.tz. Our team will resolve the issue within 24 hours.', open: false },
+  { q: 'What if the internet is not working?', a: 'Contact us via WhatsApp at +255 712 345 678 or email support@meshline.co.tz. Our team will resolve the issue within 24 hours.', open: false },
   { q: 'How do I become a reseller?', a: 'Join as a reseller for free. Buy vouchers at wholesale price and sell them for profit. Visit /reseller/signup to get started.', open: false },
-  { q: 'Where can I get equipment?', a: 'You do not need equipment to use the internet — just connect to a HotBando hotspot. For router supply questions, contact us via WhatsApp.', open: false },
+  { q: 'Where can I get equipment?', a: 'You do not need equipment to use the internet — just connect to a Meshline WiFi hotspot. For router supply questions, contact us via WhatsApp.', open: false },
 ])
 
 async function sendMessage() {

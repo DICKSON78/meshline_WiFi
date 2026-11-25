@@ -13,10 +13,10 @@ use Symfony\Component\Console\Attribute\AsCommand;
  * prom-client in the port: gauges are written to the cache and to a static
  * text file that nginx can expose at /metrics. Opt-in only.
  */
-#[AsCommand(name: 'hotbando:jobs:metrics', description: 'Refresh HotBando gauges into cache and storage/app/hotbando-metrics.prom')]
+#[AsCommand(name: 'meshline:jobs:metrics', description: 'Refresh Meshline WiFi gauges into cache and storage/app/meshline-metrics.prom')]
 class MetricsRefreshJob extends Command
 {
-    protected $signature = 'hotbando:jobs:metrics {--force : Run even when METRICS_REFRESH_ENABLED is false} {--show : Print the generated metrics}';
+    protected $signature = 'meshline:jobs:metrics {--force : Run even when METRICS_REFRESH_ENABLED is false} {--show : Print the generated metrics}';
 
     public const CACHE_PREFIX = 'hotbando:metrics:';
 
@@ -69,7 +69,7 @@ class MetricsRefreshJob extends Command
 
         $text = $this->render($metrics);
         try {
-            $file = storage_path('app/hotbando-metrics.prom');
+            $file = storage_path('app/meshline-metrics.prom');
             if (! is_dir(dirname($file))) {
                 @mkdir(dirname($file), 0775, true);
             }
@@ -102,7 +102,7 @@ class MetricsRefreshJob extends Command
 
         $lines = [];
         foreach ($metrics as $name => $value) {
-            $key = 'hotbando_'.$name;
+            $key = 'meshline_'.$name;
             $lines[] = "# HELP {$key} ".($help[$name] ?? $name);
             $lines[] = "# TYPE {$key} gauge";
             $lines[] = $key.' '.(float) $value;

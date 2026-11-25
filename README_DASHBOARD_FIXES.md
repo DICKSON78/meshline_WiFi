@@ -56,7 +56,7 @@ This masked 4 different issues:
 
 ### The Result
 Users now see clear, actionable error messages:
-- "Tafadhali unganisha kwenye WiFi ya HotBando." (Connect to WiFi)
+- "Tafadhali unganisha kwenye WiFi ya Meshline WiFi." (Connect to WiFi)
 - "Muda wa kulogeza umemalizika..." (Session expired)
 - "Router iko offline..." (Router is down)
 - etc.
@@ -66,7 +66,7 @@ Users now see clear, actionable error messages:
 ## 📂 File Structure
 
 ```
-hotbando/
+meshline/
 ├── TROUBLESHOOTING_DASHBOARD_ERROR.md
 │   └─ User-facing troubleshooting guide
 │
@@ -143,7 +143,7 @@ if not onWifi → return 403 Forbidden
 ## 📊 Server Status
 
 ```
-App Server:     ✅ Running (Docker hotbando-app-1)
+App Server:     ✅ Running (Docker meshline-app-1)
 Database:       ✅ Connected (MySQL 8.0)
 Redis Cache:    ✅ Connected
 API Response:   ✅ < 2 seconds

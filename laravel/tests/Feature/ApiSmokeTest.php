@@ -11,7 +11,7 @@ use Tests\TestCase;
 /**
  * PHP replacement for the Node Jest smoke checks. Deliberately does NOT use
  * RefreshDatabase: the legacy schema is owned by the Node project and a test
- * run must never wipe a real HotBando database.
+ * run must never wipe a real Meshline WiFi database.
  */
 class ApiSmokeTest extends TestCase
 {
@@ -119,17 +119,17 @@ class ApiSmokeTest extends TestCase
         }
     }
 
-    public function test_scheduled_hotbando_commands_are_registered(): void
+    public function test_scheduled_meshline_commands_are_registered(): void
     {
         $commands = Artisan::all();
 
-        $this->assertArrayHasKey('hotbando:jobs:tick', $commands);
-        $this->assertArrayHasKey('hotbando:jobs:stale-routers', $commands);
-        $this->assertArrayHasKey('hotbando:jobs:metrics', $commands);
+        $this->assertArrayHasKey('meshline:jobs:tick', $commands);
+        $this->assertArrayHasKey('meshline:jobs:stale-routers', $commands);
+        $this->assertArrayHasKey('meshline:jobs:metrics', $commands);
     }
 
     public function test_metrics_command_is_opt_in(): void
     {
-        $this->artisan('hotbando:jobs:metrics')->assertExitCode(0);
+        $this->artisan('meshline:jobs:metrics')->assertExitCode(0);
     }
 }

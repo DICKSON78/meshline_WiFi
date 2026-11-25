@@ -2,63 +2,63 @@ const client = require('prom-client');
 const db = require('../config/database');
 
 const collectDefaultMetrics = client.collectDefaultMetrics;
-collectDefaultMetrics({ prefix: 'hotbando_' });
+collectDefaultMetrics({ prefix: 'meshline_' });
 
 const httpRequestDuration = new client.Histogram({
-    name: 'hotbando_http_request_duration_seconds',
+    name: 'meshline_http_request_duration_seconds',
     help: 'HTTP request duration in seconds',
     labelNames: ['method', 'route', 'status'],
     buckets: [0.01, 0.05, 0.1, 0.5, 1, 2, 5],
 });
 
 const httpRequestTotal = new client.Counter({
-    name: 'hotbando_http_requests_total',
+    name: 'meshline_http_requests_total',
     help: 'Total HTTP requests',
     labelNames: ['method', 'route', 'status'],
 });
 
 const activeUsersGauge = new client.Gauge({
-    name: 'hotbando_active_users',
+    name: 'meshline_active_users',
     help: 'Number of active users (unexpired sessions)',
 });
 
 const onlineRoutersGauge = new client.Gauge({
-    name: 'hotbando_online_routers',
+    name: 'meshline_online_routers',
     help: 'Number of online routers',
 });
 
 const totalRoutersGauge = new client.Gauge({
-    name: 'hotbando_total_routers',
+    name: 'meshline_total_routers',
     help: 'Total registered routers',
 });
 
 const activeCampaignsGauge = new client.Gauge({
-    name: 'hotbando_active_campaigns',
+    name: 'meshline_active_campaigns',
     help: 'Number of active campaigns',
 });
 
 const walletBalanceGauge = new client.Gauge({
-    name: 'hotbando_wallet_balance_total',
+    name: 'meshline_wallet_balance_total',
     help: 'Total balance across all wallets',
 });
 
 const dailyRevenueGauge = new client.Gauge({
-    name: 'hotbando_daily_revenue',
+    name: 'meshline_daily_revenue',
     help: 'Daily revenue total',
 });
 
 const cacheHitCounter = new client.Counter({
-    name: 'hotbando_cache_hits_total',
+    name: 'meshline_cache_hits_total',
     help: 'Total cache hits',
 });
 
 const cacheMissCounter = new client.Counter({
-    name: 'hotbando_cache_misses_total',
+    name: 'meshline_cache_misses_total',
     help: 'Total cache misses',
 });
 
 const campaignCompletionsCounter = new client.Counter({
-    name: 'hotbando_campaign_completions_total',
+    name: 'meshline_campaign_completions_total',
     help: 'Total campaign completions',
     labelNames: ['type'],
 });

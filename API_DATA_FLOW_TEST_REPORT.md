@@ -8,7 +8,7 @@
 
 ## 📊 Executive Summary
 
-The HotBando captive portal is **fully functional** with complete data flow from:
+The Meshline WiFi captive portal is **fully functional** with complete data flow from:
 - ✅ MikroTik Router (DHCP & Captive Portal)
 - ✅ Frontend (Vue.js Components)
 - ✅ Backend (Node.js APIs)
@@ -24,7 +24,7 @@ The HotBando captive portal is **fully functional** with complete data flow from
 
 **What happens:**
 ```
-Device joins HotBando WiFi
+Device joins Meshline WiFi
     ↓
 MikroTik DHCP assigns IP (192.168.x.x)
     ↓
@@ -48,7 +48,7 @@ Browser loads: Login.vue component
 ```javascript
 // Check WiFi status
 if (store.onWifi = false) {
-  // Show: "Connect to HotBando WiFi" instruction
+  // Show: "Connect to Meshline WiFi" instruction
 } else {
   // Show: Login form with fields:
   // - Phone: 07XXXXXXXX (required)
@@ -105,7 +105,7 @@ bcrypt.compare(submittedPassword, storedHashedPassword)
 **Step 3: Create Session**
 ```javascript
 req.session.regenerate() // Security regeneration
-req.session.hotbando_user = {
+req.session.meshline_user = {
   id: 34,
   name: 'Stanslaus Emmanuel',
   phone_number: '0776126464',
@@ -591,7 +591,7 @@ connected.value = response.connected
 
 ### ✅ Status: ALL SYSTEMS OPERATIONAL
 
-The HotBando captive portal system is **fully functional** with:
+The Meshline WiFi captive portal system is **fully functional** with:
 
 1. **Data Flow:** ✅ Complete from database through backend to frontend
 2. **APIs:** ✅ All endpoints responding correctly
@@ -610,7 +610,7 @@ The HotBando captive portal system is **fully functional** with:
 - ✅ Performance meets requirements
 
 ### Next Steps for Users
-1. Connect to HotBando WiFi
+1. Connect to Meshline WiFi
 2. Open any URL (will redirect to login)
 3. Enter phone and password
 4. Dashboard loads with all data

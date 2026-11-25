@@ -2,7 +2,7 @@
 
 namespace App\Services\Payment;
 
-use App\Support\Hotbando;
+use App\Support\Meshline;
 use Illuminate\Support\Facades\DB;
 
 /** Port of utils/packageEntitlement.js: stacking time and data limits under a row lock. */
@@ -22,7 +22,7 @@ class PackageEntitlement
         $untilMillis = ($currentlyPaid ? $usageUntilRaw->getTimestamp() : $now->getTimestamp())
             + max(0, (int) ($pkg['duration_hours'] ?? 0)) * 3600;
         $usageUntil = (new \DateTimeImmutable())->setTimestamp($untilMillis);
-        $packageLimit = max(0, (float) ($pkg['data_limit_mb'] ?? 0)) * Hotbando::MIB;
+        $packageLimit = max(0, (float) ($pkg['data_limit_mb'] ?? 0)) * Meshline::MIB;
 
         $paidDataLimit = $packageLimit;
         $paidBytesRemaining = $packageLimit;

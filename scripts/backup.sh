@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# HotBando Automated Database Backup Script
+# Meshline WiFi Automated Database Backup Script
 # Runs daily via Docker service
 # - Retries DB connection at startup (VM reboot race)
 # - Properly detects mysqldump pipeline failure
@@ -9,9 +9,9 @@
 
 BACKUP_DIR="/backups"
 RETENTION_DAYS=${BACKUP_RETENTION_DAYS:-7}
-GCS_BUCKET=${GCS_BUCKET:-hotbando-backups}
+GCS_BUCKET=${GCS_BUCKET:-meshline-backups}
 DATE=$(date +%Y%m%d_%H%M%S)
-BACKUP_FILE="${BACKUP_DIR}/hotbando_${DATE}.sql.gz"
+BACKUP_FILE="${BACKUP_DIR}/meshline_${DATE}.sql.gz"
 
 log() { echo "[$(date)] $*"; }
 
@@ -60,16 +60,16 @@ fi
 log "gzip integrity OK"
 
 # --- Off-site copy to GCS (uploaded by host cron if gsutil present) ---
-# The container itself has no gsutil; the host /usr/local/bin/hotbando-gcs-sync.sh
-# pushes this volume to gs://hotbando-backups every 6h.
+# The container itself has no gsutil; the host /usr/local/bin/meshline-gcs-sync.sh
+# pushes this volume to gs://meshline-backups every 6h.
 
 # --- Cleanup old backups ---
 log "Cleaning up backups older than ${RETENTION_DAYS} days..."
-find "${BACKUP_DIR}" -name "hotbando_*.sql.gz" -mtime +"${RETENTION_DAYS}" -delete
+find "${BACKUP_DIR}" -name "meshline_*.sql.gz" -mtime +"${RETENTION_DAYS}" -delete
 find "${BACKUP_DIR}" -name "manual_test.sql.gz" -delete
 
 log "Current backups:"
-ls -lh "${BACKUP_DIR}"/hotbando_*.sql.gz 2>/dev/null || log "No backups found"
+ls -lh "${BACKUP_DIR}"/meshline_*.sql.gz 2>/dev/null || log "No backups found"
 
 log "Next backup in 24 hours..."
 sleep 86400

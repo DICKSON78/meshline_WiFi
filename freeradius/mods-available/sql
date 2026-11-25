@@ -1,8 +1,8 @@
-# HotBando FreeRADIUS SQL Module Configuration
+# Meshline WiFi FreeRADIUS SQL Module Configuration
 # Place at: /etc/freeradius/3.0/mods-available/sql (or mods-enabled/sql)
 #
-# This connects FreeRADIUS to the existing HotBando MySQL database.
-# The SQL views (radius_radcheck, radius_radreply, etc.) map the HotBando schema
+# This connects FreeRADIUS to the existing Meshline WiFi MySQL database.
+# The SQL views (radius_radcheck, radius_radreply, etc.) map the Meshline WiFi schema
 # to FreeRADIUS-compatible format.
 #
 # For 1M users:
@@ -21,9 +21,9 @@ sql {
     server = "db"
     port = 3306
     login = "hotbando"
-    password = "hotbando_pass"
+    password = "meshline_pass"
 
-    # Database name (use the same hotbando database)
+    # Database name (use the same meshline database)
     radius_db = "hotbando"
 
     # Connection pooling for 1M users

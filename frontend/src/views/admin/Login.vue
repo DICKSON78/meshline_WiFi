@@ -18,14 +18,14 @@
     </div>
     <div class="section-card w-full max-w-md relative p-8">
       <div class="text-center mb-8">
-        <img src="/logo.png" class="h-16 mx-auto mb-4" alt="HotBando">
+        <img src="/logo.png" class="h-16 mx-auto mb-4" alt="Meshline WiFi">
         <h1 class="text-2xl font-bold text-white">Admin Panel</h1>
         <p class="mt-1" style="color: #6b7280">Sign in to continue</p>
       </div>
       <form @submit.prevent="handleLogin" class="space-y-4">
         <div>
           <label class="block text-xs mb-1" style="color: #6b7280">Email</label>
-          <input v-model="email" type="email" required class="form-input w-full" placeholder="admin@hotbando.com">
+          <input v-model="email" type="email" required class="form-input w-full" placeholder="admin@meshline.com">
         </div>
         <div>
           <label class="block text-xs mb-1" style="color: #6b7280">Password</label>

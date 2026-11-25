@@ -514,7 +514,7 @@ class RouterController extends BaseController
     {
         $file = env('WG_STATUS_FILE');
         if (! $file) {
-            $file = is_dir('/var/run/hotbando') ? '/var/run/hotbando/wg-status-result' : '/etc/wireguard/.wg-status-result';
+            $file = is_dir('/var/run/meshline') ? '/var/run/meshline/wg-status-result' : '/etc/wireguard/.wg-status-result';
         }
         try {
             if (is_file($file)) {
@@ -578,7 +578,7 @@ class RouterController extends BaseController
         $peers = $peersResponse->getData(true)['peers'] ?? [];
         $serverIp = env('WG_SERVER_IP', '10.7.0.1');
         $listenPort = (int) env('WG_PORT', 51820);
-        $config = "# HotBando WireGuard Server\n[Interface]\nAddress = {$serverIp}/24\nListenPort = {$listenPort}\nPrivateKey = <SERVER_PRIVATE_KEY>\n";
+        $config = "# Meshline WiFi WireGuard Server\n[Interface]\nAddress = {$serverIp}/24\nListenPort = {$listenPort}\nPrivateKey = <SERVER_PRIVATE_KEY>\n";
         foreach ($peers as $peer) {
             $allowed = $peer['wgIp'] ?? '0.0.0.0';
             $config .= "\n[Peer]\nPublicKey = ".($peer['publicKey'] ?? '')."\nAllowedIPs = {$allowed}/32\n";
@@ -603,8 +603,8 @@ class RouterController extends BaseController
         }
 
         $serverPublicKey = trim((string) (env('WG_SERVER_PUBLIC_KEY') ?: ''));
-        if ($serverPublicKey === '' && is_file('/etc/wireguard/hotbando-keys/server.key.pub')) {
-            $serverPublicKey = trim((string) file_get_contents('/etc/wireguard/hotbando-keys/server.key.pub'));
+        if ($serverPublicKey === '' && is_file('/etc/wireguard/meshline-keys/server.key.pub')) {
+            $serverPublicKey = trim((string) file_get_contents('/etc/wireguard/meshline-keys/server.key.pub'));
         }
         if ($serverPublicKey === '') {
             return $this->plainFail('WG_SERVER_PUBLIC_KEY is not configured and no host server public key is mounted. Refusing to generate a new server keypair inside the app container.');
@@ -669,11 +669,11 @@ class RouterController extends BaseController
 # Generated: {$this->nowIso()}
 
 # 1. Create WireGuard interface
-/interface wireguard add name=wg-hotbando listen-port=13231 private-key="{$privateB64}"
+/interface wireguard add name=wg-meshline listen-port=13231 private-key="{$privateB64}"
 
 # 2. Add server as peer
 /interface wireguard peers add \\
-    interface=wg-hotbando \\
+    interface=wg-meshline \\
     public-key="{$serverPublicKey}" \\
     endpoint-address={$endpoint} \\
     endpoint-port={$listenPort} \\
@@ -681,15 +681,15 @@ class RouterController extends BaseController
     persistent-keepalive=25s
 
 # 3. Assign IP
-/ip address add address={$assignedIp}/32 interface=wg-hotbando
+/ip address add address={$assignedIp}/32 interface=wg-meshline
 
 # 4. Route to server network
-/ip route add dst-address={$serverIp}/32 gateway=wg-hotbando
+/ip route add dst-address={$serverIp}/32 gateway=wg-meshline
 
 # 5. Firewall: allow WG traffic
 /ip firewall filter add chain=input protocol=udp dst-port=13231 action=accept comment="WireGuard Input"
-/ip firewall filter add chain=forward in-interface=wg-hotbando action=accept comment="WireGuard Fwd In"
-/ip firewall filter add chain=forward out-interface=wg-hotbando action=accept comment="WireGuard Fwd Out"
+/ip firewall filter add chain=forward in-interface=wg-meshline action=accept comment="WireGuard Fwd In"
+/ip firewall filter add chain=forward out-interface=wg-meshline action=accept comment="WireGuard Fwd Out"
 
 # 6. Restrict API access to WG network
 /ip service set api address={$base}/{$prefix}

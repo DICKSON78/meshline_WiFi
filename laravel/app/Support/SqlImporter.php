@@ -9,7 +9,7 @@ use RuntimeException;
 use Throwable;
 
 /**
- * Executes the legacy HotBando MySQL dumps.
+ * Executes the legacy Meshline WiFi MySQL dumps.
  *
  * The dumps are written for the `mysql` CLI: they contain DELIMITER directives,
  * stored procedures/triggers, line and block comments and a mix of MySQL-only

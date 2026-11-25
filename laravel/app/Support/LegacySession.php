@@ -18,7 +18,7 @@ class LegacySession
         'franchise_user' => ['franchise_owner'],
         'reseller_user' => ['reseller'],
         'investor_user' => ['investor'],
-        'hotbando_user' => ['customer'],
+        'meshline_user' => ['customer'],
     ];
 
     public const DASHBOARDS = [
@@ -108,7 +108,7 @@ class LegacySession
             }
         }
 
-        return 'hotbando_user';
+        return 'meshline_user';
     }
 
     public static function dashboardFor(?string $role): string

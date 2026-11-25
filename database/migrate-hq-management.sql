@@ -1,5 +1,5 @@
 -- ============================================================================
--- HOTBANDO PLATFORM - NATIONAL HQ MANAGEMENT MIGRATION
+-- MESHLINE PLATFORM - NATIONAL HQ MANAGEMENT MIGRATION
 -- Version: 1.0
 -- Date: 2026-08-20
 -- Description: 29 tables + 1 ALTER for national HQ management

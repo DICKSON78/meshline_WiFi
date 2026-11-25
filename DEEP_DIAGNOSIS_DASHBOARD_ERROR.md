@@ -26,26 +26,26 @@ The dashboard endpoint (`/api/hotspot/dashboard`) requires **two things** to wor
 
 ### 1️⃣ Authentication Check
 ```javascript
-if (!req.session.hotbando_user) {
+if (!req.session.meshline_user) {
     return res.status(401).json({ error: 'Umelazimika kuingia kwenye akaunti yako.' });
 }
 ```
 
 **What it needs:**
-- User must have `req.session.hotbando_user` object
+- User must have `req.session.meshline_user` object
 - This is set on successful login (line 284)
 - Session must not have expired (24-hour maxAge)
 
 ### 2️⃣ WiFi Connection Check (requireWifi middleware)
 ```javascript
 async function requireWifi(req, res, next) {
-    if (!req.session.onWifi && req.session.hotbando_user?.last_router_id) {
+    if (!req.session.onWifi && req.session.meshline_user?.last_router_id) {
         // Try to heal stale sessions (2-second timeout)
         // ...
     }
     if (!req.session.onWifi) {
         return res.status(403).json({
-            error: 'Please connect to HotBando WiFi first.',
+            error: 'Please connect to Meshline WiFi first.',
             onWifi: false
         });
     }
@@ -81,7 +81,7 @@ User connects to WiFi → Portal loads
 User was logged in → Session expires after 24 hours
 ├─ Browser still has old session cookie
 ├─ Dashboard request comes in
-├─ req.session.hotbando_user is null/undefined
+├─ req.session.meshline_user is null/undefined
 ├─ Returns 401 (Unauthorized)
 └─ Frontend shows: "Imeshindikana kupakia taarifa"
    (Should prompt to re-login)
@@ -96,7 +96,7 @@ User was logged in → Session expires after 24 hours
 User logged in → Server restarted OR session store lost data
 ├─ Session cookie still exists (hotbando.sid)
 ├─ But data in MySQL session table is gone
-├─ Dashboard request: session.hotbando_user is undefined
+├─ Dashboard request: session.meshline_user is undefined
 ├─ Returns 401
 └─ Frontend shows: "Imeshindikana kupakia taarifa"
 ```
@@ -130,7 +130,7 @@ await new Promise((resolve, reject) => {
     });
 });
 
-req.session.hotbando_user = {
+req.session.meshline_user = {
     ...safeUser,
     mac_address: bindMAC,
     last_router_id: bindRouter,
@@ -157,7 +157,7 @@ const sessionStore = new MySQLStore({
 });
 
 app.use(session({
-    key: 'hotbando_session',
+    key: 'meshline_session',
     secret: process.env.SESSION_SECRET,
     store: sessionStore,
     resave: false,
@@ -188,7 +188,7 @@ app.use(session({
 ```javascript
 catch (e) {
     if (e.response?.status === 403) {
-        loadError.value = 'Tafadhali unganisha kwenye WiFi ya HotBando.'
+        loadError.value = 'Tafadhali unganisha kwenye WiFi ya Meshline WiFi.'
     } else if (e.response?.status === 401) {
         loadError.value = 'Tatizo la seva. Tafadhali jaribu tena.'
     } else {
@@ -252,7 +252,7 @@ async function loadData() {
         
         if (response.status === 403) {
             // Not on WiFi
-            loadError.value = 'Tafadhali unganisha kwenye WiFi ya HotBando.'
+            loadError.value = 'Tafadhali unganisha kwenye WiFi ya Meshline WiFi.'
             return
         }
         
@@ -276,7 +276,7 @@ async function loadData() {
 ### Fix #2: Add Session Check on Frontend
 ```javascript
 onMounted(() => {
-    if (!session.hotbando_user || !session.hotbando_user.id) {
+    if (!session.meshline_user || !session.meshline_user.id) {
         // Not authenticated
         window.location.href = '/hotspot/login'
         return
@@ -293,15 +293,15 @@ Add better logging and error detection:
 async function requireWifi(req, res, next) {
     console.log('[WiFi Check]', {
         onWifi: req.session.onWifi,
-        routerId: req.session.hotbando_user?.last_router_id,
-        userId: req.session.hotbando_user?.id
+        routerId: req.session.meshline_user?.last_router_id,
+        userId: req.session.meshline_user?.id
     })
     
-    if (!req.session.onWifi && req.session.hotbando_user?.last_router_id) {
+    if (!req.session.onWifi && req.session.meshline_user?.last_router_id) {
         try {
             const [routers] = await db.execute(
                 'SELECT router_id, status FROM mikrotiks WHERE router_id = ? AND is_active = 1 LIMIT 1',
-                [req.session.hotbando_user.last_router_id]
+                [req.session.meshline_user.last_router_id]
             )
             
             if (routers.length > 0) {
@@ -321,12 +321,12 @@ async function requireWifi(req, res, next) {
     
     if (!req.session.onWifi) {
         return res.status(403).json({
-            error: 'Please connect to HotBando WiFi first.',
+            error: 'Please connect to Meshline WiFi first.',
             onWifi: false,
             debug: {
-                sessionUser: !!req.session.hotbando_user,
+                sessionUser: !!req.session.meshline_user,
                 sessionWifi: req.session.onWifi,
-                routerId: req.session.hotbando_user?.last_router_id
+                routerId: req.session.meshline_user?.last_router_id
             }
         })
     }
@@ -390,7 +390,7 @@ app.use(session({
 ## 🚀 Next Steps
 
 1. **Test Dashboard with Proper WiFi Connection:**
-   - Connect device to HotBando WiFi
+   - Connect device to Meshline WiFi
    - Open https://hotbandowifi.online/hotspot/login
    - Log in with phone and password
    - Check if dashboard loads

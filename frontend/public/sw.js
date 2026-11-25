@@ -1,6 +1,6 @@
 // This worker provides notifications only. The captive portal must always
 // load the current network version so it cannot get stuck on cached app code.
-const CACHE = 'hotbando-v12';
+const CACHE = 'meshline-v12';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(self.skipWaiting());
@@ -9,7 +9,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((key) => key.startsWith('hotbando-')).map((key) => caches.delete(key))))
+      .then((keys) => Promise.all(keys.filter((key) => key.startsWith('meshline-')).map((key) => caches.delete(key))))
       .then(() => self.clients.claim())
   );
 });
@@ -20,7 +20,7 @@ self.addEventListener('fetch', (event) => {
 });
 
 self.addEventListener('push', (event) => {
-  let data = { title: 'HotBando', body: 'Angalia data yako!' };
+  let data = { title: 'Meshline WiFi', body: 'Angalia data yako!' };
   try { data = { ...data, ...(event.data?.json() || {}) }; } catch (_) { /* use the default notification */ }
   event.waitUntil(self.registration.showNotification(data.title, {
     body: data.body,

@@ -134,7 +134,7 @@ function getRealSSID(req) {
         return req.headers['x-ssid'];
     }
     
-    return 'HotBando WiFi';
+    return 'Meshline WiFi';
 }
 
 function secondsUntilMidnight() {
@@ -281,7 +281,7 @@ const hotspotController = {
                 });
             });
             const { password: _pw, ...safeUser } = user;
-            req.session.hotbando_user = {
+            req.session.meshline_user = {
                 ...safeUser, 
                 mac_address: bindMAC,
                 last_router_id: bindRouter,
@@ -415,7 +415,7 @@ const hotspotController = {
                 });
             });
             const { password: _pw, ...safeRegUser } = user;
-            req.session.hotbando_user = safeRegUser;
+            req.session.meshline_user = safeRegUser;
             req.session.mac = clientMAC;
             req.session.routerID = routerID;
             req.session.location = location;
@@ -441,7 +441,7 @@ const hotspotController = {
                     console.warn('⚠️ Router connection after registration failed:', routerError.message);
                 }
             } else {
-                console.warn('⚠️ Registration has no router/MAC binding; device will need to reconnect from HotBando WiFi.');
+                console.warn('⚠️ Registration has no router/MAC binding; device will need to reconnect from Meshline WiFi.');
             }
             
             return res.json({
@@ -464,7 +464,7 @@ const hotspotController = {
     // Connect to internet - REAL ROUTER CONNECTION
     async connect(req, res) {
         try {
-            const user = req.session.hotbando_user;
+            const user = req.session.meshline_user;
             if (!user) {
                 return res.json({ 
                     success: false, 
@@ -486,7 +486,7 @@ const hotspotController = {
             if (!mac || !routerID) {
                 return res.json({
                     success: false,
-                    message: 'Kifaa hiki hakionekani kwenye Mtandao wa HotBando. Tafadhali unganishe kwenye WiFi ya HotBando kisha ujaribu tena.'
+                    message: 'Kifaa hiki hakionekani kwenye Mtandao wa Meshline WiFi. Tafadhali unganishe kwenye WiFi ya Meshline WiFi kisha ujaribu tena.'
                 });
             }
 
@@ -499,7 +499,7 @@ const hotspotController = {
                 const [fresh] = await db.execute('SELECT * FROM users WHERE id = ?', [user.id]);
                 if (fresh.length > 0) {
                     const { password: _p, ...safe } = fresh[0];
-                    req.session.hotbando_user = safe;
+                    req.session.meshline_user = safe;
                     Object.assign(user, safe);
                 }
             } catch (_) { /* keep session copy */ }
@@ -533,8 +533,8 @@ const hotspotController = {
                 );
                 req.session.mac = mac;
                 req.session.routerID = routerID;
-                req.session.hotbando_user.mac_address = mac;
-                req.session.hotbando_user.last_router_id = routerID;
+                req.session.meshline_user.mac_address = mac;
+                req.session.meshline_user.last_router_id = routerID;
             } catch (bindError) {
                 console.warn('⚠️ Could not persist device binding:', bindError.message);
             }
@@ -589,7 +589,7 @@ const hotspotController = {
     // Get random ad - SASHA URIASISHI KWA VIDEO ADS
     async getAd(req, res) {
         try {
-            const user = req.session.hotbando_user;
+            const user = req.session.meshline_user;
             if (!user) {
                 return res.json({ 
                     success: false, 
@@ -703,7 +703,7 @@ const hotspotController = {
     // List all available ads (video list) - SASHA URIASISHAJI
     async getAdsList(req, res) {
         try {
-            const user = req.session.hotbando_user;
+            const user = req.session.meshline_user;
             if (!user) {
                 return res.json({ 
                     success: false, 
@@ -768,7 +768,7 @@ const hotspotController = {
     async completeAd(req, res) {
         try {
             const { ad_id, watched_duration } = req.body;
-            const user = req.session.hotbando_user;
+            const user = req.session.meshline_user;
             
             if (!user) {
                 return res.json({ 
@@ -898,7 +898,7 @@ const hotspotController = {
             
             // Update session data
             const newFreeBytes = Number(user.free_bytes) + Number(rewardBytes);
-            req.session.hotbando_user.free_bytes = newFreeBytes;
+            req.session.meshline_user.free_bytes = newFreeBytes;
 
             // Campaign-backed ad: log the lead and charge the advertiser once per user.
             if (ad.campaign_id) {
@@ -962,7 +962,7 @@ const hotspotController = {
     
     // Logout - REAL ROUTER DISCONNECTION
     async logout(req, res) {
-        const user = req.session.hotbando_user;
+        const user = req.session.meshline_user;
         if (user) {
             console.log(`👋 REAL User ${user.name} logged out:`, {
                 mac: user.mac_address,
@@ -991,7 +991,7 @@ const hotspotController = {
             const { phone_number } = req.params;
 
             // Only allow a customer to view their own info, or an admin to view any
-            const customer = req.session.hotbando_user;
+            const customer = req.session.meshline_user;
             const admin = req.session.admin_user;
             const isOwnAccount = customer && customer.phone_number === phone_number;
             const isAdmin = admin && (admin.role === 'admin' || admin.role === 'super_admin');
@@ -1415,7 +1415,7 @@ const hotspotController = {
         try {
             const { voucher_code, voucher } = req.body;
             const voucherCode = voucher_code || voucher;
-            const user = req.session.hotbando_user;
+            const user = req.session.meshline_user;
             
             if (!user) {
                 return res.status(401).json({ success: 'error', message: 'Umelazimika kuingia kwenye akaunti yako.' });
@@ -1512,7 +1512,7 @@ const hotspotController = {
 
             const [updatedUser] = await db.execute('SELECT * FROM users WHERE id = ?', [user.id]);
             const { password: _pw2, ...safeUpdated } = updatedUser[0];
-            req.session.hotbando_user = safeUpdated;
+            req.session.meshline_user = safeUpdated;
 
             // Auto-connect to router after voucher redemption. Use the fresh
             // DB row so a binding repaired during this request is honoured.
@@ -1535,8 +1535,8 @@ const hotspotController = {
                     );
                     req.session.mac = mac;
                     req.session.routerID = routerID;
-                    req.session.hotbando_user.mac_address = mac;
-                    req.session.hotbando_user.last_router_id = routerID;
+                    req.session.meshline_user.mac_address = mac;
+                    req.session.meshline_user.last_router_id = routerID;
                 } catch (routerErr) {
                     console.warn('⚠️ Auto-connect after voucher failed (non-critical):', routerErr.message);
                 }
@@ -1568,7 +1568,7 @@ const hotspotController = {
     async purchasePackage(req, res) {
         try {
             const { package_id } = req.body;
-            const user = req.session.hotbando_user;
+            const user = req.session.meshline_user;
             
             if (!user) {
                 return res.json({ 
@@ -1641,7 +1641,7 @@ const hotspotController = {
             
             const [updatedUser] = await db.execute('SELECT * FROM users WHERE id = ?', [user.id]);
             const { password: _pw2, ...safeUpdated } = updatedUser[0];
-            req.session.hotbando_user = safeUpdated;
+            req.session.meshline_user = safeUpdated;
 
             // Activate the package on the router as part of the purchase so it
             // is not left as a DB-only entitlement.
@@ -1662,8 +1662,8 @@ const hotspotController = {
                     );
                     req.session.mac = mac;
                     req.session.routerID = routerID;
-                    req.session.hotbando_user.mac_address = mac;
-                    req.session.hotbando_user.last_router_id = routerID;
+                    req.session.meshline_user.mac_address = mac;
+                    req.session.meshline_user.last_router_id = routerID;
                 } catch (routerErr) {
                     console.warn('⚠️ Auto-connect after package purchase failed:', routerErr.message);
                 }
@@ -1740,7 +1740,7 @@ const hotspotController = {
             const { phone_number, old_password, new_password } = req.body;
 
             // Require the caller to be the account owner (no unauthenticated resets)
-            const customer = req.session.hotbando_user;
+            const customer = req.session.meshline_user;
             const admin = req.session.admin_user;
             const isAdmin = admin && (admin.role === 'admin' || admin.role === 'super_admin');
             const isOwnAccount = customer && customer.phone_number === phone_number;
@@ -1785,7 +1785,7 @@ const hotspotController = {
     // Get real device status
     async getDeviceStatus(req, res) {
         try {
-            const user = req.session.hotbando_user;
+            const user = req.session.meshline_user;
             if (!user) {
                 return res.json({ success: false, message: 'Not logged in' });
             }
@@ -1829,7 +1829,7 @@ const hotspotController = {
     // Disconnect from router
     async disconnect(req, res) {
         try {
-            const user = req.session.hotbando_user;
+            const user = req.session.meshline_user;
             if (!user) {
                 return res.json({ 
                     success: false, 

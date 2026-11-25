@@ -1,4 +1,4 @@
-# HOTBANDO PORTAL - IMPLEMENTATION NOTES
+# MESHLINE PORTAL - IMPLEMENTATION NOTES
 
 **Date:** November 4, 2026
 
@@ -6,7 +6,7 @@
 
 ## Overview
 
-This document summarizes the verified implementation of the HotBando customer portal, focusing on the key systems that ensure clear UI, proper byte management, and non-intrusive notifications.
+This document summarizes the verified implementation of the Meshline WiFi customer portal, focusing on the key systems that ensure clear UI, proper byte management, and non-intrusive notifications.
 
 ---
 
@@ -435,7 +435,7 @@ setTimeout(() => {
 **3. Browser Notification**
 ```javascript
 if ('Notification' in window && Notification.permission === 'granted') {
-  new Notification('HotBando', {
+  new Notification('Meshline WiFi', {
     body: message,
     icon: '/logo.png'
   });
@@ -503,7 +503,7 @@ SELECT * FROM users WHERE
 ```javascript
 router.post('/hotspot/connect', requireWifi, async (req, res) => {
   const { router_id } = req.body;
-  const user = req.session.hotbando_user;
+  const user = req.session.meshline_user;
   
   // Validate entitlement
   if (!hasEntitlement(user)) {

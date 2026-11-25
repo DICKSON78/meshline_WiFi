@@ -16,7 +16,7 @@
       <div class="min-w-0">
         <p class="text-xs text-white/50">Karibu</p>
         <h1 class="text-xl font-bold text-white truncate">{{ user?.name || 'User' }}</h1>
-        <p class="text-sm text-white/50 truncate">{{ user?.phone_number || 'HotBando Member' }}</p>
+        <p class="text-sm text-white/50 truncate">{{ user?.phone_number || 'Meshline WiFi Member' }}</p>
       </div>
       <div class="flex items-center gap-2 flex-shrink-0">
         <button class="relative h-10 w-10 rounded-full bg-[#111118] border border-[#1e1e2a] text-white/80 hover:bg-[#1a1a22] transition" aria-label="Notifications" @click="showNotifications = !showNotifications">
@@ -86,7 +86,7 @@
           <span class="w-3 h-3 rounded-full flex-shrink-0" :class="connected ? 'bg-green-500' : 'bg-red-500'"></span>
           <div class="min-w-0">
             <p class="text-sm font-semibold text-white">{{ connected ? 'Connected' : 'Disconnected' }}</p>
-            <p class="text-xs text-white/50 truncate">{{ store.ssidshow || 'HotBando WiFi' }}</p>
+            <p class="text-xs text-white/50 truncate">{{ store.ssidshow || 'Meshline WiFi' }}</p>
           </div>
         </div>
         <button class="ig-btn flex-shrink-0" :class="connected ? 'ig-btn-outline' : 'ig-btn-primary'" @click="toggleConnection">
@@ -141,7 +141,7 @@ function checkAlert() {
     alertType.value = 'warn'
     if (!lowBundleNotified) {
       lowBundleNotified = true
-      sendNotification('HotBando', 'Bundle yako inaisha hivi karibuni. Nunua vocha ili kuendelea na internet.')
+      sendNotification('Meshline WiFi', 'Bundle yako inaisha hivi karibuni. Nunua vocha ili kuendelea na internet.')
     }
   } else if (!hasBundle && !hasFree) {
     alertMsg.value = 'Huna data. Nunua vocha ili upate internet.'
@@ -150,12 +150,12 @@ function checkAlert() {
     connectedNotified = false
     if (!outOfBundleNotified) {
       outOfBundleNotified = true
-      sendNotification('HotBando', alertMsg.value)
+      sendNotification('Meshline WiFi', alertMsg.value)
     }
   } else {
     alertMsg.value = hasBundle
       ? routerReady.value
-        ? `Umeunganishwa kwenye HotBando. Una ${remainingTime.value} iliyobaki kwenye kifurushi chako.`
+        ? `Umeunganishwa kwenye Meshline WiFi. Una ${remainingTime.value} iliyobaki kwenye kifurushi chako.`
         : `Vocha yako bado inatumika. Tunathibitisha muunganisho wa router…`
       : `Kifurushi kimeisha. Bado una ${freeMB.value} MB za bure; nunua vocha kwa data zaidi.`
     alertType.value = 'info'
@@ -163,7 +163,7 @@ function checkAlert() {
     outOfBundleNotified = false
     if (routerReady.value && !connectedNotified) {
       connectedNotified = true
-      if (hasBundle) sendNotification('HotBando', `Umeunganishwa. Muda uliobaki: ${remainingTime.value}.`)
+      if (hasBundle) sendNotification('Meshline WiFi', `Umeunganishwa. Muda uliobaki: ${remainingTime.value}.`)
     }
   }
 }
@@ -183,7 +183,7 @@ function sendNotification(title, body) {
       body: body,
       icon: '/logo.png',
       badge: '/logo.png',
-      tag: 'hotbando-' + Date.now()
+      tag: 'meshline-' + Date.now()
     })
     notification.onclick = () => {
       notification.close()
@@ -225,7 +225,7 @@ async function loadData() {
       setTimeout(() => router.push('/hotspot/login'), 2000)
     } else if (e.response?.status === 403) {
       // Not on WiFi
-      loadError.value = 'Tafadhali unganisha kwenye WiFi ya HotBando.'
+      loadError.value = 'Tafadhali unganisha kwenye WiFi ya Meshline WiFi.'
     } else if (e.response?.status === 503) {
       // Service unavailable (router offline)
       loadError.value = 'Router iko offline. Tafadhali jaribu baadaye.'
@@ -396,8 +396,8 @@ async function logout() {
     await store.logout()
     
     // Clear any cached data
-    localStorage.removeItem('hotbando_session')
-    sessionStorage.removeItem('hotbando_user')
+    localStorage.removeItem('meshline_session')
+    sessionStorage.removeItem('meshline_user')
     
     // Redirect to login with fresh session
     console.log('🔐 Redirecting to login...')

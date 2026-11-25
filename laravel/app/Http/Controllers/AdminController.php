@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Admin\BaseController;
 use App\Support\ApiResponse;
-use App\Support\Hotbando;
+use App\Support\Meshline;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -441,7 +441,7 @@ class AdminController extends BaseController
             }
             foreach ($settings as $key => $value) {
                 if (is_array($value)) {
-                    $value = Hotbando::encode($value);
+                    $value = Meshline::encode($value);
                 }
                 DB::table('system_settings')->where('setting_key', $key)->update([
                     'setting_value' => $value,

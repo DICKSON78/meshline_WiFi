@@ -1,18 +1,18 @@
 #!/bin/bash
-# HotBando local machine -> GCS off-site DB sync
-# Dumps the running MySQL container and pushes to gs://hotbando-backups/local/
+# Meshline WiFi local machine -> GCS off-site DB sync
+# Dumps the running MySQL container and pushes to gs://meshline-backups/local/
 # Runs every 6h via dickson crontab.
 # Why direct docker dump (not reading the named volume):
 #   - docker data-root is /tmp/docker-data (volatile, root-owned); volume not readable by dickson.
 
 set -e
 
-LOGFILE=/home/dickson/Documents/Work/hotbando/gcs-sync-local.log
-PROJECT_DIR=/home/dickson/Documents/Work/hotbando
+LOGFILE=/home/dickson/Documents/Work/meshline/gcs-sync-local.log
+PROJECT_DIR=/home/dickson/Documents/Work/meshline
 ENV_FILE=$PROJECT_DIR/.env
 DATE=$(date +%Y%m%d_%H%M%S)
-TMPDIR=/tmp/hotbando-sync
-OUT=$TMPDIR/hotbando_${DATE}.sql.gz
+TMPDIR=/tmp/meshline-sync
+OUT=$TMPDIR/meshline_${DATE}.sql.gz
 RETENTION_DAYS=14
 
 log() { echo "[$(date)] $*" >> "$LOGFILE"; }
@@ -32,7 +32,7 @@ fi
 
 log "Dumping database..."
 DUMP_ERR=$(mktemp)
-if ! docker exec -i hotbando-db-1 mysqldump -hlocalhost -uhotbando -p"$DBPASS" --single-transaction --routines --triggers hotbando 2>"$DUMP_ERR" | gzip > "$OUT"; then
+if ! docker exec -i meshline-db-1 mysqldump -hlocalhost -umeshline -p"$DBPASS" --single-transaction --routines --triggers meshline 2>"$DUMP_ERR" | gzip > "$OUT"; then
     log "ERROR: mysqldump failed: $(head -3 "$DUMP_ERR")"
     rm -f "$OUT" "$DUMP_ERR"
     exit 1
@@ -53,20 +53,20 @@ if [ "$GZ_SIZE" -lt 1024 ]; then
 fi
 
 log "Uploading $(basename "$OUT") to GCS..."
-if ! gsutil -m cp "$OUT" "gs://hotbando-backups/local/hotbando_${DATE}.sql.gz"; then
+if ! gsutil -m cp "$OUT" "gs://meshline-backups/local/meshline_${DATE}.sql.gz"; then
     log "ERROR: gsutil upload failed"
     rm -f "$OUT"
     exit 1
 fi
 
 rm -f "$OUT"
-log "OK: pushed hotbando_${DATE}.sql.gz"
+log "OK: pushed meshline_${DATE}.sql.gz"
 
 # Prune old objects in the local/ prefix
 log "Pruning local/ backups older than ${RETENTION_DAYS} days..."
-gsutil ls "gs://hotbando-backups/local/hotbando_*.sql.gz" 2>/dev/null |
+gsutil ls "gs://meshline-backups/local/meshline_*.sql.gz" 2>/dev/null |
 while read -r obj; do
-    ts=$(basename "$obj" | sed -E 's/hotbando_([0-9]{8})_.*/\1/')
+    ts=$(basename "$obj" | sed -E 's/meshline_([0-9]{8})_.*/\1/')
     if [[ "$ts" =~ ^[0-9]{8}$ ]] && [[ "$ts" -lt $(date -d "${RETENTION_DAYS} days ago" +%Y%m%d) ]]; then
         gsutil rm "$obj" >/dev/null 2>&1 && log "Removed $obj"
     fi

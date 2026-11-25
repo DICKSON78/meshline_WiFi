@@ -1,5 +1,5 @@
 -- ============================================================================
--- HOTBANDO PLATFORM - COMPLETE DATABASE SCHEMA
+-- MESHLINE PLATFORM - COMPLETE DATABASE SCHEMA
 -- Version: 2.0
 -- Date: 2025-12-03
 -- Description: Complete schema for WiFi hotspot platform with ad-funded model
@@ -771,15 +771,15 @@ INSERT INTO `system_settings` (`setting_key`, `setting_value`, `setting_type`, `
 ('franchise_default_share_percentage', '25', 'number', 'Default revenue share for franchise owners', 0),
 ('min_payout_amount', '10000', 'number', 'Minimum amount for partner payout (TZS)', 0),
 ('currency', 'TZS', 'string', 'Default currency', 1),
-('company_name', 'Hotbando', 'string', 'Company name', 1),
-('company_email', 'info@hotbando.com', 'string', 'Company contact email', 1),
+('company_name', 'meshline', 'string', 'Company name', 1),
+('company_email', 'info@meshline.com', 'string', 'Company contact email', 1),
 ('company_phone', '+255 XXX XXX XXX', 'string', 'Company contact phone', 1)
 ON DUPLICATE KEY UPDATE `setting_key` = VALUES(`setting_key`);
 
 -- Insert super admin (default password: Admin@123)
 -- Password hash for 'Admin@123' using bcrypt (10 rounds)
 INSERT INTO `users` (`name`, `phone_number`, `email`, `password`, `role`, `is_active`, `is_verified`) VALUES
-('Super Admin', '+255700000000', 'admin@hotbando.com', '$2a$10$lJo9dqZ82EHGTPCeOsP8ouXprW2rVWSlTDXEq2w47K.VofafSlx2.', 'super_admin', 1, 1)
+('Super Admin', '+255700000000', 'admin@meshline.com', '$2a$10$lJo9dqZ82EHGTPCeOsP8ouXprW2rVWSlTDXEq2w47K.VofafSlx2.', 'super_admin', 1, 1)
 ON DUPLICATE KEY UPDATE `phone_number` = VALUES(`phone_number`);
 
 SET FOREIGN_KEY_CHECKS = 1;

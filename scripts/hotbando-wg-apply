@@ -1,8 +1,8 @@
 #!/bin/bash
-# HotBando WireGuard host watcher.
+# Meshline WiFi WireGuard host watcher.
 #
 # The app container publishes one public peer descriptor per approved router
-# into /etc/wireguard/hotbando-peers/*.peer (tab separated:
+# into /etc/wireguard/meshline-peers/*.peer (tab separated:
 # routerId, ip, publicKey, presharedKey). This script — running on the host —
 # validates those descriptors, rewrites the managed peer block in wg0.conf and
 # applies it to the live wg0 interface.
@@ -12,7 +12,7 @@
 set -u
 
 CONF=/etc/wireguard/wg0.conf
-PEERS_DIR=/etc/wireguard/hotbando-peers
+PEERS_DIR=/etc/wireguard/meshline-peers
 STATUS=/etc/wireguard/.wg-status-result
 APPLIED_AT=/etc/wireguard/.wg-applied-at
 LOCK=/run/hotbando-wg-apply.lock
@@ -32,9 +32,9 @@ import sys
 
 conf_path, peers_dir = sys.argv[1], sys.argv[2]
 
-BEGIN = '# BEGIN HOTBANDO MANAGED PEERS'
-END = '# END HOTBANDO MANAGED PEERS'
-BLOCK_RE = re.compile(r'# BEGIN HOTBANDO MANAGED PEERS.*?# END HOTBANDO MANAGED PEERS\n?', re.S)
+BEGIN = '# BEGIN MESHLINE MANAGED PEERS'
+END = '# END MESHLINE MANAGED PEERS'
+BLOCK_RE = re.compile(r'# BEGIN MESHLINE MANAGED PEERS.*?# END MESHLINE MANAGED PEERS\n?', re.S)
 
 desired = []
 for name in sorted(os.listdir(peers_dir)):

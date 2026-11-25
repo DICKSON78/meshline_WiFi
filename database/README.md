@@ -2,7 +2,7 @@
 
 ## Overview
 
-This folder contains scripts to migrate and seed your HotBando database with the new campaign management features.
+This folder contains scripts to migrate and seed your Meshline WiFi database with the new campaign management features.
 
 ## Files
 
@@ -148,7 +148,7 @@ Before deploying to production:
 
 1. **Backup your database:**
    ```bash
-   mysqldump -u root -p hotbando > hotbando_backup_$(date +%Y%m%d).sql
+   mysqldump -u root -p meshline > meshline_backup_$(date +%Y%m%d).sql
    ```
 
 2. **Run migration on production:**

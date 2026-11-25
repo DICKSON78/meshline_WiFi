@@ -7,7 +7,7 @@ use App\Services\Payment\ClickPesaClient;
 use App\Services\Payment\PaymentFulfillment;
 use App\Services\Payment\PendingGrants;
 use App\Support\ApiResponse;
-use App\Support\Hotbando;
+use App\Support\Meshline;
 use App\Support\LegacySession;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -36,7 +36,7 @@ class ClickPesaController extends Controller
             if ($purpose === 'reseller_topup' && ! $user) {
                 return ApiResponse::json(['error' => 'Ingia kwanza kuongeza salio la reseller.'], 401);
             }
-            $phone = Hotbando::intlPhone($request->input('phoneNumber', $request->input('phone_number')));
+            $phone = Meshline::intlPhone($request->input('phoneNumber', $request->input('phone_number')));
             if (! $phone) {
                 return ApiResponse::json(['error' => 'Namba ya simu si sahihi.'], 400);
             }
@@ -86,11 +86,11 @@ class ClickPesaController extends Controller
             if ($purpose === 'reseller_topup' && ! $user) {
                 return ApiResponse::json(['error' => 'Ingia kwanza kuongeza salio la reseller.'], 401);
             }
-            $phone = Hotbando::intlPhone($phoneNumber);
+            $phone = Meshline::intlPhone($phoneNumber);
             if (! $phone) {
                 return ApiResponse::json(['error' => 'Namba ya simu si sahihi.'], 400);
             }
-            $recipientPhone = $gift ? Hotbando::intlPhone($request->input('recipient_phone')) : null;
+            $recipientPhone = $gift ? Meshline::intlPhone($request->input('recipient_phone')) : null;
             if ($gift && ! $recipientPhone) {
                 return ApiResponse::json(['error' => 'Weka namba sahihi ya mpokeaji wa voucher.'], 400);
             }
@@ -99,7 +99,7 @@ class ClickPesaController extends Controller
                 $recipient = PendingGrants::findCustomerByPhone(DB::getFacadeRoot(), $recipientPhone);
                 if (! $recipient) {
                     return ApiResponse::json([
-                        'error' => 'Mpokeaji hajajisajili HotBando. Mwambie ajisajili kwenye customer portal kwanza.',
+                        'error' => 'Mpokeaji hajajisajili Meshline WiFi. Mwambie ajisajili kwenye customer portal kwanza.',
                     ], 400);
                 }
                 $recipientUserId = (int) $recipient['id'];
@@ -161,7 +161,7 @@ class ClickPesaController extends Controller
                 'phone' => $phone,
                 'purpose' => $purpose,
                 'status' => 'PENDING',
-                'extra_data' => Hotbando::encode($extraData),
+                'extra_data' => Meshline::encode($extraData),
             ]);
             $result = $this->client->initiateUSSDPush([
                 'amount' => $amount, 'phoneNumber' => $phone, 'orderReference' => $orderReference,
@@ -169,7 +169,7 @@ class ClickPesaController extends Controller
             if (($result['status'] ?? null) === 'FAILED') {
                 DB::table('clickpesa_transactions')->where('order_reference', $orderReference)->update([
                     'status' => 'FAILED',
-                    'clickpesa_response' => Hotbando::encode($result),
+                    'clickpesa_response' => Meshline::encode($result),
                 ]);
 
                 return ApiResponse::json(['error' => $result['message'] ?? 'Malipo yameshindikana'], 400);
@@ -178,7 +178,7 @@ class ClickPesaController extends Controller
                 'status' => $result['status'] ?? 'PROCESSING',
                 'channel' => $result['channel'] ?? null,
                 'clickpesa_id' => $result['id'] ?? null,
-                'clickpesa_response' => Hotbando::encode($result),
+                'clickpesa_response' => Meshline::encode($result),
             ]);
 
             return ApiResponse::ok([
@@ -228,7 +228,7 @@ class ClickPesaController extends Controller
                         }
                     }
                 }
-                $extra = Hotbando::decode($tx->extra_data ?? null, []);
+                $extra = Meshline::decode($tx->extra_data ?? null, []);
 
                 return ApiResponse::ok([
                     'status' => in_array($storedStatus, ['SUCCESS', 'SETTLED', 'COMPLETED'], true) ? 'completed' : $storedStatus,
@@ -252,7 +252,7 @@ class ClickPesaController extends Controller
             $newStatus = strtoupper((string) ($paymentData['status'] ?? 'UNKNOWN'));
             DB::table('clickpesa_transactions')->where('order_reference', $orderReference)->update([
                 'status' => $newStatus,
-                'clickpesa_response' => Hotbando::encode($result),
+                'clickpesa_response' => Meshline::encode($result),
             ]);
             if (in_array($newStatus, ['SUCCESS', 'SETTLED'], true)) {
                 return ApiResponse::ok(['status' => $newStatus, 'activated' => true,
@@ -280,7 +280,7 @@ class ClickPesaController extends Controller
                 } catch (\Throwable $ignored) {
                     // best effort recovery on an already processed order
                 }
-                $extra = Hotbando::decode($tx->extra_data ?? null, []);
+                $extra = Meshline::decode($tx->extra_data ?? null, []);
                 if (! empty($extra['gift']) && ! empty($extra['voucher_code'])) {
                     return ApiResponse::ok([
                         'status' => 'completed', 'voucher' => $extra['voucher_code'], 'message' => 'Voucher imegeneratiwa!',
@@ -294,7 +294,7 @@ class ClickPesaController extends Controller
             $newStatus = strtoupper((string) ($paymentData['status'] ?? $tx->status));
             DB::table('clickpesa_transactions')->where('order_reference', $orderReference)->update([
                 'status' => $newStatus,
-                'clickpesa_response' => Hotbando::encode($result),
+                'clickpesa_response' => Meshline::encode($result),
             ]);
             if (in_array($newStatus, ['SUCCESS', 'SETTLED'], true)) {
                 return ApiResponse::ok(['status' => 'completed', ...$this->processAndActivate($orderReference)]);
@@ -334,7 +334,7 @@ class ClickPesaController extends Controller
                     'status' => $status ?: 'UNKNOWN',
                     'channel' => $payload['channel'] ?? null,
                     'clickpesa_id' => $payload['id'] ?? null,
-                    'clickpesa_response' => Hotbando::encode($payload),
+                    'clickpesa_response' => Meshline::encode($payload),
                 ]);
                 if (in_array($status, ['SUCCESS', 'SETTLED'], true)) {
                     $this->processAndActivate((string) $orderReference);
@@ -380,7 +380,7 @@ class ClickPesaController extends Controller
 
     private static function currentPaymentUser(Request $request): ?array
     {
-        foreach (['hotbando_user', 'user', 'reseller_user', 'admin_user'] as $key) {
+        foreach (['meshline_user', 'user', 'reseller_user', 'admin_user'] as $key) {
             $user = $request->session()->get($key);
             if (is_array($user)) {
                 return $user;

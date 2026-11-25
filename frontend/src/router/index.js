@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import { useHotspotStore } from '../stores/hotspot'
 
-// HotBando is focused on internet vouchers, resellers and the HQ panel only.
+// Meshline WiFi is focused on internet vouchers, resellers and the HQ panel only.
 const routes = [
   // Public website
   { path: '/', name: 'landing', component: () => import('../views/website/Home.vue') },

@@ -1,6 +1,6 @@
 // middleware/authMiddleware.js — Unified RBAC system
 //
-// Session keys: admin_user, sponsor_user, bank_user, franchise_user, reseller_user, investor_user, hotbando_user
+// Session keys: admin_user, sponsor_user, bank_user, franchise_user, reseller_user, investor_user, meshline_user
 // Every login sets exactly one key. authenticate() reads all of them.
 
 const SESSION_ROLE_MAP = [
@@ -10,7 +10,7 @@ const SESSION_ROLE_MAP = [
     ['franchise_user', ['franchise_owner']],
     ['reseller_user',  ['reseller']],
     ['investor_user',  ['investor']],
-    ['hotbando_user',  ['customer']]
+    ['meshline_user',  ['customer']]
 ];
 
 /**
@@ -186,7 +186,7 @@ function investorAuth(req, res, next) {
  * Customer auth — customer only
  */
 function customerAuth(req, res, next) {
-    const u = req.session.hotbando_user;
+    const u = req.session.meshline_user;
     if (u && u.role === 'customer') {
         req.user = { ...u };
         return next();

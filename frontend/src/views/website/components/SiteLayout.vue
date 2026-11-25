@@ -5,8 +5,8 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 lg:h-20 items-center">
           <router-link to="/" class="flex items-center space-x-2">
-            <img src="/hot-bando-logo.png" alt="HotBando" class="h-8 lg:h-10 rounded-full object-cover" />
-            <span class="text-xl lg:text-2xl font-bold text-white">Hot<span class="text-[#12BC00]">Bando</span></span>
+            <img src="/logo.png" alt="Meshline WiFi" class="h-8 lg:h-10 rounded-full object-cover" />
+            <span class="text-xl lg:text-2xl font-bold text-white">Meshline<span class="text-[#12BC00]"> WiFi</span></span>
           </router-link>
 
           <div class="hidden lg:flex items-center space-x-8">
@@ -58,8 +58,8 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           <div>
             <div class="flex items-center space-x-2 mb-4">
-              <img src="/hot-bando-logo.png" alt="HotBando" class="h-9 rounded-full object-cover" />
-              <span class="text-xl font-bold text-white">Hot<span class="text-[#12BC00]">Bando</span></span>
+              <img src="/logo.png" alt="Meshline WiFi" class="h-9 rounded-full object-cover" />
+              <span class="text-xl font-bold text-white">Meshline<span class="text-[#12BC00]"> WiFi</span></span>
             </div>
             <p class="text-white/60 text-sm leading-relaxed mb-5">
               Fast, affordable internet for students, families and businesses across Tanzania.
@@ -94,7 +94,7 @@
           <div>
             <h4 class="font-semibold text-white mb-4 uppercase tracking-wider text-sm">Contact</h4>
             <ul class="space-y-3 text-sm text-white/60">
-              <li class="flex items-start gap-3"><i class="fas fa-envelope text-[#12BC00] mt-0.5"></i> info@hotbando.co.tz</li>
+              <li class="flex items-start gap-3"><i class="fas fa-envelope text-[#12BC00] mt-0.5"></i> info@meshline.co.tz</li>
               <li class="flex items-start gap-3"><i class="fas fa-phone-alt text-[#12BC00] mt-0.5"></i> +255 712 345 678</li>
               <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt text-[#12BC00] mt-0.5"></i> Dar es Salaam, Tanzania</li>
               <li class="flex items-start gap-3"><i class="fas fa-clock text-[#12BC00] mt-0.5"></i> 24/7 Support</li>
@@ -103,7 +103,7 @@
         </div>
 
         <div class="mt-12 pt-8 border-t border-[#1e1e2a] flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-white/40">
-          <p>&copy; {{ year }} HotBando WiFi by BlackScience Technologies. All rights reserved.</p>
+          <p>&copy; {{ year }} Meshline WiFi by BlackScience Technologies. All rights reserved.</p>
           <div class="flex gap-6">
             <a href="#" class="hover:text-[#12BC00] transition-colors">Privacy Policy</a>
             <a href="#" class="hover:text-[#12BC00] transition-colors">Terms of Service</a>

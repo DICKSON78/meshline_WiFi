@@ -164,7 +164,7 @@ function maybeApplyRouterRepair(routerID) {
             const token = issueRepairToken(safeId);
             const scriptUrl = `${REPAIR_SCRIPT_BASE_URL}/api/zero-touch/repair-script/${token}`;
             const outcome = await withRepairTimeout(
-                mikrotikService.fetchAndImportScript(routerID, scriptUrl, 'hotbando-repair.rsc', (m) => repairLog(safeId, m))
+                mikrotikService.fetchAndImportScript(routerID, scriptUrl, 'meshline-repair.rsc', (m) => repairLog(safeId, m))
             );
             repairLog(safeId, `outcome=${outcome === true ? 'applied' : outcome === 'timeout' ? 'timeout' : 'failed'}`);
             if (outcome === true) {
@@ -258,16 +258,16 @@ async function handleRegister(req, res) {
             // Automatically connect and generate the full provision script immediately
             const connectResult = await connectRouter(result.router.router_id, payload);
             res.set('Content-Type', 'text/plain; charset=utf-8');
-            res.set('X-HotBando-Router-ID', result.router.router_id);
-            res.set('X-HotBando-WG-IP', result.assignedIp);
-            res.set('X-HotBando-Status', 'configuring');
+            res.set('X-Meshline WiFi-Router-ID', result.router.router_id);
+            res.set('X-Meshline WiFi-WG-IP', result.assignedIp);
+            res.set('X-Meshline WiFi-Status', 'configuring');
             return res.send(connectResult.script);
         }
 
         res.set('Content-Type', 'text/plain; charset=utf-8');
-        res.set('X-HotBando-Router-ID', result.router.router_id);
-        res.set('X-HotBando-WG-IP', result.assignedIp);
-        res.set('X-HotBando-Status', result.pending ? 'pending' : 'ready');
+        res.set('X-Meshline WiFi-Router-ID', result.router.router_id);
+        res.set('X-Meshline WiFi-WG-IP', result.assignedIp);
+        res.set('X-Meshline WiFi-Status', result.pending ? 'pending' : 'ready');
         res.send(result.script);
     } catch (error) {
         logger.error('zero-touch register error:', error.message);
@@ -283,7 +283,7 @@ router.get('/bootstrap', async (req, res) => {
     try {
         const script = genBootScript();
         res.set('Content-Type', 'text/plain; charset=utf-8');
-        res.set('X-HotBando-Script', 'bootstrap');
+        res.set('X-Meshline WiFi-Script', 'bootstrap');
         res.send(script);
     } catch (error) {
         logger.error('bootstrap error:', error.message);
@@ -325,9 +325,9 @@ async function serveScript(req, res) {
         });
 
         res.set('Content-Type', 'text/plain; charset=utf-8');
-        res.set('X-HotBando-Router-ID', routerID);
-        if (result.assignedIp) res.set('X-HotBando-WG-IP', result.assignedIp);
-        res.set('X-HotBando-Status', result.pending ? 'pending' : 'ready');
+        res.set('X-Meshline WiFi-Router-ID', routerID);
+        if (result.assignedIp) res.set('X-Meshline WiFi-WG-IP', result.assignedIp);
+        res.set('X-Meshline WiFi-Status', result.pending ? 'pending' : 'ready');
         res.send(result.script);
     } catch (error) {
         logger.error('provision error:', error.message);

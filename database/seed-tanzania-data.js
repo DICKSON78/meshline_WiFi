@@ -168,10 +168,10 @@ const tanzaniaLocations = [
 
 // Sample routers for each location (will be assigned after locations are created)
 const routerTemplates = [
-    { router_name: 'Main Gateway', ssid: 'HotBando-WiFi', model: 'MikroTik hAP ac²', port: 8728 },
-    { router_name: 'Library Router', ssid: 'HotBando-Library', model: 'MikroTik RB750Gr3', port: 8728 },
-    { router_name: 'Hostel Block A', ssid: 'HotBando-HostelA', model: 'MikroTik hAP lite', port: 8728 },
-    { router_name: 'Cafeteria Router', ssid: 'HotBando-Cafe', model: 'MikroTik RB951Ui-2HnD', port: 8728 }
+    { router_name: 'Main Gateway', ssid: 'Meshline WiFi-WiFi', model: 'MikroTik hAP ac²', port: 8728 },
+    { router_name: 'Library Router', ssid: 'Meshline WiFi-Library', model: 'MikroTik RB750Gr3', port: 8728 },
+    { router_name: 'Hostel Block A', ssid: 'Meshline WiFi-HostelA', model: 'MikroTik hAP lite', port: 8728 },
+    { router_name: 'Cafeteria Router', ssid: 'Meshline WiFi-Cafe', model: 'MikroTik RB951Ui-2HnD', port: 8728 }
 ];
 
 async function seedData() {

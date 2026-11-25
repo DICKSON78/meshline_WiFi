@@ -1,4 +1,4 @@
-server hotbando {
+server meshline {
     listen {
         type = auth
         ipaddr = *

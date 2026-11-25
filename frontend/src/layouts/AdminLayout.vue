@@ -1,6 +1,6 @@
 <template>
   <DashboardLayout
-    title="HotBando HQ"
+    title="Meshline WiFi HQ"
     :subtitle="pageTitle"
     :navItems="navItems"
     :user="auth.user"

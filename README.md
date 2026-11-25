@@ -1,4 +1,4 @@
-# 🔥 HotBando Platform - Complete System Documentation
+# 🔥 Meshline WiFi Platform - Complete System Documentation
 
 **Version:** 2.0
 **Last Updated:** 2025-12-03
@@ -33,7 +33,7 @@
 
 ## 🎯 Overview
 
-HotBando is a comprehensive WiFi hotspot management platform that provides **free internet** to users in exchange for engagement (watching ads, filling forms, installing apps). The platform monetizes through:
+Meshline WiFi is a comprehensive WiFi hotspot management platform that provides **free internet** to users in exchange for engagement (watching ads, filling forms, installing apps). The platform monetizes through:
 
 - **Bank Partners**: Pay for qualified leads (form submissions, app installs)
 - **Advertisers**: Pay per ad engagement (views, clicks)
@@ -206,7 +206,7 @@ HotBando is a comprehensive WiFi hotspot management platform that provides **fre
 
 ```bash
 # Clone repository
-cd /path/to/hotbando
+cd /path/to/meshline
 
 # Install dependencies
 npm install
@@ -242,7 +242,7 @@ MPESA_SHORTCODE=
 
 # SMS Gateway (Optional)
 SMS_API_KEY=
-SMS_SENDER_ID=HOTBANDO
+SMS_SENDER_ID=MESHLINE
 
 # Email (Optional)
 SMTP_HOST=
@@ -682,7 +682,7 @@ FreeRADIUS, Redis, and automated backups.
 Quick start (on the VPS):
 
 ```bash
-git clone https://github.com/DICKSON78/hotbando.git && cd hotbando
+git clone https://github.com/DICKSON78/meshline.git && cd meshline
 cp .env.example .env   # set production values (see the guide)
 docker build -t hotbando-freeradius:latest freeradius/
 docker compose build app
@@ -694,7 +694,7 @@ curl -s http://localhost:3000/health
 
 Add a brand-new MikroTik router to the platform entirely from the **Admin
 Portal** (`/admin/routers` → **Ongeza Router**), then import one bootstrap
-script on the router to turn it into a working HotBando hotspot (captive
+script on the router to turn it into a working Meshline WiFi hotspot (captive
 portal + FreeRADIUS auth + accounting).
 
 ▶️ **Follow the full guide: [docs/ROUTER_ONBOARDING.md](docs/ROUTER_ONBOARDING.md)**
@@ -725,13 +725,13 @@ portal + FreeRADIUS auth + accounting).
 npm install -g pm2
 
 # Start application
-pm2 start index.js --name hotbando
+pm2 start index.js --name meshline
 
 # View logs
-pm2 logs hotbando
+pm2 logs meshline
 
 # Restart
-pm2 restart hotbando
+pm2 restart meshline
 
 # Auto-start on system reboot
 pm2 startup
@@ -791,7 +791,7 @@ node database/setup.js check
 ## 📞 Support
 
 For issues and questions:
-- **Email**: info@hotbando.com
+- **Email**: info@meshline.com
 - **Phone**: +255 XXX XXX XXX
 - **Documentation**: See `/docs` folder
 

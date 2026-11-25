@@ -85,7 +85,7 @@ class AutoDetectController extends Controller
         }
         $routerID = 'router-'.time().'-'.bin2hex(random_bytes(3));
         $name = $request->input('routerName') ?: ($verification['identity'] ?? 'Router-'.str_replace('.', '-', $ip));
-        $ssid = $request->input('ssid', env('DEFAULT_SSID', 'HotBando-Free-WiFi'));
+        $ssid = $request->input('ssid', env('DEFAULT_SSID', 'Meshline WiFi-Free-WiFi'));
         $added = $this->provisioning->addRouter([
             'routerID' => $routerID, 'routerName' => $name, 'host' => $ip, 'port' => $port,
             'user' => $user, 'password' => $password, 'ssid' => $ssid,

@@ -1,4 +1,4 @@
-# HOTBANDO PORTAL - QUICK REFERENCE GUIDE
+# MESHLINE PORTAL - QUICK REFERENCE GUIDE
 
 **Last Updated:** November 4, 2026  
 **Status:** ✅ Production Ready

@@ -1,7 +1,7 @@
 {
-    "name": "HotBando Reseller",
+    "name": "Meshline WiFi Reseller",
     "short_name": "HB Reseller",
-    "description": "HotBando Reseller Portal - sell vouchers, manage wallet, withdraw earnings",
+    "description": "Meshline WiFi Reseller Portal - sell vouchers, manage wallet, withdraw earnings",
     "start_url": "/reseller/dashboard",
     "scope": "/reseller",
     "display": "standalone",

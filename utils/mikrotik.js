@@ -17,7 +17,7 @@ const RouterOSAPI = require('node-routeros').RouterOSAPI;
 // Receiver.sendTagData then throws UNREGISTEREDTAG as an uncaught exception
 // and kills the process — observed live as an 8-restart crash loop.)
 const { Channel: _RosChannel } = require('node-routeros/dist/Channel');
-if (_RosChannel && _RosChannel.prototype && !_RosChannel.prototype.__hotbandoEmptyFixed) {
+if (_RosChannel && _RosChannel.prototype && !_RosChannel.prototype.__meshlineEmptyFixed) {
     const _originalProcessPacket = _RosChannel.prototype.processPacket;
     _RosChannel.prototype.processPacket = function (packet) {
         if (packet && packet[0] === '!empty' && !this.trapped) {
@@ -26,7 +26,7 @@ if (_RosChannel && _RosChannel.prototype && !_RosChannel.prototype.__hotbandoEmp
         }
         return _originalProcessPacket.call(this, packet);
     };
-    _RosChannel.prototype.__hotbandoEmptyFixed = true;
+    _RosChannel.prototype.__meshlineEmptyFixed = true;
 }
 
 // Handle !empty and timeout replies from RouterOS - these are thrown
@@ -158,7 +158,7 @@ class MikrotikService {
 
             // Try passwords: DB password first, then 'admin' (provisioning default),
             // then MIKROTIK_API_PASSWORD, then empty (default RouterOS)
-            const apiPassword = process.env.MIKROTIK_API_PASSWORD || 'HotBandoApi2024!Secure';
+            const apiPassword = process.env.MIKROTIK_API_PASSWORD || 'Meshline WiFiApi2024!Secure';
             const passwordsToTry = [routerPassword];
             if (routerPassword !== 'admin') passwordsToTry.push('admin');
             if (routerPassword !== apiPassword) passwordsToTry.push(apiPassword);
@@ -293,7 +293,7 @@ class MikrotikService {
     }
 
     /**
-     * Make sure the HotBando hotspot profile accepts MAC login. Existing
+     * Make sure the Meshline WiFi hotspot profile accepts MAC login. Existing
      * routers were provisioned with login-by=http-pap,http-chap only, which
      * means a MAC user added by the portal is never auto-authenticated.
      */
@@ -302,7 +302,7 @@ class MikrotikService {
             const profiles = await conn.write('/ip/hotspot/profile/print');
             let hasMac = false;
             for (const p of profiles) {
-                if (!p.name || (!/^(hotbando|hb-)/i.test(p.name) && p.name !== 'default')) continue;
+                if (!p.name || (!/^(meshline|hb-)/i.test(p.name) && p.name !== 'default')) continue;
                 const loginBy = String(p['login-by'] || '')
                     .split(',').map(s => s.trim()).filter(Boolean);
                 const needsLogin = !loginBy.includes('mac');
@@ -530,7 +530,7 @@ class MikrotikService {
      * 6.x) that breaks large =source= payloads, and mirrors the proven
      * zero-touch poll pattern (/tool fetch + /import).
      */
-    async fetchAndImportScript(routerID, scriptUrl, fileName = 'hotbando-repair.rsc', onProgress = null) {
+    async fetchAndImportScript(routerID, scriptUrl, fileName = 'meshline-repair.rsc', onProgress = null) {
         const step = (m) => { if (onProgress) { try { onProgress(m); } catch (e) { /* ignore */ } } };
         if (!routerID || !scriptUrl) return false;
         try {
@@ -582,7 +582,7 @@ class MikrotikService {
      * NOTE: the RouterOS API word limit (4 KB on RouterOS 6.x) makes this
      * unusable for large scripts there — prefer fetchAndImportScript.
      */
-    async applyRouterScript(routerID, scriptSource, scriptName = 'hotbando-repair') {
+    async applyRouterScript(routerID, scriptSource, scriptName = 'meshline-repair') {
         if (!routerID || !scriptSource) return false;
         try {
             const conn = await this.getRouterConnection(routerID);

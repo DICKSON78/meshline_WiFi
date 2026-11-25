@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\Routers\RouterManager;
-use App\Support\Hotbando;
+use App\Support\Meshline;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -16,10 +16,10 @@ use Symfony\Component\Console\Attribute\AsCommand;
  * Each job is isolated: a router or provider failure must never prevent the
  * remaining jobs in the same tick from running.
  */
-#[AsCommand(name: 'hotbando:jobs:tick', description: 'Run the HotBando expiry / free-data / payment tick')]
-class HotbandoTickJob extends Command
+#[AsCommand(name: 'meshline:jobs:tick', description: 'Run the Meshline WiFi expiry / free-data / payment tick')]
+class MeshlineTickJob extends Command
 {
-    protected $signature = 'hotbando:jobs:tick {--only= : Comma-separated subset: expiry,free-bytes,payments,payouts}';
+    protected $signature = 'meshline:jobs:tick {--only= : Comma-separated subset: expiry,free-bytes,payments,payouts}';
 
     public const FREE_TIER = 'KARIBU HOT BANDO';
 
@@ -49,7 +49,7 @@ class HotbandoTickJob extends Command
                 $this->line(sprintf('<info>[tick]</info> %s: %d', $name, $affected));
             } catch (\Throwable $e) {
                 // Mirrors the independent try/catch blocks in the legacy tick().
-                logger()->error("HotBando tick job '{$name}' failed: {$e->getMessage()}", [
+                logger()->error("Meshline WiFi tick job '{$name}' failed: {$e->getMessage()}", [
                     'exception' => $e,
                 ]);
                 $this->warn("[tick] {$name}: {$e->getMessage()}");
@@ -243,7 +243,7 @@ class HotbandoTickJob extends Command
             }
 
             if ($kicked > 0) {
-                Hotbando::activity(
+                Meshline::activity(
                     null,
                     'disconnect',
                     'router_session',

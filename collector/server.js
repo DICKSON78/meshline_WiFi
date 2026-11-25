@@ -1,8 +1,8 @@
 /**
- * HotBando Router Collector
+ * Meshline WiFi Router Collector
  * -------------------------
  * Deployed on the customer LAN (near the MikroTik router). It connects
- * outbound to the HotBando cloud via a reverse WebSocket tunnel so the
+ * outbound to the Meshline WiFi cloud via a reverse WebSocket tunnel so the
  * cloud server can auto-detect and remotely manage MikroTik routers even
  * when the router is behind NAT / private IP (e.g. 10.7.0.5) and no inbound
  * ports are open.

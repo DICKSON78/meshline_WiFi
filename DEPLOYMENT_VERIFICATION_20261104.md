@@ -68,14 +68,14 @@ ALTER TABLE system_settings ADD INDEX idx_system_settings_key (setting_key);
 ### Service Verification
 - ✅ Portal loads: https://hotbandowifi.online/hotspot/login
 - ✅ API responds: /api/csrf works
-- ✅ Database accessible: hotbando schema
+- ✅ Database accessible: meshline schema
 
 ---
 
 ## 🧪 Testing Checklist
 
 ### On Device (WiFi Connection)
-- [ ] Connect to HotBando WiFi
+- [ ] Connect to Meshline WiFi
 - [ ] Open browser → captive portal opens
 - [ ] Dashboard loads within 2-3 seconds
 - [ ] No "Inapakia taarifa..." hanging
@@ -120,7 +120,7 @@ ALTER TABLE system_settings ADD INDEX idx_system_settings_key (setting_key);
 - Reduced database load and connection hangs
 
 ### Server State
-- Docker container: hotbando-app-1 restarted
+- Docker container: meshline-app-1 restarted
 - All services running and healthy
 - Ready for production traffic
 
@@ -130,7 +130,7 @@ ALTER TABLE system_settings ADD INDEX idx_system_settings_key (setting_key);
 
 In case rollback needed:
 ```
-/home/dickson/Documents/Work/hotbando/backups/20261104_214501/
+/home/dickson/Documents/Work/meshline/backups/20261104_214501/
 ```
 
 Contains backup copies of all 4 modified files.
@@ -160,16 +160,16 @@ Contains backup copies of all 4 modified files.
 
 ```bash
 # Check server logs
-docker logs -f hotbando-app-1
+docker logs -f meshline-app-1
 
 # Check database performance
-docker exec hotbando-db-1 mysqladmin -u hotbando status
+docker exec meshline-db-1 mysqladmin -u meshline status
 
 # Check Redis
-docker exec hotbando-redis-1 redis-cli info
+docker exec meshline-redis-1 redis-cli info
 
 # Monitor requests (from logs)
-docker logs hotbando-app-1 | grep "timeout\|error"
+docker logs meshline-app-1 | grep "timeout\|error"
 ```
 
 ---
@@ -205,9 +205,9 @@ If portal still hangs after deployment:
 
 1. **Clear browser cache** (Ctrl+F5)
 2. **Restart WiFi** on device
-3. **Check server logs:** `docker logs hotbando-app-1`
-4. **Restart database:** `docker restart hotbando-db-1`
-5. **Restart Redis:** `docker restart hotbando-redis-1`
+3. **Check server logs:** `docker logs meshline-app-1`
+4. **Restart database:** `docker restart meshline-db-1`
+5. **Restart Redis:** `docker restart meshline-redis-1`
 
 ---
 

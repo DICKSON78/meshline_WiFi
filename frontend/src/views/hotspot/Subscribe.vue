@@ -119,7 +119,7 @@
         </div>
 
         <div v-if="buyMode === 'gift'" class="mt-3">
-          <PhoneInput :initialDigits="recipientPhone" @change="onRecipientPhoneChange" label="Namba ya mnunuzi wa vocha" hint="Namba hii haihitaji kuwa na akaunti ya HotBando. Voucher code itaonekana baada ya malipo kuthibitishwa." />
+          <PhoneInput :initialDigits="recipientPhone" @change="onRecipientPhoneChange" label="Namba ya mnunuzi wa vocha" hint="Namba hii haihitaji kuwa na akaunti ya Meshline WiFi. Voucher code itaonekana baada ya malipo kuthibitishwa." />
         </div>
 
         <div v-if="paymentQuote" class="mt-3 rounded-xl border border-white/10 bg-black/20 p-3 text-xs">

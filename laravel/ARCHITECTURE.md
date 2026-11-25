@@ -1,4 +1,4 @@
-# HotBando Laravel port — implementation contract
+# Meshline WiFi Laravel port — implementation contract
 
 The Node backend in the repository root is the **reference implementation** and must stay
 untouched. This directory is the new Laravel 12 application. Port behaviour, not file names:
@@ -35,7 +35,7 @@ and frontend views. No Docker — run PHP/natively with nginx.
   Preserve each module's envelope: hotspot/admin use `{success,...}`, HQ/investor use
   `{success:true,data:{...}}`, reseller apps use `{error:'...'}` errors, webhooks use
   `{status:'received'}`. Do not normalize everything to one shape.
-- Helpers: `App\Support\Hotbando::{normalizePhone,intlPhone,setting,decode,encode,activity,notify}`
+- Helpers: `App\Support\meshline::{normalizePhone,intlPhone,setting,decode,encode,activity,notify}`
   and `App\Support\Encryption::{encrypt,decrypt,isEncrypted}` (AES-256-GCM PBKDF2, wire
   compatible with `utils/encryption.js`). `MIB = 1048576`.
 - Never invent a MAC address or router id. Router ids must be validated against

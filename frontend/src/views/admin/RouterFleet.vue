@@ -26,7 +26,7 @@
         <div v-if="collectors.length === 0" class="text-center py-10" style="color: #6b7280">
           <i class="fas fa-desktop-slash text-4xl mb-3 opacity-30"></i>
           <p>Hakuna collector inayopatikana sasa.</p>
-          <p class="text-xs mt-2">Deploy container <code>hotbando-collector</code> kwenye mtandao wa router na ulinganishe na cloud.</p>
+          <p class="text-xs mt-2">Deploy container <code>meshline-collector</code> kwenye mtandao wa router na ulinganishe na cloud.</p>
         </div>
         <table v-else class="w-full text-sm">
           <thead>
@@ -154,7 +154,7 @@
         <!-- Terminal output -->
         <div ref="termOutput" class="bg-black rounded-lg p-3 font-mono text-xs text-green-300 h-64 overflow-y-auto border border-[#1e1e2a]">
           <div v-for="(line, i) in term.lines" :key="i" class="whitespace-pre-wrap" :class="line.type === 'cmd' ? 'text-yellow-300' : line.type === 'err' ? 'text-red-400' : 'text-green-300'">{{ line.text }}</div>
-          <div v-if="term.lines.length === 0" class="text-white/30">HotBando Remote Terminal — tuma command ya MikroTik hapo juu...</div>
+          <div v-if="term.lines.length === 0" class="text-white/30">Meshline WiFi Remote Terminal — tuma command ya MikroTik hapo juu...</div>
         </div>
       </div>
     </div>

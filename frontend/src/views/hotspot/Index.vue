@@ -19,8 +19,8 @@
       </svg>
     </div>
     <div class="w-full max-w-[380px] text-center relative z-10">
-      <img src="/logo.png" class="h-20 mx-auto mb-3" alt="HotBando">
-      <h1 class="ig-wordmark text-4xl mb-1">HotBando</h1>
+      <img src="/logo.png" class="h-20 mx-auto mb-3" alt="Meshline WiFi">
+      <h1 class="ig-wordmark text-4xl mb-1">Meshline WiFi</h1>
       <p class="text-white/50 mb-6">Free WiFi for Everyone</p>
 
       <!-- NOT on WiFi — show connection instruction -->
@@ -29,14 +29,14 @@
           <div class="w-16 h-16 rounded-full bg-[#12BC00]/10 flex items-center justify-center mx-auto mb-4">
             <i class="fas fa-wifi text-2xl text-[#12BC00]"></i>
           </div>
-          <h2 class="text-lg font-bold text-white mb-2">Connect to HotBando WiFi</h2>
+          <h2 class="text-lg font-bold text-white mb-2">Connect to Meshline WiFi</h2>
           <p class="text-sm text-white/60 mb-4">
-            To access free internet, connect to a HotBando WiFi hotspot first.
+            To access free internet, connect to a Meshline WiFi hotspot first.
           </p>
           <div class="bg-[#0a0a0f] rounded-xl p-4 text-left space-y-3 border border-[#1e1e2a]">
             <div class="flex items-start gap-3">
               <span class="text-[#12BC00] font-bold text-sm">1.</span>
-              <p class="text-sm text-white/70">Open your WiFi settings and connect to <b class="text-white">HotBando WiFi</b></p>
+              <p class="text-sm text-white/70">Open your WiFi settings and connect to <b class="text-white">Meshline WiFi</b></p>
             </div>
             <div class="flex items-start gap-3">
               <span class="text-[#12BC00] font-bold text-sm">2.</span>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Support\ApiResponse;
-use App\Support\Hotbando;
+use App\Support\Meshline;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -372,13 +372,13 @@ SQL;
                 $message = $status === 'completed'
                     ? "Your withdrawal of {$amountText} has been completed. Reference: {$reference}"
                     : "Your withdrawal of {$amountText} failed and has been refunded to your wallet.";
-                Hotbando::notify(
+                Meshline::notify(
                     (int) $transaction->user_id,
                     $status === 'completed' ? 'success' : 'error',
                     $status === 'completed' ? 'Withdrawal Completed' : 'Withdrawal Failed',
                     $message
                 );
-                Hotbando::activity($adminId, 'process_withdrawal', 'transaction', (int) $id, "Processed withdrawal: {$status}");
+                Meshline::activity($adminId, 'process_withdrawal', 'transaction', (int) $id, "Processed withdrawal: {$status}");
 
                 return ['transaction' => $transaction, 'status' => $status];
             });

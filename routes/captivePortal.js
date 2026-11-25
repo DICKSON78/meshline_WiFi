@@ -12,7 +12,7 @@ const router = express.Router();
  * 
  * Examples:
  * - http://example.com/hotspot/redirect (MikroTik redirect)
- * - http://192.168.1.1:8900/ (HotBando Portal)
+ * - http://192.168.1.1:8900/ (Meshline WiFi Portal)
  * - http://hotbandowifi.online/hotspot (Our portal)
  */
 router.get('/redirect', (req, res) => {
@@ -28,7 +28,7 @@ router.get('/redirect', (req, res) => {
 router.get('/generate_204', (req, res) => {
   // Android device captive portal check
   // If not authenticated, should return 200 (there IS captive portal)
-  if (!req.session.hotbando_user) {
+  if (!req.session.meshline_user) {
     return res.status(200).send(); // Yes, there's a captive portal
   }
   // If authenticated, return 204 (no portal)
@@ -37,7 +37,7 @@ router.get('/generate_204', (req, res) => {
 
 router.get('/ncsi.txt', (req, res) => {
   // Windows captive portal check
-  if (!req.session.hotbando_user) {
+  if (!req.session.meshline_user) {
     return res.status(200).send('Microsoft NCSI');
   }
   res.status(204).send();
@@ -45,7 +45,7 @@ router.get('/ncsi.txt', (req, res) => {
 
 router.get('/hotspotdetect.html', (req, res) => {
   // Apple captive portal check
-  if (!req.session.hotbando_user) {
+  if (!req.session.meshline_user) {
     return res.status(200).send('<HTML><HEAD><TITLE>Success</TITLE></HEAD><BODY>Success</BODY></HTML>');
   }
   res.status(204).send();
@@ -56,7 +56,7 @@ router.get('/hotspotdetect.html', (req, res) => {
  * Shows user's authentication status
  */
 router.get('/status', (req, res) => {
-  const user = req.session.hotbando_user;
+  const user = req.session.meshline_user;
   res.json({
     authenticated: !!user,
     user: user ? {
@@ -75,7 +75,7 @@ router.get('/status', (req, res) => {
  * Clears user session completely
  */
 router.get('/logout', async (req, res) => {
-  const user = req.session.hotbando_user;
+  const user = req.session.meshline_user;
   
   // Disconnect from router first (best-effort; capped by the operation timeout
   // inside the mikrotik service so an unreachable router can't stall logout)

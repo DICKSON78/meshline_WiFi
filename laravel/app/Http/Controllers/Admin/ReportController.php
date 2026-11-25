@@ -131,7 +131,7 @@ class ReportController extends BaseController
 
                 return response($csv, 200, [
                     'Content-Type' => 'text/csv',
-                    'Content-Disposition' => "attachment; filename=hotbando_ripoti_{$reportType}_{$startDate}_to_{$endDate}.csv",
+                    'Content-Disposition' => "attachment; filename=meshline_ripoti_{$reportType}_{$startDate}_to_{$endDate}.csv",
                 ]);
             }
             if ($format === 'excel') {
@@ -143,7 +143,7 @@ class ReportController extends BaseController
 
                 return response($tsv, 200, [
                     'Content-Type' => 'application/vnd.ms-excel',
-                    'Content-Disposition' => "attachment; filename=hotbando_ripoti_{$reportType}_{$startDate}_to_{$endDate}.xls",
+                    'Content-Disposition' => "attachment; filename=meshline_ripoti_{$reportType}_{$startDate}_to_{$endDate}.xls",
                 ]);
             }
             if ($format === 'pdf') {
@@ -162,7 +162,7 @@ class ReportController extends BaseController
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>HotBando Ripoti</title>
+  <title>Meshline WiFi Ripoti</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     h1 { color: #FF7A30; }
@@ -173,7 +173,7 @@ class ReportController extends BaseController
   </style>
 </head>
 <body>
-  <h1>HotBando Ripoti - {$reportTitle}</h1>
+  <h1>Meshline WiFi Ripoti - {$reportTitle}</h1>
   <p><strong>Kipindi:</strong> {$startDate} hadi {$endDate}</p>
   <p><strong>Tarehe ya Uchapisho:</strong> {$displayDate}</p>
   <table>

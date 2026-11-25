@@ -18,9 +18,9 @@
     </div>
     <div class="w-full max-w-md bg-[#111118] rounded-2xl shadow-2xl p-8 relative">
       <div class="text-center mb-6">
-        <img src="/logo.png" class="h-12 mx-auto mb-3" alt="HotBando">
+        <img src="/logo.png" class="h-12 mx-auto mb-3" alt="Meshline WiFi">
         <h1 class="text-2xl font-bold text-white">Reseller Registration</h1>
-        <p class="text-sm text-white/50 mt-1">Join HotBando as a reseller</p>
+        <p class="text-sm text-white/50 mt-1">Join Meshline WiFi as a reseller</p>
       </div>
 
       <form @submit.prevent="register" class="space-y-4">
