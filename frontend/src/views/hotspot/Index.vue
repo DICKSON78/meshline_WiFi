@@ -3,7 +3,7 @@
     <div class="w-full max-w-[380px] text-center relative z-10">
       <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-20 w-20 mx-auto mb-3 text-4xl"><i class="fas fa-wifi text-[#12BC00]"></i></span>
       <h1 class="ig-wordmark text-4xl mb-1">Meshline WiFi</h1>
-      <p class="text-white/50 mb-6">Free WiFi for Everyone</p>
+      <p class="text-white/50 mb-6">Simple, affordable internet for everyone</p>
 
       <!-- NOT on WiFi — show connection instruction -->
       <div v-if="store.initialized && !store.onWifi" class="space-y-4">
