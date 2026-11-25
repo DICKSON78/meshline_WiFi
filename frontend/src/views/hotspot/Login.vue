@@ -1,69 +1,75 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4 relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none">
-      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" class="opacity-[0.07]">
-        <defs><pattern id="honeycomb" x="0" y="0" width="56" height="97" patternUnits="userSpaceOnUse">
-          <path d="M28 0L56 16.2V48.5L28 64.7L0 48.5V16.2Z" fill="none" stroke="white" stroke-width="1.5"/>
-          <path d="M28 32.4L56 48.6V80.9L28 97L0 80.9V48.6Z" fill="none" stroke="white" stroke-width="1"/>
-        </pattern></defs>
-        <rect width="100%" height="100%" fill="url(#honeycomb)"/>
-      </svg>
-    </div>
-
-    <!-- NOT on WiFi — show captive portal instruction -->
-    <div v-if="store.initialized && !store.onWifi" class="bg-[#111118] rounded-2xl shadow-2xl p-8 w-full max-w-md relative text-center">
-      <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-16 w-16 mx-auto mb-4 text-3xl"><i class="fas fa-wifi text-[#12BC00]"></i></span>
-      <div class="w-16 h-16 rounded-full bg-[#12BC00]/10 flex items-center justify-center mx-auto mb-4">
-        <i class="fas fa-wifi text-2xl text-[#12BC00]"></i>
+  <div class="min-h-screen flex items-center justify-center p-4" style="background: #0b120c">
+    <div class="w-full max-w-md rounded-3xl p-7" style="background: #111a12; border: 1px solid rgba(165,214,167,.16); box-shadow: 0 24px 60px rgba(0,0,0,.45)">
+      <!-- Brand -->
+      <div class="text-center mb-5">
+        <span class="inline-flex items-center justify-center h-14 w-14 rounded-2xl text-2xl mx-auto" style="background: rgba(18,188,0,.12); border: 1px solid rgba(18,188,0,.35); color: #12BC00">
+          <i class="fas fa-wifi"></i>
+        </span>
+        <p class="text-[10px] font-bold uppercase tracking-[3px] mt-4 mb-1" style="color: #12BC00">Customer portal</p>
+        <h1 class="text-xl font-black text-white">Welcome back</h1>
+        <p class="text-sm text-white/50">Enter your details to get online</p>
       </div>
-      <h2 class="text-lg font-bold text-white mb-2">Connect to Meshline WiFi</h2>
-      <p class="text-sm text-white/60 mb-6">
-        To log in and access free internet, you must be connected to a Meshline WiFi network.
-      </p>
-      <div class="bg-[#0a0a0f] rounded-xl p-4 text-left space-y-3">
-        <div class="flex items-start gap-3">
-          <span class="text-[#12BC00] font-bold text-sm">1.</span>
-          <p class="text-sm text-white/70">Go to WiFi settings and connect to <b class="text-white">Meshline WiFi</b></p>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="text-[#12BC00] font-bold text-sm">2.</span>
-          <p class="text-sm text-white/70">Open your browser — you'll be redirected here automatically</p>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="text-[#12BC00] font-bold text-sm">3.</span>
-          <p class="text-sm text-white/70">Log in below to get internet access</p>
-        </div>
-      </div>
-      <router-link to="/hotspot" class="ig-btn ig-btn-primary w-full py-2.5 mt-6 inline-block">Back</router-link>
-    </div>
 
-    <!-- ON WiFi — show login form -->
-    <div v-else class="bg-[#111118] rounded-2xl shadow-2xl p-8 w-full max-w-md relative">
-      <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-12 w-12 mx-auto mb-6 text-2xl"><i class="fas fa-wifi text-[#12BC00]"></i></span>
-      <h2 class="text-xl font-bold text-white mb-4 text-center">Login</h2>
-      <form @submit.prevent="handleLogin" class="space-y-4">
-        <div><label class="input-label">Namba ya Simu</label><input v-model="phoneFull" type="tel" required maxlength="10" class="input" placeholder="07XXXXXXXX"></div>
-        <div><label class="input-label">Password</label><input v-model="password" type="password" required class="input" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"></div>
-        <p v-if="error" class="text-red-400 text-sm bg-red-500/10 p-3 rounded-lg">{{ error }}</p>
-        <button type="submit" :disabled="loading" class="btn btn-primary w-full justify-center py-2.5">{{ loading ? '...' : 'Login' }}</button>
+      <p v-if="error" class="rounded-2xl px-4 py-3 mb-5 text-sm" style="background: rgba(127,29,29,.18); border: 1px solid rgba(248,113,113,.3); color: #fca5a5">{{ error }}</p>
+
+      <!-- NOT on WiFi — captive portal instruction -->
+      <div v-if="store.initialized && !store.onWifi" class="text-center">
+        <h2 class="text-base font-bold text-white mb-2">Connect to Meshline WiFi</h2>
+        <p class="text-sm text-white/60 mb-5">You must be connected to a Meshline WiFi network to log in.</p>
+        <div class="rounded-xl p-4 text-left space-y-3" style="background: #0b120c; border: 1px solid rgba(165,214,167,.14)">
+          <div class="flex items-start gap-3"><span class="font-bold text-sm" style="color:#12BC00">1.</span><p class="text-sm text-white/70">Go to WiFi settings and connect to <b class="text-white">Meshline WiFi</b></p></div>
+          <div class="flex items-start gap-3"><span class="font-bold text-sm" style="color:#12BC00">2.</span><p class="text-sm text-white/70">Open your browser — you'll be redirected here automatically</p></div>
+          <div class="flex items-start gap-3"><span class="font-bold text-sm" style="color:#12BC00">3.</span><p class="text-sm text-white/70">Log in below to get internet access</p></div>
+        </div>
+        <router-link to="/hotspot" class="ig-btn ig-btn-primary w-full py-2.5 mt-6 justify-center">Back</router-link>
+      </div>
+
+      <!-- ON WiFi — login form -->
+      <form v-else @submit.prevent="handleLogin" class="space-y-3">
+        <div>
+          <label class="block text-sm font-semibold text-white/70 mb-1">Phone number</label>
+          <div class="relative">
+            <i class="fas fa-phone absolute left-3.5 top-1/2 -translate-y-1/2 text-sm pointer-events-none" style="color:#A5D6A7;opacity:.6"></i>
+            <input v-model="phoneFull" type="tel" required maxlength="10" class="input pl-11" placeholder="07XXXXXXXX">
+          </div>
+        </div>
+        <div>
+          <div class="flex items-baseline justify-between mb-1">
+            <label class="block text-sm font-semibold text-white/70">Password</label>
+            <router-link to="/contact" class="text-xs font-medium" style="color:#12BC00">Forgot password?</router-link>
+          </div>
+          <div class="relative">
+            <i class="fas fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-sm pointer-events-none" style="color:#A5D6A7;opacity:.6"></i>
+            <input v-model="password" :type="showPassword ? 'text' : 'password'" required class="input pl-11 pr-11" placeholder="••••••••">
+            <button type="button" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-white/40 hover:text-white" :aria-label="showPassword ? 'Hide password' : 'Show password'" @click="showPassword = !showPassword">
+              <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-sm"></i>
+            </button>
+          </div>
+        </div>
+        <button type="submit" :disabled="loading" class="w-full py-2.5 text-white rounded-xl font-bold text-sm uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-50" style="background:#12BC00">
+          <i v-if="loading" class="fas fa-spinner fa-spin"></i>{{ loading ? 'Signing in...' : 'Sign in' }}
+        </button>
       </form>
-      <p class="text-center text-sm text-white/50 mt-4">No account? <router-link to="/hotspot/signup" class="text-[#12BC00] hover:underline">Register</router-link></p>
+
+      <p class="text-center text-sm text-white/50 mt-5">No account?
+        <router-link to="/hotspot/signup" class="font-semibold" style="color:#12BC00">Register</router-link>
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { hotspotPost } from '../../api/client'
 import { useHotspotStore } from '../../stores/hotspot'
-import PhoneInput from '../../components/PhoneInput.vue'
 
 const router = useRouter()
-const route = useRoute()
 const store = useHotspotStore()
 const phoneFull = ref('')
 const password = ref('')
+const showPassword = ref(false)
 const error = ref('')
 const loading = ref(false)
 

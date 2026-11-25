@@ -701,3 +701,11 @@ select.form-input option {
   background: #121a13;
   border-color: rgba(165, 214, 167, .16);
 }
+
+/* ===== Customer portal: flat surfaces, no gradients/patterns ===== */
+.ig-main { background: #0b120c; }
+.ig-btn-outline { background: #162016; color: #E8F5E9; border: 1px solid rgba(165,214,167,.3); }
+.ig-btn-outline:hover { background: #1d2b1e; }
+.balance-card { background: #12210f; border: 1px solid rgba(18,188,0,.35); box-shadow: none; }
+.tile { background: #101710; border-color: rgba(165,214,167,.14); }
+.tile:hover { border-color: #12BC00; }

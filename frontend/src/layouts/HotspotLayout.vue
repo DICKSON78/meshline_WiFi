@@ -1,16 +1,16 @@
 <template>
-  <div v-if="!store.initialized" class="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+  <div v-if="!store.initialized" class="min-h-screen bg-[#0b120c] flex items-center justify-center">
     <div class="text-center">
       <span class="inline-flex items-center justify-center rounded-full bg-[#12BC00]/15 border border-[#12BC00]/30 h-14 w-14 mx-auto mb-4 text-2xl"><i class="fas fa-wifi text-[#12BC00]"></i></span>
       <div class="w-8 h-8 border-2 border-brand-500/30 border-t-brand-500 rounded-full animate-spin mx-auto"></div>
     </div>
   </div>
 
-  <div v-else-if="isPublic" class="min-h-screen bg-[#0a0a0f]">
+  <div v-else-if="isPublic" class="min-h-screen bg-[#0b120c]">
     <router-view />
   </div>
 
-  <div v-else class="min-h-screen bg-[#0a0a0f]">
+  <div v-else class="min-h-screen bg-[#0b120c]">
     <div class="ig-app">
       <main class="ig-main">
         <router-view />

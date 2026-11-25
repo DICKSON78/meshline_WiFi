@@ -68,7 +68,7 @@
     </div>
 
     <!-- Quick actions -->
-    <div class="grid grid-cols-3 gap-3 px-4 py-4">
+    <div class="grid grid-cols-2 gap-3 px-4 py-4">
       <router-link to="/hotspot/subscribe" class="tile">
         <div class="tile-icon" style="background:rgba(18,188,0,0.1);color:#12BC00"><i class="fa-solid fa-store"></i></div>
         <span>Buy Package</span>
