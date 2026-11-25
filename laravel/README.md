@@ -236,8 +236,12 @@ on later calls. Per-router values (`omada_client_id`, `omada_client_secret`,
 
 ### Verify the connection
 
+Store credentials interactively (writes only to `laravel/.env`, gitignored):
+
 ```bash
-php artisan omada:test <router-id>
+php artisan omada:configure
+php artisan omada:test          # uses global OMADA_* config
+php artisan omada:test <router-id>   # or a specific router row
 ```
 
 This logs in and lists sites/devices without printing credentials. The same
